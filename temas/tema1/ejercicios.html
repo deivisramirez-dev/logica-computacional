@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios - Tema 1: Introducción a la Lógica - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ejercicios-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .ejercicio-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .ejercicio-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+        
+        .ejercicio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .ejercicio-number {
+            background: var(--primary-color);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+        
+        .ejercicio-dificultad {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .dificultad-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-light);
+        }
+        
+        .dificultad-dot.active {
+            background: var(--warning-color);
+        }
+        
+        .ejercicio-titulo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .ejercicio-enunciado {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .opciones-respuesta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .opcion {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .opcion:hover {
+            border-color: var(--primary-color);
+            background: var(--bg-tertiary);
+        }
+        
+        .opcion.selected {
+            border-color: var(--primary-color);
+            background: var(--bg-tertiary);
+        }
+        
+        .opcion.correcta {
+            border-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .opcion.incorrecta {
+            border-color: var(--error-color);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .opcion-letra {
+            background: var(--primary-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .opcion-texto {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+        
+        .ejercicio-acciones {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-verificar {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-verificar:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-verificar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-solucion {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-solucion:hover {
+            background: var(--text-secondary);
+        }
+        
+        .solucion {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--success-color);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            display: none;
+        }
+        
+        .solucion.mostrada {
+            display: block;
+        }
+        
+        .solucion h4 {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .solucion p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .resultado {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .resultado.correcto {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .resultado.incorrecto {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--error-color);
+            color: var(--error-color);
+        }
+        
+        .estadisticas {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .estadisticas h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .ejercicios-content {
+                padding: 1rem;
+            }
+            
+            .ejercicio-card {
+                padding: 1.5rem;
+            }
+            
+            .ejercicio-acciones {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="ejercicios-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="contenido.html">Tema 1</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Ejercicios</span>
+            </div>
+
+            <!-- Header -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">📝</div>
+                    <h1 class="tema-title">Ejercicios Prácticos</h1>
+                    <p class="tema-description">Tema 1: Introducción a la Lógica</p>
+                </div>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="estadisticas">
+                <h3>Tu Progreso</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="ejercicios-completados">0</div>
+                        <div class="stat-label">Completados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="respuestas-correctas">0</div>
+                        <div class="stat-label">Correctas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="porcentaje-acierto">0%</div>
+                        <div class="stat-label">Acierto</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 1 -->
+            <div class="ejercicio-card" data-ejercicio="1">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">1</div>
+                    <div class="ejercicio-dificultad">
+                        <div class="dificultad-dot active"></div>
+                        <div class="dificultad-dot"></div>
+                        <div class="dificultad-dot"></div>
+                    </div>
+                </div>
+                
+                <h3 class="ejercicio-titulo">¿Qué es la Lógica Computacional?</h3>
+                <p class="ejercicio-enunciado">
+                    La lógica computacional es una rama de las matemáticas que se aplica en el diseño y análisis de sistemas computacionales. ¿Cuál de las siguientes opciones describe mejor su propósito principal?
+                </p>
+                
+                <div class="opciones-respuesta">
+                    <div class="opcion" data-opcion="a">
+                        <div class="opcion-letra">A</div>
+                        <div class="opcion-texto">Estudiar únicamente la historia de las computadoras</div>
+                    </div>
+                    <div class="opcion" data-opcion="b">
+                        <div class="opcion-letra">B</div>
+                        <div class="opcion-texto">Aplicar principios de lógica matemática en el diseño y verificación de sistemas computacionales</div>
+                    </div>
+                    <div class="opcion" data-opcion="c">
+                        <div class="opcion-letra">C</div>
+                        <div class="opcion-texto">Enseñar programación básica</div>
+                    </div>
+                    <div class="opcion" data-opcion="d">
+                        <div class="opcion-letra">D</div>
+                        <div class="opcion-texto">Reparar computadoras</div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-acciones">
+                    <button class="btn-verificar" onclick="verificarRespuesta(1)">Verificar Respuesta</button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(1)">Ver Solución</button>
+                </div>
+                
+                <div class="resultado" id="resultado-1"></div>
+                
+                <div class="solucion" id="solucion-1">
+                    <h4><i class="fas fa-check-circle"></i>Solución Correcta</h4>
+                    <p><strong>Respuesta: B</strong></p>
+                    <p>La lógica computacional es la aplicación de los principios de la lógica matemática en el diseño, análisis y verificación de sistemas computacionales. Esto incluye el diseño de circuitos digitales, la verificación de programas, el desarrollo de algoritmos y la creación de sistemas de inteligencia artificial.</p>
+                </div>
+            </div>
+
+            <!-- Ejercicio 2 -->
+            <div class="ejercicio-card" data-ejercicio="2">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">2</div>
+                    <div class="ejercicio-dificultad">
+                        <div class="dificultad-dot active"></div>
+                        <div class="dificultad-dot active"></div>
+                        <div class="dificultad-dot"></div>
+                    </div>
+                </div>
+                
+                <h3 class="ejercicio-titulo">Símbolos Lógicos</h3>
+                <p class="ejercicio-enunciado">
+                    En lógica proposicional, el símbolo "∧" representa la operación de:
+                </p>
+                
+                <div class="opciones-respuesta">
+                    <div class="opcion" data-opcion="a">
+                        <div class="opcion-letra">A</div>
+                        <div class="opcion-texto">Disyunción (OR)</div>
+                    </div>
+                    <div class="opcion" data-opcion="b">
+                        <div class="opcion-letra">B</div>
+                        <div class="opcion-texto">Conjunción (AND)</div>
+                    </div>
+                    <div class="opcion" data-opcion="c">
+                        <div class="opcion-letra">C</div>
+                        <div class="opcion-texto">Negación (NOT)</div>
+                    </div>
+                    <div class="opcion" data-opcion="d">
+                        <div class="opcion-letra">D</div>
+                        <div class="opcion-texto">Implicación</div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-acciones">
+                    <button class="btn-verificar" onclick="verificarRespuesta(2)">Verificar Respuesta</button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(2)">Ver Solución</button>
+                </div>
+                
+                <div class="resultado" id="resultado-2"></div>
+                
+                <div class="solucion" id="solucion-2">
+                    <h4><i class="fas fa-check-circle"></i>Solución Correcta</h4>
+                    <p><strong>Respuesta: B</strong></p>
+                    <p>El símbolo "∧" representa la conjunción lógica (AND). En una expresión como p ∧ q, ambas proposiciones p y q deben ser verdaderas para que la expresión completa sea verdadera.</p>
+                </div>
+            </div>
+
+            <!-- Ejercicio 3 -->
+            <div class="ejercicio-card" data-ejercicio="3">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">3</div>
+                    <div class="ejercicio-dificultad">
+                        <div class="dificultad-dot active"></div>
+                        <div class="dificultad-dot active"></div>
+                        <div class="dificultad-dot active"></div>
+                    </div>
+                </div>
+                
+                <h3 class="ejercicio-titulo">Aplicaciones en Computación</h3>
+                <p class="ejercicio-enunciado">
+                    ¿Cuál de las siguientes NO es una aplicación directa de la lógica computacional?
+                </p>
+                
+                <div class="opciones-respuesta">
+                    <div class="opcion" data-opcion="a">
+                        <div class="opcion-letra">A</div>
+                        <div class="opcion-texto">Diseño de circuitos digitales</div>
+                    </div>
+                    <div class="opcion" data-opcion="b">
+                        <div class="opcion-letra">B</div>
+                        <div class="opcion-texto">Verificación de programas</div>
+                    </div>
+                    <div class="opcion" data-opcion="c">
+                        <div class="opcion-letra">C</div>
+                        <div class="opcion-texto">Reparación de hardware</div>
+                    </div>
+                    <div class="opcion" data-opcion="d">
+                        <div class="opcion-letra">D</div>
+                        <div class="opcion-texto">Desarrollo de sistemas expertos</div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-acciones">
+                    <button class="btn-verificar" onclick="verificarRespuesta(3)">Verificar Respuesta</button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(3)">Ver Solución</button>
+                </div>
+                
+                <div class="resultado" id="resultado-3"></div>
+                
+                <div class="solucion" id="solucion-3">
+                    <h4><i class="fas fa-check-circle"></i>Solución Correcta</h4>
+                    <p><strong>Respuesta: C</strong></p>
+                    <p>La reparación de hardware no es una aplicación directa de la lógica computacional. Las otras opciones sí lo son: el diseño de circuitos digitales utiliza lógica booleana, la verificación de programas emplea técnicas lógicas formales, y los sistemas expertos se basan en representación lógica del conocimiento.</p>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="navigation-buttons">
+                <a href="contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver al Contenido</span>
+                </a>
+                <a href="../../index.html" class="nav-btn">
+                    <span>Ir al Inicio</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Respuestas correctas
+        const respuestasCorrectas = {
+            1: 'b',
+            2: 'b',
+            3: 'c'
+        };
+
+        // Estado de los ejercicios
+        let ejerciciosCompletados = 0;
+        let respuestasCorrectasCount = 0;
+        let ejerciciosRespondidos = new Set();
+
+        // Seleccionar opción
+        document.querySelectorAll('.opcion').forEach(opcion => {
+            opcion.addEventListener('click', function() {
+                const ejercicioCard = this.closest('.ejercicio-card');
+                const ejercicioId = ejercicioCard.dataset.ejercicio;
+                
+                // Remover selección previa en este ejercicio
+                ejercicioCard.querySelectorAll('.opcion').forEach(o => o.classList.remove('selected'));
+                
+                // Seleccionar esta opción
+                this.classList.add('selected');
+                
+                // Habilitar botón de verificar
+                ejercicioCard.querySelector('.btn-verificar').disabled = false;
+            });
+        });
+
+        // Verificar respuesta
+        function verificarRespuesta(ejercicioId) {
+            const ejercicioCard = document.querySelector(`[data-ejercicio="${ejercicioId}"]`);
+            const opcionSeleccionada = ejercicioCard.querySelector('.opcion.selected');
+            const resultado = ejercicioCard.querySelector('.resultado');
+            const btnVerificar = ejercicioCard.querySelector('.btn-verificar');
+            
+            if (!opcionSeleccionada) {
+                alert('Por favor selecciona una respuesta');
+                return;
+            }
+            
+            const respuestaUsuario = opcionSeleccionada.dataset.opcion;
+            const respuestaCorrecta = respuestasCorrectas[ejercicioId];
+            
+            // Marcar opciones
+            ejercicioCard.querySelectorAll('.opcion').forEach(opcion => {
+                const opcionLetra = opcion.dataset.opcion;
+                if (opcionLetra === respuestaCorrecta) {
+                    opcion.classList.add('correcta');
+                } else if (opcionLetra === respuestaUsuario && respuestaUsuario !== respuestaCorrecta) {
+                    opcion.classList.add('incorrecta');
+                }
+            });
+            
+            // Mostrar resultado
+            if (respuestaUsuario === respuestaCorrecta) {
+                resultado.textContent = '¡Correcto! Has respondido bien.';
+                resultado.className = 'resultado correcto';
+                if (!ejerciciosRespondidos.has(ejercicioId)) {
+                    respuestasCorrectasCount++;
+                }
+            } else {
+                resultado.textContent = 'Incorrecto. Revisa la solución.';
+                resultado.className = 'resultado incorrecto';
+            }
+            
+            resultado.style.display = 'block';
+            btnVerificar.disabled = true;
+            
+            // Actualizar estadísticas
+            if (!ejerciciosRespondidos.has(ejercicioId)) {
+                ejerciciosCompletados++;
+                ejerciciosRespondidos.add(ejercicioId);
+                actualizarEstadisticas();
+            }
+        }
+
+        // Mostrar solución
+        function mostrarSolucion(ejercicioId) {
+            const solucion = document.getElementById(`solucion-${ejercicioId}`);
+            solucion.classList.add('mostrada');
+        }
+
+        // Actualizar estadísticas
+        function actualizarEstadisticas() {
+            document.getElementById('ejercicios-completados').textContent = ejerciciosCompletados;
+            document.getElementById('respuestas-correctas').textContent = respuestasCorrectasCount;
+            
+            const porcentaje = ejerciciosCompletados > 0 ? Math.round((respuestasCorrectasCount / ejerciciosCompletados) * 100) : 0;
+            document.getElementById('porcentaje-acierto').textContent = porcentaje + '%';
+            
+            // Guardar en localStorage
+            localStorage.setItem('ejercicios_tema1', JSON.stringify({
+                completados: ejerciciosCompletados,
+                correctas: respuestasCorrectasCount,
+                porcentaje: porcentaje
+            }));
+        }
+
+        // Cargar estadísticas guardadas
+        document.addEventListener('DOMContentLoaded', function() {
+            const stats = JSON.parse(localStorage.getItem('ejercicios_tema1') || '{}');
+            ejerciciosCompletados = stats.completados || 0;
+            respuestasCorrectasCount = stats.correctas || 0;
+            actualizarEstadisticas();
+        });
+    </script>
+</body>
+</html>

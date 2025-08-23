@@ -160,8 +160,8 @@ Este proyecto está diseñado para uso educativo. Los derechos de autor del cont
 ## 👨‍🏫 Información del Curso
 
 - **Asignatura**: Lógica Computacional
-- **Modalidad**: Presencial con recursos digitales
-- **Duración**: 12 semanas (1 tema por semana)
+- **Modalidad**: Virtual con recursos digitales
+- **Duración**: 9 semanas (la última semana es de repaso)
 - **Créditos**: [Especificar según la institución]
 
 ## 📞 Contacto
@@ -169,7 +169,7 @@ Este proyecto está diseñado para uso educativo. Los derechos de autor del cont
 Para preguntas, sugerencias o soporte técnico:
 - **Docente**: [Deivis Eduard Ramirez Martinez]
 - **Email**: [Correo electrónico]
-- **Institución**: [Nombre de la institución]
+
 
 ---
 

@@ -167,7 +167,7 @@ Este proyecto está diseñado para uso educativo. Los derechos de autor del cont
 ## 📞 Contacto
 
 Para preguntas, sugerencias o soporte técnico:
-- **Docente**: [Nombre del profesor]
+- **Docente**: [Deivis Eduard Ramirez Martinez]
 - **Email**: [Correo electrónico]
 - **Institución**: [Nombre de la institución]
 
@@ -175,4 +175,4 @@ Para preguntas, sugerencias o soporte técnico:
 
 **Desarrollado con ❤️ para el aprendizaje de la Lógica Computacional**
 
-*Última actualización: Agosto 2024*
+*Última actualización: Agosto 2025*

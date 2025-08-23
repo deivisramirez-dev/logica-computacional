@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 2: Cálculo de Deducción Natural de Enunciados - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .formula {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .tema-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .tema-actions .btn {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        @media (max-width: 768px) {
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .tema-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 2: Cálculo de Deducción Natural de Enunciados</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">02</div>
+                    <h1 class="tema-title">Cálculo de Deducción Natural de Enunciados</h1>
+                    <p class="tema-description">Métodos de deducción natural para el razonamiento lógico con enunciados y la construcción de demostraciones formales.</p>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i> Introducción</h2>
+                <p>El cálculo de deducción natural es un sistema formal que permite demostrar la validez de argumentos lógicos mediante reglas de inferencia bien definidas. En este tema exploraremos los fundamentos de la deducción natural aplicada a enunciados lógicos.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i> ¿Qué aprenderás?</h4>
+                    <ul>
+                        <li>Reglas de inferencia básicas y derivadas</li>
+                        <li>Construcción de demostraciones formales</li>
+                        <li>Estrategias de deducción natural</li>
+                        <li>Aplicación práctica en problemas lógicos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-language"></i> Lenguaje Natural vs Lenguaje Formal</h2>
+                
+                <p>Antes de adentrarnos en las reglas de deducción natural, es fundamental comprender las diferencias entre el lenguaje natural y el lenguaje formal, ya que la deducción natural opera en el ámbito del lenguaje formal.</p>
+                
+                <h3>Lenguaje Natural</h3>
+                <p>El lenguaje natural es el que utilizamos en nuestra comunicación cotidiana. Sus características principales incluyen:</p>
+                <ul>
+                    <li><strong>Ambiguidad:</strong> Las palabras pueden tener múltiples significados dependiendo del contexto</li>
+                    <li><strong>Flexibilidad:</strong> Permite expresiones creativas y variadas</li>
+                    <li><strong>Contexto dependiente:</strong> El significado depende del contexto y la situación</li>
+                    <li><strong>Imprecisión:</strong> Puede contener vaguedad e imprecisión</li>
+                    <li><strong>Evolución:</strong> Cambia con el tiempo y la cultura</li>
+                </ul>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-comment"></i> Ejemplo de Lenguaje Natural</h4>
+                    <p>"Si llueve mucho, entonces las calles se mojan. Está lloviendo mucho. Por lo tanto, las calles están mojadas."</p>
+                    <p><em>Problemas:</em> ¿Qué significa "mucho"? ¿Siempre se mojan las calles cuando llueve? ¿Qué tan mojadas?</p>
+                </div>
+
+                <h3>Lenguaje Formal</h3>
+                <p>El lenguaje formal es un sistema de símbolos con reglas precisas y bien definidas. Sus características incluyen:</p>
+                <ul>
+                    <li><strong>Precisión:</strong> Cada símbolo tiene un significado único y bien definido</li>
+                    <li><strong>Sin ambigüedad:</strong> No hay interpretaciones múltiples posibles</li>
+                    <li><strong>Independiente del contexto:</strong> El significado no depende de factores externos</li>
+                    <li><strong>Reglas explícitas:</strong> Todas las reglas están claramente establecidas</li>
+                    <li><strong>Verificabilidad:</strong> Es posible verificar mecánicamente la validez</li>
+                </ul>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-code"></i> Ejemplo de Lenguaje Formal</h4>
+                    <p>P → Q, P ⊢ Q</p>
+                    <p><em>Ventajas:</em> Preciso, sin ambigüedad, verificable mecánicamente</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i> Importancia en Lógica</h4>
+                    <p>El lenguaje formal es esencial en lógica porque nos permite:</p>
+                    <ul>
+                        <li>Eliminar ambigüedades del razonamiento</li>
+                        <li>Verificar la validez de argumentos de manera sistemática</li>
+                        <li>Desarrollar métodos de demostración rigurosos</li>
+                        <li>Comunicar ideas lógicas de manera precisa</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i> Definición de un Mecanismo Deductivo</h2>
+                
+                <p>Un mecanismo deductivo es un sistema formal que permite derivar conclusiones válidas a partir de premisas dadas mediante la aplicación de reglas de inferencia bien definidas.</p>
+                
+                <h3>Componentes de un Mecanismo Deductivo</h3>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-list"></i> 1. Alfabeto</h4>
+                    <p>Conjunto de símbolos básicos del lenguaje formal:</p>
+                    <ul>
+                        <li><strong>Variables proposicionales:</strong> P, Q, R, S, ...</li>
+                        <li><strong>Conectivos lógicos:</strong> ∧, ∨, →, ↔, ¬</li>
+                        <li><strong>Símbolos auxiliares:</strong> (, ), [, ], ⊥</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-ruler"></i> 2. Reglas de Formación</h4>
+                    <p>Reglas que definen qué combinaciones de símbolos son fórmulas bien formadas:</p>
+                    <ul>
+                        <li>Toda variable proposicional es una fórmula</li>
+                        <li>Si A y B son fórmulas, entonces (A ∧ B), (A ∨ B), (A → B), (A ↔ B) son fórmulas</li>
+                        <li>Si A es una fórmula, entonces ¬A es una fórmula</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-arrow-right"></i> 3. Reglas de Inferencia</h4>
+                    <p>Reglas que permiten derivar nuevas fórmulas a partir de otras ya establecidas:</p>
+                    <ul>
+                        <li><strong>Reglas de introducción:</strong> Permiten introducir conectivos</li>
+                        <li><strong>Reglas de eliminación:</strong> Permiten usar conectivos ya establecidos</li>
+                        <li><strong>Reglas derivadas:</strong> Combinaciones de reglas básicas</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-check-circle"></i> 4. Criterios de Validez</h4>
+                    <p>Métodos para verificar que una derivación es correcta:</p>
+                    <ul>
+                        <li>Verificación de que cada paso sigue una regla válida</li>
+                        <li>Comprobación de que las dependencias están bien establecidas</li>
+                        <li>Confirmación de que la conclusión se deriva de las premisas</li>
+                    </ul>
+                </div>
+
+                <h3>Características de un Mecanismo Deductivo</h3>
+                <ul>
+                    <li><strong>Consistencia:</strong> No permite derivar contradicciones</li>
+                    <li><strong>Completitud:</strong> Permite derivar todas las verdades lógicas</li>
+                    <li><strong>Decidibilidad:</strong> Es posible verificar mecánicamente la validez</li>
+                    <li><strong>Eficiencia:</strong> Las derivaciones deben ser realizables en tiempo finito</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ventajas del Mecanismo Deductivo</h4>
+                    <p>El uso de un mecanismo deductivo formal nos proporciona:</p>
+                    <ul>
+                        <li><strong>Rigor:</strong> Garantiza que solo se obtengan conclusiones válidas</li>
+                        <li><strong>Transparencia:</strong> Cada paso de la derivación es explícito y verificable</li>
+                        <li><strong>Generalidad:</strong> Se puede aplicar a cualquier dominio de conocimiento</li>
+                        <li><strong>Automatización:</strong> Permite la verificación computacional de argumentos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i> Reglas de Inferencia Básicas</h2>
+                
+                <h3>Reglas de Introducción</h3>
+                <p>Las reglas de introducción permiten introducir conectivos lógicos en una demostración:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-plus"></i> Introducción de la Conjunción (∧I)</h4>
+                    <p>Si tenemos A y B, podemos inferir A ∧ B</p>
+                    <div class="formula">
+                        A    B<br>
+                        ────────<br>
+                        A ∧ B
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-plus"></i> Introducción de la Disyunción (∨I)</h4>
+                    <p>Si tenemos A, podemos inferir A ∨ B (o B ∨ A)</p>
+                    <div class="formula">
+                        A<br>
+                        ────────<br>
+                        A ∨ B
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-arrow-right"></i> Introducción de la Implicación (→I)</h4>
+                    <p>Si asumiendo A podemos demostrar B, entonces A → B</p>
+                    <div class="formula">
+                        [A]<br>
+        ⋮<br>
+        B<br>
+        ────────<br>
+        A → B
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-equals"></i> Introducción del Bicondicional (↔I)</h4>
+                    <p>Si tenemos A → B y B → A, podemos inferir A ↔ B</p>
+                    <div class="formula">
+                        A → B    B → A<br>
+                        ──────────────<br>
+                        A ↔ B
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-exclamation"></i> Introducción de la Negación (¬I)</h4>
+                    <p>Si asumiendo A llegamos a una contradicción, entonces ¬A</p>
+                    <div class="formula">
+                        [A]<br>
+        ⋮<br>
+        ⊥<br>
+        ────────<br>
+        ¬A
+                    </div>
+                </div>
+
+                <h3>Reglas de Eliminación</h3>
+                <p>Las reglas de eliminación permiten usar conectivos ya establecidos:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-minus"></i> Eliminación de la Conjunción (∧E)</h4>
+                    <p>Si tenemos A ∧ B, podemos inferir A o B</p>
+                    <div class="formula">
+                        A ∧ B<br>
+        ────────<br>
+        A
+                    </div>
+                    <p><em>También:</em></p>
+                    <div class="formula">
+                        A ∧ B<br>
+        ────────<br>
+        B
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-minus"></i> Eliminación de la Disyunción (∨E)</h4>
+                    <p>Si tenemos A ∨ B, y asumiendo A obtenemos C, y asumiendo B obtenemos C, entonces C</p>
+                    <div class="formula">
+                        A ∨ B    [A]    [B]<br>
+                        ⋮        ⋮<br>
+                        C        C<br>
+                        ──────────────<br>
+                        C
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-minus"></i> Eliminación de la Implicación (→E)</h4>
+                    <p>Si tenemos A → B y A, entonces B (Modus Ponens)</p>
+                    <div class="formula">
+                        A → B    A<br>
+                        ──────────────<br>
+                        B
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-minus"></i> Eliminación del Bicondicional (↔E)</h4>
+                    <p>Si tenemos A ↔ B, podemos inferir A → B o B → A</p>
+                    <div class="formula">
+                        A ↔ B<br>
+        ────────<br>
+        A → B
+                    </div>
+                    <p><em>También:</em></p>
+                    <div class="formula">
+                        A ↔ B<br>
+        ────────<br>
+        B → A
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-minus"></i> Eliminación de la Negación (¬E)</h4>
+                    <p>Si tenemos A y ¬A, obtenemos una contradicción (⊥)</p>
+                    <div class="formula">
+                        A    ¬A<br>
+                        ──────────<br>
+                        ⊥
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-minus"></i> Eliminación de la Doble Negación (¬¬E)</h4>
+                    <p>Si tenemos ¬¬A, podemos inferir A</p>
+                    <div class="formula">
+                        ¬¬A<br>
+        ────────<br>
+        A
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-route"></i> Estrategias de Demostración</h2>
+                
+                <h3>Demostración Directa</h3>
+                <p>La estrategia más directa consiste en aplicar las reglas de inferencia de manera sistemática hasta llegar a la conclusión deseada.</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-play"></i> Ejemplo: Demostrar A ∧ B → B ∧ A</h4>
+                    <p><strong>Estrategia:</strong> Usar introducción de implicación, asumiendo A ∧ B y demostrando B ∧ A</p>
+                    <div class="formula">
+                        1. [A ∧ B] (suposición)<br>
+                        2. A (∧E, 1)<br>
+                        3. B (∧E, 1)<br>
+                        4. B ∧ A (∧I, 3, 2)<br>
+                        5. A ∧ B → B ∧ A (→I, 1-4)
+                    </div>
+                </div>
+
+                <h3>Demostración por Reducción al Absurdo</h3>
+                <p>Cuando la demostración directa es compleja, podemos usar la reducción al absurdo asumiendo la negación de lo que queremos demostrar.</p>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-tools"></i> Reglas Derivadas</h2>
+                
+                <p>Las reglas derivadas son combinaciones de reglas básicas que se usan frecuentemente:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-exchange-alt"></i> Modus Ponens</h4>
+                    <p>Si A → B y A, entonces B</p>
+                    <div class="formula">
+                        A → B    A<br>
+                        ──────────────<br>
+                        B
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-exchange-alt"></i> Modus Tollens</h4>
+                    <p>Si A → B y ¬B, entonces ¬A</p>
+                    <div class="formula">
+                        A → B    ¬B<br>
+                        ──────────────<br>
+                        ¬A
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-check-circle"></i> Verificación de Demostraciones</h2>
+                
+                <p>Para verificar que una demostración es correcta, debemos:</p>
+                <ul>
+                    <li>Verificar que cada paso sigue una regla válida</li>
+                    <li>Comprobar que las suposiciones están correctamente marcadas</li>
+                    <li>Asegurar que las dependencias están bien establecidas</li>
+                    <li>Confirmar que la conclusión se deriva de las premisas</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Errores Comunes</h4>
+                    <ul>
+                        <li>Usar reglas incorrectas o mal aplicadas</li>
+                        <li>No marcar correctamente las suposiciones</li>
+                        <li>Olvidar cerrar las suposiciones temporales</li>
+                        <li>Confundir las premisas con las conclusiones</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-rocket"></i> Aplicaciones Prácticas</h2>
+                
+                <p>El cálculo de deducción natural tiene aplicaciones importantes en:</p>
+                <ul>
+                    <li><strong>Verificación de programas:</strong> Demostrar la corrección de algoritmos</li>
+                    <li><strong>Inteligencia artificial:</strong> Sistemas de razonamiento automático</li>
+                    <li><strong>Matemáticas:</strong> Demostraciones formales de teoremas</li>
+                    <li><strong>Filosofía:</strong> Análisis de argumentos y razonamientos</li>
+                </ul>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <a href="ejercicios.html" class="btn btn-primary">
+                    <i class="fas fa-tasks"></i> Practicar Ejercicios
+                </a>
+                <a href="tema2.pdf" class="btn btn-secondary" target="_blank">
+                    <i class="fas fa-download"></i> Descargar PDF
+                </a>
+                <a href="../../index.html#temas" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Volver a Temas
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+</body>
+</html>

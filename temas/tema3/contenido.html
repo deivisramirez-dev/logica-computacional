@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 3: Estrategias de Formalización para la Lógica Proposicional - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .formula {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .formalization-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .formalization-table th,
+        .formalization-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .formalization-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .formalization-table tr:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .tema-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .tema-actions .btn {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        @media (max-width: 768px) {
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .tema-actions {
+                flex-direction: column;
+            }
+            
+            .formalization-table {
+                font-size: 0.9rem;
+            }
+            
+            .formalization-table th,
+            .formalization-table td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 3: Estrategias de Formalización para la Lógica Proposicional</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">03</div>
+                    <h1 class="tema-title">Estrategias de Formalización para la Lógica Proposicional</h1>
+                    <p class="tema-description">Técnicas y métodos sistemáticos para convertir enunciados del lenguaje natural en fórmulas lógicas proposicionales.</p>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i> Introducción</h2>
+                <p>La formalización es el proceso de convertir enunciados del lenguaje natural en fórmulas lógicas precisas y bien definidas. Esta habilidad es fundamental para el análisis lógico y la construcción de demostraciones formales.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i> ¿Qué aprenderás?</h4>
+                    <ul>
+                        <li>Identificación de conectivos lógicos en el lenguaje natural</li>
+                        <li>Estrategias sistemáticas de formalización</li>
+                        <li>Manejo de ambigüedades y contextos</li>
+                        <li>Aplicación práctica en problemas reales</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-language"></i> Conectivos Lógicos en el Lenguaje Natural</h2>
+                
+                <p>Los conectivos lógicos aparecen en el lenguaje natural de diversas formas. Es fundamental reconocerlos para una correcta formalización:</p>
+                
+                <table class="formalization-table">
+                    <thead>
+                        <tr>
+                            <th>Conectivo Lógico</th>
+                            <th>Expresiones en Lenguaje Natural</th>
+                            <th>Símbolo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Conjunción</strong></td>
+                            <td>Y, pero, aunque, sin embargo, además, también</td>
+                            <td>∧</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disyunción</strong></td>
+                            <td>O, o bien, ya sea... o, alternativamente</td>
+                            <td>∨</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Implicación</strong></td>
+                            <td>Si... entonces, implica, conduce a, resulta en</td>
+                            <td>→</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bicondicional</strong></td>
+                            <td>Si y solo si, es equivalente a, es lo mismo que</td>
+                            <td>↔</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Negación</strong></td>
+                            <td>No, no es cierto que, es falso que, no ocurre que</td>
+                            <td>¬</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i> Estrategias de Formalización</h2>
+                
+                <h3>Paso 1: Identificar Proposiciones Atómicas</h3>
+                <p>El primer paso es identificar las proposiciones simples que no pueden descomponerse en otras más básicas:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-play"></i> Ejemplo</h4>
+                    <p><strong>Enunciado:</strong> "Si llueve, entonces las calles se mojan y los parques se cierran."</p>
+                    <p><strong>Proposiciones atómicas identificadas:</strong></p>
+                    <ul>
+                        <li>P: "Llueve"</li>
+                        <li>Q: "Las calles se mojan"</li>
+                        <li>R: "Los parques se cierran"</li>
+                    </ul>
+                </div>
+
+                <h3>Paso 2: Identificar Conectivos</h3>
+                <p>Una vez identificadas las proposiciones atómicas, se reconocen los conectivos lógicos:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-arrow-right"></i> Análisis de Conectivos</h4>
+                    <p><strong>Estructura:</strong> "Si P, entonces (Q y R)"</p>
+                    <p><strong>Conectivos identificados:</strong></p>
+                    <ul>
+                        <li>Implicación principal: "Si... entonces"</li>
+                        <li>Conjunción en el consecuente: "y"</li>
+                    </ul>
+                </div>
+
+                <h3>Paso 3: Construir la Fórmula</h3>
+                <p>Finalmente, se construye la fórmula lógica respetando la precedencia de conectivos:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-check"></i> Fórmula Resultante</h4>
+                    <p><strong>Fórmula:</strong> P → (Q ∧ R)</p>
+                    <div class="formula">
+                        P → (Q ∧ R)
+                    </div>
+                    <p><em>Nota:</em> Los paréntesis son necesarios para indicar que la conjunción tiene precedencia sobre la implicación.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-exclamation-triangle"></i> Casos Especiales y Ambiguidades</h2>
+                
+                <h3>Disyunción Inclusiva vs Exclusiva</h3>
+                <p>La disyunción "o" puede ser inclusiva o exclusiva según el contexto:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-exchange-alt"></i> Disyunción Inclusiva</h4>
+                    <p><strong>Ejemplo:</strong> "Puedes tomar café o té"</p>
+                    <p><strong>Interpretación:</strong> Puedes tomar café, té, o ambos</p>
+                    <p><strong>Fórmula:</strong> P ∨ Q</p>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-times"></i> Disyunción Exclusiva</h4>
+                    <p><strong>Ejemplo:</strong> "O comes o duermes"</p>
+                    <p><strong>Interpretación:</strong> Haces una cosa o la otra, pero no ambas</p>
+                    <p><strong>Fórmula:</strong> (P ∨ Q) ∧ ¬(P ∧ Q)</p>
+                </div>
+
+                <h3>Implicaciones Conversas</h3>
+                <p>Es importante distinguir entre diferentes tipos de implicaciones:</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i> Tipos de Implicación</h4>
+                    <ul>
+                        <li><strong>Condicional:</strong> "Si P, entonces Q" → P → Q</li>
+                        <li><strong>Recíproca:</strong> "Si Q, entonces P" → Q → P</li>
+                        <li><strong>Inversa:</strong> "Si no P, entonces no Q" → ¬P → ¬Q</li>
+                        <li><strong>Contrapositiva:</strong> "Si no Q, entonces no P" → ¬Q → ¬P</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-tools"></i> Estrategias Avanzadas</h2>
+                
+                <h3>Formalización por Partes</h3>
+                <p>Para enunciados complejos, es útil dividirlos en partes más simples:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-puzzle-piece"></i> Ejemplo Complejo</h4>
+                    <p><strong>Enunciado:</strong> "Si estudias y practicas, entonces aprobarás, pero si no estudias, entonces no aprobarás."</p>
+                    
+                    <p><strong>Análisis por partes:</strong></p>
+                    <ol>
+                        <li>Primera parte: "Si estudias y practicas, entonces aprobarás"</li>
+                        <li>Segunda parte: "Si no estudias, entonces no aprobarás"</li>
+                        <li>Conectivo principal: "pero" (conjunción)</li>
+                    </ol>
+                    
+                    <p><strong>Proposiciones atómicas:</strong></p>
+                    <ul>
+                        <li>P: "Estudias"</li>
+                        <li>Q: "Practicas"</li>
+                        <li>R: "Aprobarás"</li>
+                    </ul>
+                    
+                    <p><strong>Fórmula:</strong> ((P ∧ Q) → R) ∧ (¬P → ¬R)</p>
+                </div>
+
+                <h3>Manejo de Cuantificadores Implícitos</h3>
+                <p>Algunos enunciados contienen cuantificadores implícitos que deben considerarse:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-users"></i> Cuantificadores</h4>
+                    <p><strong>Ejemplo:</strong> "Todos los estudiantes que estudian aprueban"</p>
+                    <p><strong>Interpretación:</strong> Para todo estudiante x, si x estudia, entonces x aprueba</p>
+                    <p><strong>Nota:</strong> Este tipo de enunciados pertenece a la lógica de predicados, pero es importante reconocerlos.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-check-circle"></i> Verificación de Formalizaciones</h2>
+                
+                <p>Para verificar que una formalización es correcta, debemos:</p>
+                <ul>
+                    <li><strong>Verificar la estructura:</strong> Los conectivos deben reflejar la estructura lógica del enunciado</li>
+                    <li><strong>Comprobar el significado:</strong> La fórmula debe capturar el significado del enunciado original</li>
+                    <li><strong>Analizar casos límite:</strong> Considerar situaciones donde las proposiciones son verdaderas o falsas</li>
+                    <li><strong>Revisar precedencia:</strong> Los paréntesis deben indicar correctamente la precedencia de conectivos</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Errores Comunes</h4>
+                    <ul>
+                        <li>Confundir "o" inclusivo con exclusivo</li>
+                        <li>No considerar la precedencia de conectivos</li>
+                        <li>Interpretar incorrectamente implicaciones</li>
+                        <li>Olvidar negaciones implícitas</li>
+                        <li>No identificar proposiciones atómicas correctamente</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-rocket"></i> Aplicaciones Prácticas</h2>
+                
+                <p>La formalización tiene aplicaciones importantes en:</p>
+                <ul>
+                    <li><strong>Programación:</strong> Especificación de condiciones en algoritmos</li>
+                    <li><strong>Inteligencia artificial:</strong> Representación de conocimiento</li>
+                    <li><strong>Derecho:</strong> Análisis de textos legales y contratos</li>
+                    <li><strong>Filosofía:</strong> Análisis de argumentos y razonamientos</li>
+                    <li><strong>Matemáticas:</strong> Formulación de teoremas y definiciones</li>
+                </ul>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <a href="ejercicios.html" class="btn btn-primary">
+                    <i class="fas fa-tasks"></i> Practicar Ejercicios
+                </a>
+                <a href="tema3.pdf" class="btn btn-secondary" target="_blank">
+                    <i class="fas fa-download"></i> Descargar PDF
+                </a>
+                <a href="../../index.html#temas" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Volver a Temas
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+</body>
+</html>

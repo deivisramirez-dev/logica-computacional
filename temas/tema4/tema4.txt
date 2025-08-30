@@ -1,0 +1,478 @@
+
+Tema 4
+
+
+
+
+
+
+Lógica Computacional
+
+Estrategias de deducción
+para la lógica proposicional
+ 
+
+
+
+
+
+
+
+
+
+
+
+Índice
+Esquema	3
+Ideas clave	4
+4.1.	Introducción y objetivos	4
+4.2.	El razonamiento natural	4
+4.3.	Leyes y reglas	5
+4.4.	Deducción axiomática y deducción natural	5
+4.5.	El cálculo de la deducción natural	7
+4.6.	Reglas primitivas del cálculo proposicional	10
+A fondo	11
+Actividades	12
+Test	13
+ 
+© Universidad Internacional de La Rioja (UNIR)
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	 
+
+ 
+
+
+Ideas clave
+
+4.1.	Introducción y objetivos
+
+
+
+En este tema se realiza una presentación general de la deducción en el marco de la lógica proposicional.
+
+
+
+4.2.	El razonamiento natural
+
+Cuando los humanos razonamos, pretendemos extraer una conclusión C a partir de un conjunto de premisas P.
+
+Esta pretensión puede ser más o menos afortunada, debido a que podemos estar más o menos acertados en dicha extracción. Por otra parte, si el razonamiento buscado es de tipo deductivo, intentaremos que la conclusión se siga necesariamente de las premisas, es decir, si las premisas son verdaderas, la conclusión será inevitablemente falsa.
+
+Ahora bien, aun pretendiendo ser deductivos, los humanos podemos cometer errores en nuestro razonamiento. Podremos creer válidos razonamientos que no lo son. Por este motivo necesitamos un procedimiento para evaluar si determinado razonamiento es válido. Las deducciones desempeñan esta labor.
+
+
+
+
+
+
+
+Lógica Computacional Tema 4. Ideas clave
+ 
+Si somos capaces de obtener una deducción de un razonamiento, tendremos la certeza de que la conclusión del mismo se sigue necesariamente de sus premisas y que, por consiguiente, el razonamiento es válido.
+
+No se puede decir lo mismo en el caso contrario. Si no somos capaces de obtener una deducción de un razonamiento, no significa que el razonamiento sea no válido. El no obtener la deducción puede ser fruto de nuestra torpeza, nuestra falta de destreza en materias formales o simplemente nuestra falta de inspiración en un momento dado.
+
+
+
+4.3.	Leyes y reglas
+
+
+UNA DEDUCCIÓN CONSTA DE TRES COMPONENTES
+
+Un conjunto (eventualmente vacío) de premisas de un argumento.	
+
+La conclusión de dicho argumento.	Una cadena de enunciados establecidos a modo de pasos intermedios entre las premisas y la conclusión.
+Figura 1. Componentes de una deducción.
+
+
+Estos pasos intermedios no se pueden establecer de forma errática o arbitraria, sino que deben realizarse de acuerdo a las reglas del sistema. En nuestro caso las hemos denominado reglas básicas y derivadas.
+
+
+
+4.4.	Deducción axiomática y deducción natural
+
+Existen tradicionalmente dos procedimientos para demostrar la validez de un argumento deductivo.
+
+
+
+
+Lógica Computacional Tema 4. Ideas clave
+ 
+Deducción axiomática
+
+El primer procedimiento se basa en la presentación previa de un sistema axiomático y, mediante el uso de reglas de inferencia, obtener el esquema del razonamiento a partir de los axiomas. El siguiente esquema intenta aclarar lo dicho:
+
+Figura 2. Deducción axiomática.
+
+
+Deducción natural
+
+El segundo es el de la deducción natural. Este procedimiento es el que utilizaremos para realizar las prácticas de este tema y se basa en la presentación previa de un sistema de deducción natural.
+
+Para deducir (demostrar la validez de un argumento), partiremos de las premisas del argumento y trataremos de llegar a la conclusión aplicando las reglas de inferencia del sistema.
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 4. Ideas clave
+ 
+El esquema es el siguiente:
+
+
+
+Figura 3. Deducción natural.
+
+
+
+4.5.	El cálculo de la deducción natural
+
+El sistema formal o cálculo de deducción natural de proposiciones, presentado en temas anteriores, nos servirá ahora para realizar las deducciones.
+
+Como se ha dicho, deducir es llegar a una conclusión de un razonamiento partiendo de sus premisas mediante el uso de las reglas de transformación del mecanismo deductivo del sistema.
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 4. Ideas clave
+ 
+ 
+
+
+
+Figura 4. Reglas básicas y derivadas.
+
+
+Existe una regla básica de introducción y otra de eliminación para cada una de los operadores lógicos del sistema. El procedimiento de deducción no es algorítmico, por lo tanto, no existen una serie de pasos definidos que nos permitan realizar las deducciones.
+
+Lo que sí se puede determinar son una serie de normas generales que nos pueden facilitar la labor, pero sin que tengamos asegurado nuestro objetivo al seguirlas. Las normas son las siguientes:
+
+ Separar las premisas de la conclusión.
+ Analizar la conclusión:
+•	Si la conclusión es una de las premisas resultará fácil deducir. Sin embargo, este caso trivial no sucede habitualmente.
+•	Si la conclusión es una parte de una de las premisas, debemos observar dónde está para ver si se puede obtener fácilmente o no. Por ejemplo, será fácil de obtener si está:
+	Doblemente negada: en este caso aplicaremos la regla de eliminación de la negación y obtendremos la conclusión.
+	En una de las partes de una conjunción: en este caso aplicaremos la regla de eliminación de la conjunción y obtendremos la conclusión.
+	En el consecuente de un condicional: en este caso tendremos que buscar si existe el antecedente en algún lugar de las premisas. Si lo obtuviésemos podríamos aplicar la eliminación del condicional y obtendríamos la conclusión.
+
+
+
+
+Lógica Computacional Tema 4. Ideas clave
+ 
+•	Si no se dan los casos anteriores y la conclusión tiene operadores, trataremos de componer tal conclusión introduciendo dichos operadores mediante las reglas de introducción. Por ejemplo:
+	Si el operador principal es una negación supondremos la conclusión sin negar y trataremos de llegar a una contradicción, tal y como indica la regla de introducción de la negación.
+	Si el operador principal es una conjunción tendremos que obtener cada una de las subfórmulas que une dicha conjunción, como indica la regla de introducción de la conjunción.
+	Si el operador principal es una disyunción bastará con obtener una de las partes de esa disyunción, ya que al aplicar la regla de introducción de la disyunción obtendremos la fórmula completa.
+	Si el operador principal es un condicional supondremos el antecedente y trataremos de llegar al consecuente, tal y como indica la regla de introducción del condicional.
+•	Si no se dan los casos anteriores y la conclusión no tiene operadores, debemos proceder por reducción al absurdo. La reducción al absurdo es una estrategia de deducción que es útil en este caso, pero es importante indicar que cualquier razonamiento se puede deducir mediante reducción al absurdo.
+
+Reducción al absurdo: consiste en suponer la negación de la conclusión y tratar de llegar a una contradicción.
+
+Si lo conseguimos podremos introducir una negación sobre la fórmula supuesta (que no olvidemos que es la negación de la conclusión) por aplicación de la regla de introducción de la negación. La fórmula resultante es la conclusión doblemente negada. Si aplicamos la regla de eliminación de la negación, obtendremos la conclusión sin negar.
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 4. Ideas clave
+ 
+4.6.	Reglas primitivas del cálculo proposicional
+
+Para refrescar la memoria, echa un vistazo a las reglas primitivas o básicas del cálculo proposicional de deducción natural que hemos presentado en temas anteriores.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 4. Ideas clave
+ 
+
+
+A fondo
+
+
+Ejercicio de deducción natural en lógica proposicional
+
+Este documento visual expone con claridad la deducción natural desde una serie de ejemplos de razonamiento.
+
+
+
+Accede al vídeo a través del aula virtual o desde la siguiente dirección web: https://youtu.be/d-9vhwLR6fY
+ 
+
+
+Inferencia lógica
+
+En este vídeo se explica cómo realizar deducciones mediante el uso de reglas derivadas.
+
+
+
+Accede al vídeo a través del aula virtual o desde la siguiente dirección web: https://youtu.be/k_u5fkzlUBk
+ 
+
+
+Lógica Computacional Tema 4. A fondo
+ 
+
+
+Actividades
+
+Ejercicios de deducción
+
+Deduce los siguientes argumentos utilizando únicamente las reglas básicas del cálculo de deducción natural de enunciados. Para la solución de los ejercicios deben seguirse los pasos del ejemplo explicado en la sesión presencial correspondiente a este tema.
+
+1	
+     
+
+   
+
+   	
+ 
+2	
+     
+
+           
+
+       
+
+       	
+     
+3	
+           	
+       
+4
+	
+ 
+5
+	
+     
+6
+	
+       
+7
+
+ 	 	Este ejercicio no tiene premisas, solo tiene conclusión. Su resolución es posible a pesar de esta peculiaridad.
+8
+	
+ 
+9
+	
+     
+10
+
+   	
+
+ 
+
+
+Lógica Computacional Tema 4. Actividades
+ 
+
+
+Test
+
+1.	¿Qué es una deducción?
+A.	Un método para demostrar la verdad de un argumento.
+B.	Un procedimiento para demostrar la verdad de las premisas de un argumento.
+C.	Un método para demostrar la validez de un argumento.
+D.	Un mecanismo para demostrar la verdad de la conclusión de un argumento.
+
+
+2.	¿De qué partes consta una deducción?
+A.	Premisas y conclusión.
+B.	Premisas, conclusión y pasos intermedios establecidos arbitrariamente en función de nuestro raciocinio.
+C.	Premisas, conclusión y pasos intermedios establecidos por aplicación de las reglas del cálculo lógico.
+D.	Conclusión solo.
+
+
+3.	¿Qué es la reducción al absurdo?
+A.	Una estrategia de deducción.
+B.	Un procedimiento para demostrar la validez de un razonamiento.
+C.	Un procedimiento para demostrar que la conclusión de un razonamiento se sigue necesariamente de las premisas.
+D.	Una estrategia inductiva.
+
+
+4.	Si pretendemos establecer una deducción de un razonamiento cuya conclusión es
+𝑝 ∨ 𝑞 debemos:
+A.	Suponer 𝑝 y llegar a una contradicción.
+B.	Encontrar o bien 𝑝, o bien 𝑞 (basta una de ellas).
+C.	Encontrar 𝑝 y obligatoriamente también 𝑞.
+D.	Suponer la 𝑝 y llegar a 𝑞.
+
+
+
+
+
+Lógica Computacional
+Tema 4. Test
+ 
+5.	Si pretendemos establecer una deducción de un razonamiento cuya conclusión es
+𝑝 ∧ 𝑞, debemos:
+A.	Suponer 𝑝 y llegar a una contradicción.
+B.	Encontrar o bien 𝑝, o bien 𝑞 (basta una de ellas).
+C.	Encontrar 𝑝 y obligatoriamente también 𝑞.
+D.	Suponer la 𝑝 y llegar a 𝑞.
+
+
+6.	Si pretendemos establecer una deducción de un razonamiento cuya conclusión es
+𝑝 → 𝑞, debemos:
+A.	Suponer 𝑝 y llegar a una contradicción.
+B.	Encontrar o bien 𝑝, o bien 𝑞 (basta una de ellas).
+C.	Encontrar 𝑝 y obligatoriamente también 𝑞.
+D.	Suponer la 𝑝 y llegar a 𝑞.
+
+
+7.	Si pretendemos establecer una deducción de un razonamiento cuya conclusión es
+¬𝑝, debemos:
+A.	Suponer 𝑝 y llegar a una contradicción.
+B.	Encontrar o bien 𝑝, o bien 𝑞 (basta una de ellas).
+C.	Encontrar 𝑝 y obligatoriamente también 𝑞.
+D.	Suponer la 𝑝 y llegar a 𝑞.
+
+8.	Las reglas derivadas:
+A.	Son indemostrables.
+B.	Son esquemas de razonamientos válidos.
+C.	Sirven para facilitar las deducciones complejas.
+D.	Son como los axiomas de un sistema axiomático.
+
+
+9.	El procedimiento de reducción al absurdo consiste en:
+A.	Introducir una negación y después eliminarla.
+B.	Llegar a cualquier conclusión.
+C.	No llegar a ninguna conclusión.
+D.	Suponer la negación de lo que buscamos y llegar a una contradicción.
+
+Lógica Computacional
+Tema 4. Test
+ 
+10.	Si un razonamiento es no válido, ¿se puede obtener una deducción de este?
+A.	No, es imposible.
+B.	Sí, pero no serviría de nada.
+C.	Eso dependerá de nuestra destreza.
+D.	Las respuestas B y C son correctas.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional
+Tema 4. Test

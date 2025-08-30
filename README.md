@@ -39,10 +39,22 @@ logica-computacional/
 - **Contenido**: Fundamentos básicos de la lógica computacional y su importancia en la informática
 - **Recursos**: PDF completo, contenido web, ejercicios
 
-### 🔄 Temas 2-12: En Desarrollo
-- **Tema 2**: Cálculo de Deducción Natural de Enunciados
-- **Tema 3**: Estrategias de Formalización para la Lógica Proposicional
-- **Tema 4**: Estrategias de Deducción para la Lógica Proposicional
+### ✅ Tema 2: Cálculo de Deducción Natural de Enunciados
+- **Estado**: Completado
+- **Contenido**: Métodos de deducción natural para el razonamiento lógico con enunciados
+- **Recursos**: Contenido web, ejercicios
+
+### ✅ Tema 3: Estrategias de Formalización para la Lógica Proposicional
+- **Estado**: Completado
+- **Contenido**: Técnicas y estrategias para formalizar problemas en lógica proposicional
+- **Recursos**: Contenido web, ejercicios
+
+### ✅ Tema 4: Estrategias de Deducción para la Lógica Proposicional
+- **Estado**: Completado
+- **Contenido**: Métodos y estrategias de deducción específicas para la lógica proposicional
+- **Recursos**: PDF completo, contenido web, ejercicios
+
+### 🔄 Temas 5-12: En Desarrollo
 - **Tema 5**: Semántica de la Lógica Proposicional
 - **Tema 6**: Aplicaciones de la Lógica Proposicional: Circuitos Lógicos
 - **Tema 7**: Cálculo de Deducción Natural de Predicados

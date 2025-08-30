@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios - Tema 4: Estrategias de Deducción - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ejercicios-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .ejercicios-header {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #d97706 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .ejercicios-header-content {
+            text-align: center;
+        }
+        
+        .ejercicios-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .ejercicios-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .ejercicio-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .ejercicio-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .ejercicio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+        
+        .ejercicio-number {
+            background: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .ejercicio-difficulty {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .difficulty-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-light);
+        }
+        
+        .difficulty-dot.active {
+            background: var(--accent-color);
+        }
+        
+        .ejercicio-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .ejercicio-content h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .premisa {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .conclusion {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .ejercicio-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-solution {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-solution:hover {
+            background: #059669;
+        }
+        
+        .btn-hint {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-hint:hover {
+            background: #d97706;
+        }
+        
+        .solution-box {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .solution-box.show {
+            display: block;
+        }
+        
+        .solution-box h4 {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .deduction-step {
+            background: var(--bg-primary);
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .step-number {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .step-justification {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .hint-box {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--warning-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .hint-box.show {
+            display: block;
+        }
+        
+        .hint-box h4 {
+            color: var(--warning-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .instructions-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .instructions-box h3 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .instructions-box ul {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-left: 2rem;
+        }
+        
+        .instructions-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .ejercicios-content {
+                padding: 1rem;
+            }
+            
+            .ejercicios-header {
+                padding: 2rem 0;
+            }
+            
+            .ejercicios-title {
+                font-size: 2rem;
+            }
+            
+            .ejercicio-card {
+                padding: 1.5rem;
+            }
+            
+            .ejercicio-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .ejercicio-actions {
+                flex-direction: column;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="ejercicios-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="contenido.html">Tema 4</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Ejercicios</span>
+            </div>
+
+            <!-- Header de Ejercicios -->
+            <div class="ejercicios-header">
+                <div class="ejercicios-header-content">
+                    <h1 class="ejercicios-title">Ejercicios de Deducción</h1>
+                    <p class="ejercicios-description">Practica las estrategias de deducción para la lógica proposicional</p>
+                </div>
+            </div>
+
+            <!-- Instrucciones -->
+            <div class="instructions-box">
+                <h3><i class="fas fa-info-circle"></i>Instrucciones</h3>
+                <p>Deduce los siguientes argumentos utilizando únicamente las reglas básicas del cálculo de deducción natural de enunciados. Para la solución de los ejercicios deben seguirse los pasos explicados en el contenido del tema.</p>
+                
+                <h4>Pasos a seguir:</h4>
+                <ul>
+                    <li><strong>Separar las premisas de la conclusión</strong></li>
+                    <li><strong>Analizar la conclusión</strong> para determinar la estrategia más apropiada</li>
+                    <li><strong>Aplicar las reglas de inferencia</strong> paso a paso</li>
+                    <li><strong>Justificar cada paso</strong> con la regla correspondiente</li>
+                </ul>
+                
+                <h4>Estrategias principales:</h4>
+                <ul>
+                    <li><strong>Para negación (¬p):</strong> Suponer p y llegar a una contradicción</li>
+                    <li><strong>Para conjunción (p ∧ q):</strong> Obtener ambas partes p y q</li>
+                    <li><strong>Para disyunción (p ∨ q):</strong> Obtener una de las partes</li>
+                    <li><strong>Para condicional (p → q):</strong> Suponer p y llegar a q</li>
+                    <li><strong>Reducción al absurdo:</strong> Suponer la negación de la conclusión</li>
+                </ul>
+            </div>
+
+            <!-- Ejercicio 1 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">1</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 1</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p → q
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> q
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(1)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(1)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-1">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Observa que tienes un condicional p → q y su antecedente p. ¿Qué regla puedes aplicar para obtener q?</p>
+                </div>
+                
+                <div class="solution-box" id="solution-1">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p → q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> p (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">3.</span> q (eliminación de condicional, 1,2)
+                        <div class="step-justification">Aplicando →E a las líneas 1 y 2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 2 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">2</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 2</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p ∧ q
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> p
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(2)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(2)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-2">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>La conclusión p es una parte de la conjunción p ∧ q. ¿Qué regla de eliminación puedes aplicar?</p>
+                </div>
+                
+                <div class="solution-box" id="solution-2">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p ∧ q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> p (eliminación de conjunción, 1)
+                        <div class="step-justification">Aplicando ∧E a la línea 1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 3 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">3</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 3</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> p ∨ q
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(3)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(3)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-3">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Ya tienes p como premisa. Para obtener p ∨ q, ¿qué regla de introducción puedes aplicar?</p>
+                </div>
+                
+                <div class="solution-box" id="solution-3">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> p ∨ q (introducción de disyunción, 1)
+                        <div class="step-justification">Aplicando ∨I a la línea 1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 4 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">4</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 4</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p → q
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> q → r
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> p → r
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(4)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(4)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-4">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Para demostrar p → r, necesitas suponer p y llegar a r. Usa los condicionales que tienes como premisas.</p>
+                </div>
+                
+                <div class="solution-box" id="solution-4">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p → q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> q → r (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">3.</span> p (suposición)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">4.</span> q (eliminación de condicional, 1,3)
+                        <div class="step-justification">Aplicando →E a las líneas 1 y 3</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">5.</span> r (eliminación de condicional, 2,4)
+                        <div class="step-justification">Aplicando →E a las líneas 2 y 4</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">6.</span> p → r (introducción de condicional, 3-5)
+                        <div class="step-justification">Aplicando →I a las líneas 3-5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 5 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">5</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 5</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p ∧ q
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> q ∧ p
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(5)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(5)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-5">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Necesitas obtener q y p por separado de p ∧ q, y luego combinarlos en el orden q ∧ p.</p>
+                </div>
+                
+                <div class="solution-box" id="solution-5">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p ∧ q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> p (eliminación de conjunción, 1)
+                        <div class="step-justification">Aplicando ∧E a la línea 1</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">3.</span> q (eliminación de conjunción, 1)
+                        <div class="step-justification">Aplicando ∧E a la línea 1</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">4.</span> q ∧ p (introducción de conjunción, 3,2)
+                        <div class="step-justification">Aplicando ∧I a las líneas 3 y 2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 6 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">6</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 6</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p → q
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> ¬q
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> ¬p
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(6)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(6)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-6">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Para demostrar ¬p, puedes suponer p y llegar a una contradicción. Usa p → q y ¬q.</p>
+                </div>
+                
+                <div class="solution-box" id="solution-6">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p → q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> ¬q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">3.</span> p (suposición para reducción al absurdo)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">4.</span> q (eliminación de condicional, 1,3)
+                        <div class="step-justification">Aplicando →E a las líneas 1 y 3</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">5.</span> q ∧ ¬q (introducción de conjunción, 4,2)
+                        <div class="step-justification">Aplicando ∧I a las líneas 4 y 2 - CONTRADICCIÓN</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">6.</span> ¬p (introducción de negación, 3-5)
+                        <div class="step-justification">Aplicando ¬I a las líneas 3-5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 7 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">7</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 7</h3>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> p → p
+                    </div>
+                    <p><em>Este ejercicio no tiene premisas, solo tiene conclusión. Su resolución es posible a pesar de esta peculiaridad.</em></p>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(7)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(7)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-7">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Para demostrar p → p, supón p y trata de llegar a p. Es un caso muy simple.</p>
+                </div>
+                
+                <div class="solution-box" id="solution-7">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p (suposición)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> p → p (introducción de condicional, 1-1)
+                        <div class="step-justification">Aplicando →I a las líneas 1-1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 8 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">8</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 8</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p ∨ q
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p → r
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> q → r
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> r
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(8)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(8)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-8">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Tienes p ∨ q y condicionales que llevan tanto de p como de q a r. Usa eliminación de disyunción.</p>
+                </div>
+                
+                <div class="solution-box" id="solution-8">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p ∨ q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> p → r (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">3.</span> q → r (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">4.</span> r (eliminación de disyunción, 1,2,3)
+                        <div class="step-justification">Aplicando ∨E a las líneas 1, 2 y 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 9 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">9</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 9</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p → (q → r)
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> q
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> r
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(9)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(9)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-9">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Usa p para obtener q → r del primer condicional, luego usa q para obtener r.</p>
+                </div>
+                
+                <div class="solution-box" id="solution-9">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p → (q → r) (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> p (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">3.</span> q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">4.</span> q → r (eliminación de condicional, 1,2)
+                        <div class="step-justification">Aplicando →E a las líneas 1 y 2</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">5.</span> r (eliminación de condicional, 4,3)
+                        <div class="step-justification">Aplicando →E a las líneas 4 y 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 10 -->
+            <div class="ejercicio-card">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">10</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 10</h3>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> p → q
+                    </div>
+                    <div class="premisa">
+                        <strong>Premisa:</strong> ¬q
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> ¬p
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-hint" onclick="toggleHint(10)">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn-solution" onclick="toggleSolution(10)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-10">
+                    <h4><i class="fas fa-lightbulb"></i>Pista</h4>
+                    <p>Este es el mismo ejercicio que el 6. Usa reducción al absurdo: supón p y llega a una contradicción.</p>
+                </div>
+                
+                <div class="solution-box" id="solution-10">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-step">
+                        <span class="step-number">1.</span> p → q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">2.</span> ¬q (premisa)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">3.</span> p (suposición para reducción al absurdo)
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">4.</span> q (eliminación de condicional, 1,3)
+                        <div class="step-justification">Aplicando →E a las líneas 1 y 3</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">5.</span> q ∧ ¬q (introducción de conjunción, 4,2)
+                        <div class="step-justification">Aplicando ∧I a las líneas 4 y 2 - CONTRADICCIÓN</div>
+                    </div>
+                    <div class="deduction-step">
+                        <span class="step-number">6.</span> ¬p (introducción de negación, 3-5)
+                        <div class="step-justification">Aplicando ¬I a las líneas 3-5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="navigation-buttons">
+                <a href="contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver al Contenido</span>
+                </a>
+                <a href="../../index.html#temas" class="nav-btn">
+                    <span>Ver Todos los Temas</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Funcionalidad para mostrar/ocultar soluciones y pistas
+        function toggleSolution(exerciseNumber) {
+            const solutionBox = document.getElementById(`solution-${exerciseNumber}`);
+            const button = event.target;
+            
+            if (solutionBox.classList.contains('show')) {
+                solutionBox.classList.remove('show');
+                button.innerHTML = '<i class="fas fa-eye"></i> Ver Solución';
+            } else {
+                solutionBox.classList.add('show');
+                button.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar Solución';
+            }
+        }
+        
+        function toggleHint(exerciseNumber) {
+            const hintBox = document.getElementById(`hint-${exerciseNumber}`);
+            const button = event.target;
+            
+            if (hintBox.classList.contains('show')) {
+                hintBox.classList.remove('show');
+                button.innerHTML = '<i class="fas fa-lightbulb"></i> Pista';
+            } else {
+                hintBox.classList.add('show');
+                button.innerHTML = '<i class="fas fa-lightbulb"></i> Ocultar Pista';
+            }
+        }
+        
+        // Marcar ejercicios como completados
+        document.addEventListener('DOMContentLoaded', function() {
+            const solutionButtons = document.querySelectorAll('.btn-solution');
+            
+            solutionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const exerciseCard = this.closest('.ejercicio-card');
+                    const exerciseNumber = exerciseCard.querySelector('.ejercicio-number').textContent;
+                    
+                    // Marcar como completado en localStorage
+                    localStorage.setItem(`ejercicio_4_${exerciseNumber}_completed`, 'true');
+                    
+                    // Cambiar estilo visual
+                    exerciseCard.style.borderColor = var(--success-color);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

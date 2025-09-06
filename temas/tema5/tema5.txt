@@ -1,0 +1,873 @@
+﻿
+Tema 5: Semántica de la lógica proposicional
+Curso:  Lógica Computacional
+
+
+Esquema	
+Ideas clave	
+Introducción y objetivos	
+Introducción	
+Tablas de verdad	
+Tautologías y contradicciones	
+Validación de sentencias proposicionales	
+Validación mediante tablas de verdad	
+Validación mediante árboles semánticos	
+Validación mediante refutación	
+
+
+Introducción y objetivos
+En este tema se introducirá una semántica bivalente para la lógica de proposiciones. Se definirán conceptos como:
+
+Equivalencia.
+Tautología.
+Contradicción.
+
+
+También se aprenderán técnicas de validación semántica de fórmulas como:
+Las tablas de verdad.
+Los árboles semánticos.
+La refutación.
+
+Introducción
+
+Una vez presentado el sistema formal de deducción natural para la lógica proposicional, se le puede asociar una semántica.
+
+
+Figura 1. Concepto de semántica.
+
+
+Para ello se establecen una serie de reglas semánticas:
+
+
+RsV. Una variable proposicional puede tener valor falso (F) o valor verdadero (V). A esta regla se le denomina principio de bivalencia.
+
+Rs2. El valor semántico de la negación de cualquier fórmula A es V, si y solo si el valor semántico de la fórmula A (sin negar) es F.
+
+Rs3. El valor semántico de la conjunción de dos fórmulas A y B es V, si y solo si el valor semántico de A es V y el valor semántico de B es V.
+
+Rs4. El valor semántico de la disyunción de dos fórmulas A y B es V, si y solo si el valor semántico de A es V o el valor semántico de B es V.
+
+Rs5. El valor semántico del condicional de dos fórmulas A y B es V, si y solo si el valor semántico de A es F o el valor semántico de B es V.
+
+Figura 2. Concepto de interpretación.
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+Si aplicamos esta definición con respecto a las reglas semánticas tendremos:
+
+
+Dada la regla semántica Rs3, las interpretaciones posibles son cuatro para este caso y quedan representadas según la siguiente tabla:
+
+A
+B
+𝑨 ∧ 𝑩
+F
+F
+F
+F
+V
+F
+V
+F
+F
+V
+V
+V
+Tabla 1. Interpretaciones para la Rs3.
+
+
+Dada la regla semántica Rs4, las interpretaciones posibles son cuatro para este caso y quedan representadas según la siguiente tabla:
+
+A
+B
+𝑨 ∨ 𝑩
+F
+F
+F
+F
+V
+V
+V
+F
+V
+V
+V
+V
+Tabla 2. Interpretaciones para la Rs4.
+
+
+Dada la regla semántica Rs5, las interpretaciones posibles son cuatro para este caso y quedan representadas según la siguiente tabla:
+
+A
+B
+𝑨 → 𝑩
+F
+F
+V
+F
+V
+V
+V
+F
+F
+V
+V
+V
+Tabla 3. Interpretaciones para la Rs4.
+
+
+
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+5.3. Tablas de verdad
+
+
+Figura 3. Concepto de tabla de verdad.
+
+
+Supongamos una fórmula compleja que está compuesta por tres variables proposicionales (𝑝, 𝑞 y 𝑟). Por ejemplo:
+
+(𝑝 ⟶ 𝑞) ∧ 𝑟
+
+
+Las interpretaciones posibles para tres variables son 23 ({nº_de_valores} {nº_de_variables}). De ello resultan las siguientes ocho combinaciones:
+
+p
+q
+r
+F
+F
+F
+F
+F
+V
+F
+V
+F
+F
+V
+V
+V
+F
+F
+V
+F
+V
+V
+V
+F
+V
+V
+V
+Tabla 4. Interpretaciones para el ejemplo de tabla de verdad (I).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+Siguiendo las reglas semánticas representadas anteriormente, tenemos que para la fórmula 𝑝 → 𝑞, sus posibles interpretaciones son:
+
+p
+q
+r
+𝑝 → 𝑞
+F
+F
+F
+V
+F
+F
+V
+V
+F
+V
+F
+V
+F
+V
+V
+V
+V
+F
+F
+F
+V
+F
+V
+F
+V
+V
+F
+V
+V
+V
+V
+V
+Tabla 5. Interpretaciones para el ejemplo de tabla de verdad (II).
+
+
+Y para la fórmula completa:
+
+
+p
+q
+r
+𝑝 → 𝑞
+r
+(𝑝 → 𝑞) ∧ 𝑟
+F
+F
+F
+V
+F
+F
+F
+F
+V
+V
+V
+V
+F
+V
+F
+V
+F
+F
+F
+V
+V
+V
+V
+V
+V
+F
+F
+F
+F
+F
+V
+F
+V
+F
+V
+F
+V
+V
+F
+V
+F
+F
+V
+V
+V
+V
+V
+V
+Tabla 6. Interpretaciones para el ejemplo de tabla de verdad (III).
+
+
+Equivalencia
+
+Dos fórmulas bien formadas son equivalentes si y solo si sus tablas de verdad correspondientes proporcionan valores iguales para todas y cada una de sus interpretaciones.
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+5.4. Tautologías y contradicciones
+
+Una fórmula bien formada es una tautología si su tabla de verdad proporciona valor V para todas y cada una de sus interpretaciones.
+
+Una fórmula bien formada es una contradicción si su tabla de verdad proporciona valor F para todas y cada una de sus interpretaciones.
+
+
+5.5. Validación de sentencias proposicionales
+
+La semántica para la lógica proposicional que se está presentando aquí proporciona además un sistema de validación que nos permite saber si una fórmula es una tautología o no. Las tablas de verdad son un método para realizar esta labor, pero existen otros métodos, como por ejemplo los árboles semánticos que veremos más adelante.
+
+La cuestión es que si somos capaces de convertir un razonamiento (de los manejados en temas anteriores) en una única fórmula, bastará con comprobar si tal fórmula es una tautología para comprobar que el argumento es válido y, si no es una tautología, tendremos la certeza de que el argumento es no válido.
+
+
+5.6. Validación mediante tablas de verdad
+
+Podremos convertir un razonamiento en una única fórmula si unimos mediante conjunción sus premisas y enlazamos la conclusión mediante un condicional. Por ejemplo, el modus ponens o eliminación del condicional.
+
+
+
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+
+
+Figura 4. Modus ponens o eliminación del condicional.
+
+
+Podemos expresarlo de la siguiente forma:
+
+(𝐴 → 𝐵) ∧ 𝐴 → 𝐵
+
+
+Si hacemos la tabla de verdad de esta expresión, comprobaremos que es una tautología, lo cual muestra que el modus ponens es un razonamiento válido:
+
+A
+B
+𝐴 → 𝐵
+(𝐴 → 𝐵) ∧ 𝐴
+B
+(𝑝 → 𝑞) ∧ 𝑟
+F
+F
+V
+F
+F
+V
+F
+V
+V
+F
+V
+V
+V
+F
+F
+F
+F
+V
+V
+V
+V
+V
+V
+V
+Tabla 7. Validación mediante modus ponens.
+
+
+
+5.7. Validación mediante árboles semánticos
+
+Los árboles semánticos son otro procedimiento para determinar bajo qué combinaciones de valores de verdad de las variables proposicionales una fórmula compleja es verdadera.
+
+Por ejemplo, ante la fórmula: 𝑝 → 𝑞
+
+
+Analicemos los posibles valores de 𝑝:
+ Puede ser verdadero: (𝑣 (𝑝) = 1).
+ Puede ser falso: (𝑣 (𝑝) = 0).
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+Esto podemos representarlo como:
+
+
+
+
+Figura 5. Ejemplo de árbol semántico (I).
+
+
+Analizando la rama de la derecha y por la Rs5, vemos que cuando 𝑝 es falso la fórmula completa resulta verdadera. Luego:
+
+
+
+Figura 6. Ejemplo de árbol semántico (II).
+
+
+Analizando la rama de la derecha y por la Rs5, vemos que cuando 𝑝 es verdadero, la fórmula completa resulta verdadera si 𝑞 es verdadera y resulta falsa si 𝑞 es falsa. Luego:
+
+
+
+Figura 7. Ejemplo de árbol semántico (III).
+
+
+Con ello hemos creado el árbol semántico de la fórmula 𝑝 → 𝑞
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+5.8. Validación mediante refutación
+
+Otro procedimiento para saber si una fórmula es verdadera o falsa es el procedimiento de la refutación. Este consiste en suponer que la fórmula es falsa y analizar semánticamente el resto de sus componentes:
+
+ Si en algún momento del análisis llegamos a una contradicción (es decir, que una fórmula sea evaluada como verdadera y como falsa al mismo tiempo), entonces la fórmula no puede ser falsa bajo ninguna interpretación, con lo cual, será una tautología.
+
+ Si al final del análisis no hemos llegado a ninguna contradicción, la fórmula puede ser falsa.
+
+Supongamos que es falsa la fórmula siguiente:
+
+𝑞 → (𝑝 → 𝑞)
+
+
+Para que sea falsa, por la Rs5:
+1. 𝑞 tiene que ser verdadera.
+2. 𝑝 → 𝑞 tiene que ser falsa.
+
+
+Para que 𝑝 → 𝑞 sea falsa:
+3. 𝑝 tiene que ser verdadera.
+4. 𝑞 tiene que ser falsa.
+
+Pero las sentencias 1 y 4 se contradicen, luego es imposible que la fórmula 𝑞 → (𝑝 → 𝑞)
+sea falsa, por lo tanto, es una tautología.
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. Ideas clave
+
+
+
+A fondo
+
+
+Lógica, elementos de la lógica, tautologías…
+
+
+
+Con esta lectura puedes tratar en más profundidad y con ejemplos la semántica de la lógica proposicional. Se centra en la lógica de enunciados, su simbología y sus formulaciones para evaluar las tablas de verdad (tautología, contradicción, contingencia).
+
+Accede al documento a través del aula virtual o desde la siguiente dirección web: https://bvhumanidades.usac.edu.gt/items/show/3861
+
+
+
+Tablas de verdad
+
+
+
+Es documento nos lleva a comprender y entender más las tablas de verdad y la forma en que cada operador lógico genera los valores de verdad de las diferentes fórmulas. Esto nos sirve para definir claramente todas las posibles combinaciones de los diferentes valores que pueden tener el conjunto de proposiciones.
+
+Accede al artículo a través del aula virtual o desde la siguiente dirección web: https://es.scribd.com/document/351390244/Tablas-de-Verdad-pdf
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. A fondo
+
+Tablas de verdad para más de dos conectores lógicos
+
+
+En este vídeo se explica de manera sencilla cómo generar una tabla de valores de verdad: valores de falso (F) y valores de verdadero (V) para proposiciones compuestas en las cuales intervienen dos o más conectores lógicos (conjunción, disyunción, negación, implicación y equivalencia).
+
+
+
+Accede al vídeo a través del aula virtual o desde la siguiente dirección web: https://youtu.be/JvaAX5QPfgs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. A fondo
+
+
+
+Actividades
+
+Ejercicios de semántica
+
+1. Realiza las tablas de verdad de las siguientes fórmulas:
+A. (𝑟 → 𝑠) → ¬𝑟 ∨ 𝑠
+B. ¬(𝑟 ∧ 𝑠) → ¬𝑟 ∨ ¬𝑠
+C. (𝑝 ∨ 𝑞 ∨ 𝑟) → ¬(𝑝 ∨ 𝑞 ∨ 𝑟)
+D. 𝑝 ∧ 𝑞 → 𝑟 ∨ 𝑠
+
+
+2. Indicando como máximo el valor semántico de dos variables proposicionales, haz, siempre y cuando sea posible, que el valor semántico de las siguientes fórmulas sea 1. Razona tu respuesta haciendo uso exclusivamente de las reglas semánticas:
+A. (𝑝 ∨ 𝑞) ∧ (𝑟 ∨ 𝑠) → 𝑡
+B. (𝑝 → 𝑠) ∨ (𝑠 → 𝑟) → (𝑠 ∧ 𝑡)
+C. (𝑝 ∨ 𝑠) ∧ (𝑝 → 𝑡) ∧ (𝑠 → 𝑡) → 𝑡
+D. (𝑡 → (𝑠 → 𝑟)) → ((𝑠 → 𝑟) → 𝑞)
+
+
+3. Demuestra la validez o no validez de los siguientes argumentos utilizando tablas semánticas:
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. Actividades
+
+Trabajo: Semántica de la lógica proposicional
+
+Objetivo de aprendizaje
+
+
+Identificar y desarrollar habilidades obtenidas en transcurso del curso en atención a las temáticas impartidas.
+
+Conocimientos
+
+
+Antes de empezar a realizar estos ejercicios es importante que recordemos lo siguiente: las reglas derivadas, tablas de la verdad, implicaciones y equivalencias tautológicas y las estrategias de deducción lógica.
+
+Ejercicio 1
+
+
+Escribe cada uno de los siguientes enunciados en forma simbólica, y decide si es una tautología o no:
+ Si tengo sueño y tengo frío, entonces tengo sueño.
+ Si no es verdad que las amapolas son amarillas y las azucenas son azules, entonces las amapolas no son amarillas y las azucenas no son azules.
+ Para llevar mi sombrilla es necesario que llueva; por lo tanto, si no llueve, no llevo mi sombrilla.
+ Para llevar mi sombrilla es necesario y suficiente que llueva; por lo tanto, si no llueve no llevaré mi sombrilla.
+ Para aprobar física es suficiente tener un buen profesor; por lo tanto, tendré un buen profesor o no aprobaré física.
+ Estoy cansada o hambrienta, pero no estoy cansada, así que debo estar hambrienta.
+ Para sacar buenas notas es necesario estudiar, y si tengo buenas notas obtendré un buen empleo; por lo tanto, es suficiente estudiar para obtener un buen empleo.
+
+
+
+Lógica Computacional Tema 5. Actividades
+
+ Para sacar buenas notas es necesario estudiar, pero Manuel no sacó buenas notas; por lo tanto, Manuel no estudió.
+
+Ejercicio 2
+
+
+Use una tabla de verdad para comprobar las siguientes tautológicas:
+1. Modus Tollens.
+2. Adición.
+3. Transitividad.
+4. Ley conmutativa: (𝑝 ∧ 𝑞) ↔ (𝑞 ∧ 𝑝).
+5. Switcheroo.
+
+
+Ejercicio 3
+
+De acuerdo a las siguientes proposiciones:
+ 𝑝: Sandra es buena profesora.
+ 𝑞: Álex es buen profesor.
+ 𝑟: Los estudiantes de Sandra gustan de la física.
+ 𝑠: Los estudiantes de Álex gustan de la física.
+
+De acuerdo a las siguientes proposiciones:
+ 𝑝 ∧ (~𝑟)
+ (~𝑝) ∧ (~𝑞)
+  𝑝𝑣(𝑟 ∧ (~𝑞))
+ (𝑟𝑣(~𝑝)) ∧ 𝑞
+ 𝑞𝑣(~𝑞)
+ ((~𝑝) ∧ (~𝑠))𝑣𝑞
+ 𝑟 ∧ (~𝑟)
+ (~𝑠) ∨ (~𝑟)
+ ~(𝑞 ∨ 𝑠)
+ ~(𝑝 ∨ 𝑟)
+
+
+
+
+Lógica Computacional Tema 5. Actividades
+
+Ejercicio 4
+
+
+Traduzca los siguientes enunciados en proposiciones compuestas, haciendo uso del condicional o el bicondicional y empleando 𝑝 para la proposición «Soy Juan Valdez» y 𝑞 para la proposición «Eres cafetero».
+
+ Soy Juan Valdez, entonces no eres cafetero.
+ Soy Juan Valdez solo si eres cafetero.
+ Eres cafetero solo si no soy Juan Valdez.
+ No eres cafetero si y solo si no soy Juan Valdez.
+ Soy cafetero o soy Juan Valdez.
+ No soy Juan Valdez o eres cafetero.
+ Para que seas cafetero es necesario y suficiente que no sea Juan Valdez.
+ Para que no seas cafetero, es necesario y suficiente que no seas Juan Valdez.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 5. Actividades
+
+
+
+Test
+
+
+1. ¿Bajo qué condiciones la fórmula ¬𝑝 es falsa?
+A. Cuando 𝑝 es verdadero.
+B. Cuando 𝑝 es falso.
+C. Una negación nunca es verdadera.
+D. Una negación siempre es falsa.
+
+
+2. ¿Bajo qué condiciones la fórmula 𝑝 ∧ 𝑞 es verdadera?
+A. Cuando 𝑝 es verdadero y 𝑞 es verdadero.
+B. Cuando 𝑝 es verdadero y 𝑞 es falso.
+C. Cuando 𝑝 es falso y 𝑞 es verdadero.
+D. Cuando 𝑝 es falso y 𝑞 es falso.
+
+3. ¿Bajo qué condiciones la fórmula 𝑝 ∨ 𝑞 es verdadera?
+A. Cuando 𝑝 es verdadero y 𝑞 es verdadero.
+B. Cuando 𝑝 es verdadero y 𝑞 es falso.
+C. Cuando 𝑝 es falso y 𝑞 es verdadero.
+D. Cuando 𝑝 es falso y 𝑞 es falso.
+
+4. ¿Bajo qué condiciones la fórmula 𝑝 → 𝑞 es verdadera?
+A. Cuando 𝑝 es verdadero y 𝑞 es verdadero.
+B. Cuando 𝑝 es verdadero y 𝑞 es falso.
+C. Cuando 𝑝 es falso y 𝑞 es verdadero.
+D. Cuando 𝑝 es falso y 𝑞 es falso.
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional
+Tema 5. Test
+
+5. ¿Bajo qué condiciones la fórmula 𝑝 ∧ 𝑞 es falsa?
+A. Cuando 𝑝 es verdadero y 𝑞 es verdadero.
+B. Cuando 𝑝 es verdadero y 𝑞 es falso.
+C. Cuando 𝑝 es falso y 𝑞 es verdadero.
+D. Cuando 𝑝 es falso y 𝑞 es falso.
+
+6. ¿Bajo qué condiciones la fórmula 𝑝 ∨ 𝑞 es falsa?
+A. Cuando 𝑝 es verdadero y 𝑞 es verdadero.
+B. Cuando 𝑝 es verdadero y 𝑞 es falso.
+C. Cuando 𝑝 es falso y 𝑞 es verdadero.
+D. Cuando 𝑝 es falso y 𝑞 es falso.
+
+7. ¿Bajo qué condiciones la fórmula 𝑝 → 𝑞 es falsa?
+A. Cuando 𝑝 es verdadero y 𝑞 es verdadero.
+B. Cuando 𝑝 es verdadero y 𝑞 es falso.
+C. Cuando 𝑝 es falso y 𝑞 es verdadero.
+D. Cuando 𝑝 es falso y 𝑞 es falso.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional
+Tema 5. Test
+
+8. Dada la definición del bicondicional, ¿cuál sería su tabla de verdad? A.
+A	B
+
+F	F
+F
+F	V
+V
+V	F
+V
+V	V
+F
+B.
+
+A	B
+
+F	F
+V
+F	V
+F
+V	F
+F
+V	V
+V
+C.
+
+A	B
+
+F	F
+F
+F	V
+V
+V	F
+V
+V	V
+V
+D.
+
+A	B
+
+F	F
+V
+F	V
+V
+V	F
+V
+V	V
+F
+
+
+Lógica Computacional
+Tema 5. Test
+
+9. ¿Bajo qué condiciones la fórmula 𝑝 ↔ 𝑞 es falsa?
+A. Cuando el valor de verdad de 𝑝 es distinto del valor de verdad de 𝑞.
+B. Cuando el valor de verdad de 𝑞 es distinto del valor de verdad de 𝑝.
+C. Cuando el valor de verdad de 𝑝 es igual al valor de verdad de 𝑞.
+D. Cuando el valor de verdad de 𝑞 es igual al valor de verdad de 𝑝.
+
+10. ¿Qué son las tablas de verdad?
+A. Un método para evaluar las condiciones de verdad de una fórmula en función de las subfórmulas que la componen.
+B. Un sistema algorítmico para demostrar la validez o no validez de un argumento.
+C. Un sistema para saber cuál es el valor de verdad de una fórmula para todas las interpretaciones de la misma.
+D. Todas las respuestas son correctas.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional
+Tema 5. Test

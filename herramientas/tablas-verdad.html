@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Tablas de Verdad - Lógica Computacional</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .herramientas-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .herramienta-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+        }
+        
+        .herramienta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .herramienta-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .calculadora-container {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .calculadora-pantalla {
+            background: #f8f9fa;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1.25rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            word-break: break-all;
+        }
+        
+        .teclado-virtual {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tecla {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tecla:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .tecla.operador {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .tecla.operador:hover {
+            background: var(--primary-dark);
+        }
+        
+        .tecla.variable {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        .tecla.variable:hover {
+            background: #d97706;
+        }
+        
+        .tecla.control {
+            background: var(--error-color);
+            color: white;
+            border-color: var(--error-color);
+        }
+        
+        .tecla.control:hover {
+            background: #dc2626;
+        }
+        
+        .tecla.calcular {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+            grid-column: span 2;
+        }
+        
+        .tecla.calcular:hover {
+            background: #059669;
+        }
+        
+        .botones-accion {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-herramienta {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-herramienta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-herramienta.secondary {
+            background: var(--secondary-color);
+        }
+        
+        .btn-herramienta.secondary:hover {
+            background: var(--text-secondary);
+        }
+        
+        .resultado-container {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .analisis-semantico {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .analisis-semantico.tautologia {
+            border-left-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .analisis-semantico.contradiccion {
+            border-left-color: var(--error-color);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .analisis-semantico.contingencia {
+            border-left-color: var(--warning-color);
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        .tabla-verdad {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        
+        .tabla-verdad table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .tabla-verdad th {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .tabla-verdad td {
+            padding: 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tabla-verdad tr:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+        
+        .tabla-verdad tr:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .valor-verdadero {
+            color: var(--success-color);
+            font-weight: 700;
+        }
+        
+        .valor-falso {
+            color: var(--error-color);
+            font-weight: 700;
+        }
+        
+        .verificador-equivalencia {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .formula-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .formula-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .comparacion-resultado {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .comparacion-resultado.equivalente {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 2px solid var(--success-color);
+        }
+        
+        .comparacion-resultado.no-equivalente {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 2px solid var(--error-color);
+        }
+        
+        .ejemplos {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .ejemplo-item {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .ejemplo-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .ejemplo-formula {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .ejemplo-descripcion {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .herramientas-content {
+                padding: 1rem;
+            }
+            
+            .teclado-virtual {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .tecla {
+                padding: 0.75rem;
+                font-size: 1rem;
+                min-height: 45px;
+            }
+            
+            .botones-accion {
+                flex-direction: column;
+            }
+            
+            .calculadora-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../index.html#temas">Temas</a></li>
+                        <li><a href="../index.html#recursos">Recursos</a></li>
+                        <li><a href="../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="herramientas-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../index.html#recursos">Recursos</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Generador de Tablas de Verdad</span>
+            </div>
+
+            <!-- Header -->
+            <div class="herramienta-header">
+                <h1 class="herramienta-title">Generador de Tablas de Verdad</h1>
+                <p class="herramienta-description">Herramienta interactiva para generar tablas de verdad, analizar tautologías, contradicciones y verificar equivalencias lógicas</p>
+            </div>
+
+            <!-- Calculadora Principal -->
+            <div class="calculadora-container">
+                <h2><i class="fas fa-calculator"></i> Calculadora de Tablas de Verdad</h2>
+                
+                <!-- Pantalla -->
+                <div class="calculadora-pantalla" id="pantalla">
+                    Ingresa una fórmula lógica usando el teclado virtual
+                </div>
+                
+                <!-- Teclado Virtual -->
+                <div class="teclado-virtual">
+                    <!-- Fila 1: Controles -->
+                    <div class="tecla control" onclick="insertarCaracter('AC')">AC</div>
+                    <div class="tecla control" onclick="insertarCaracter('DEL')">DEL</div>
+                    <div class="tecla operador" onclick="insertarCaracter('(')">(</div>
+                    <div class="tecla operador" onclick="insertarCaracter(')')">)</div>
+                    
+                    <!-- Fila 2: Operadores -->
+                    <div class="tecla operador" onclick="insertarCaracter('¬')">¬</div>
+                    <div class="tecla operador" onclick="insertarCaracter('∧')">∧</div>
+                    <div class="tecla operador" onclick="insertarCaracter('∨')">∨</div>
+                    <div class="tecla operador" onclick="insertarCaracter('→')">→</div>
+                    
+                    <!-- Fila 3: Variables -->
+                    <div class="tecla variable" onclick="insertarCaracter('p')">p</div>
+                    <div class="tecla variable" onclick="insertarCaracter('q')">q</div>
+                    <div class="tecla operador" onclick="insertarCaracter('↔')">↔</div>
+                    <div class="tecla operador" onclick="insertarCaracter('⊕')">⊕</div>
+                    
+                    <!-- Fila 4: Más variables y calcular -->
+                    <div class="tecla variable" onclick="insertarCaracter('r')">r</div>
+                    <div class="tecla variable" onclick="insertarCaracter('s')">s</div>
+                    <div class="tecla calcular" onclick="generarTablaVerdad()">
+                        <i class="fas fa-equals"></i> Calcular
+                    </div>
+                </div>
+                
+                <!-- Botones de Acción -->
+                <div class="botones-accion">
+                    <button class="btn-herramienta" onclick="limpiarPantalla()">
+                        <i class="fas fa-trash"></i> Limpiar
+                    </button>
+                    <button class="btn-herramienta secondary" onclick="mostrarEjemplos()">
+                        <i class="fas fa-lightbulb"></i> Ver Ejemplos
+                    </button>
+                    <button class="btn-herramienta secondary" onclick="toggleVerificadorEquivalencia()">
+                        <i class="fas fa-balance-scale"></i> Verificar Equivalencia
+                    </button>
+                </div>
+            </div>
+
+            <!-- Análisis Semántico -->
+            <div class="analisis-semantico" id="analisisSemantico" style="display: none;">
+                <h3><i class="fas fa-search"></i> Análisis Semántico</h3>
+                <p id="resultadoAnalisis"></p>
+            </div>
+
+            <!-- Tabla de Verdad -->
+            <div class="resultado-container" id="resultadoContainer" style="display: none;">
+                <h3><i class="fas fa-table"></i> Tabla de Verdad</h3>
+                <div class="tabla-verdad" id="tablaVerdad"></div>
+            </div>
+
+            <!-- Verificador de Equivalencia -->
+            <div class="verificador-equivalencia" id="verificadorEquivalencia" style="display: none;">
+                <h3><i class="fas fa-balance-scale"></i> Verificador de Equivalencia Lógica</h3>
+                <p>Ingresa dos fórmulas para verificar si son lógicamente equivalentes:</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label for="formula1">Fórmula 1:</label>
+                        <input type="text" id="formula1" class="formula-input" placeholder="Ej: p → q">
+                    </div>
+                    <div>
+                        <label for="formula2">Fórmula 2:</label>
+                        <input type="text" id="formula2" class="formula-input" placeholder="Ej: ¬p ∨ q">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <p><strong>Ejemplo de equivalencia:</strong> p → q es equivalente a ¬p ∨ q</p>
+                    <button class="btn-herramienta secondary" onclick="cargarEjemploEquivalencia()" style="margin-top: 0.5rem;">
+                        <i class="fas fa-lightbulb"></i> Cargar Ejemplo
+                    </button>
+                </div>
+                
+                <button class="btn-herramienta" onclick="verificarEquivalencia()">
+                    <i class="fas fa-check"></i> Verificar Equivalencia
+                </button>
+                
+                <div class="comparacion-resultado" id="resultadoEquivalencia" style="display: none;"></div>
+            </div>
+
+            <!-- Ejemplos -->
+            <div class="ejemplos" id="ejemplos" style="display: none;">
+                <h3><i class="fas fa-lightbulb"></i> Ejemplos de Fórmulas</h3>
+                <p>Haz clic en cualquier ejemplo para cargarlo en la calculadora:</p>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p ∧ q', 'Conjunción simple')">
+                    <div class="ejemplo-formula">p ∧ q</div>
+                    <div class="ejemplo-descripcion">Conjunción simple</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p ∨ q', 'Disyunción simple')">
+                    <div class="ejemplo-formula">p ∨ q</div>
+                    <div class="ejemplo-descripcion">Disyunción simple</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p → q', 'Condicional simple')">
+                    <div class="ejemplo-formula">p → q</div>
+                    <div class="ejemplo-descripcion">Condicional simple</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p ∨ ¬p', 'Tautología: Ley del Tercero Excluido')">
+                    <div class="ejemplo-formula">p ∨ ¬p</div>
+                    <div class="ejemplo-descripcion">Tautología: Ley del Tercero Excluido</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p ∧ ¬p', 'Contradicción')">
+                    <div class="ejemplo-formula">p ∧ ¬p</div>
+                    <div class="ejemplo-descripcion">Contradicción</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('(p → q) ∧ (q → p)', 'Bicondicional')">
+                    <div class="ejemplo-formula">(p → q) ∧ (q → p)</div>
+                    <div class="ejemplo-descripcion">Bicondicional</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('(p → q) ∧ p → q', 'Modus Ponens')">
+                    <div class="ejemplo-formula">(p → q) ∧ p → q</div>
+                    <div class="ejemplo-descripcion">Modus Ponens (Tautología)</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('¬(p ∧ q) → ¬p ∨ ¬q', 'Ley de De Morgan')">
+                    <div class="ejemplo-formula">¬(p ∧ q) → ¬p ∨ ¬q</div>
+                    <div class="ejemplo-descripcion">Ley de De Morgan</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p → q', 'Condicional simple - debe ser contingencia')">
+                    <div class="ejemplo-formula">p → q</div>
+                    <div class="ejemplo-descripcion">Condicional simple - debe ser contingencia</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p ↔ q', 'Bicondicional simple')">
+                    <div class="ejemplo-formula">p ↔ q</div>
+                    <div class="ejemplo-descripcion">Bicondicional simple</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('p ⊕ q', 'XOR (OR exclusivo)')">
+                    <div class="ejemplo-formula">p ⊕ q</div>
+                    <div class="ejemplo-descripcion">XOR (OR exclusivo)</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('((p∧q)∨¬((p∧q)))', 'Tautología paso a paso - Ley del Tercero Excluido')">
+                    <div class="ejemplo-formula">((p∧q)∨¬((p∧q)))</div>
+                    <div class="ejemplo-descripcion">Tautología paso a paso - Ley del Tercero Excluido</div>
+                </div>
+                
+                <div class="ejemplo-item" onclick="cargarEjemplo('(p→q)∧r', 'Fórmula compleja con 3 variables')">
+                    <div class="ejemplo-formula">(p→q)∧r</div>
+                    <div class="ejemplo-descripcion">Fórmula compleja con 3 variables</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Variables globales
+        let formulaActual = '';
+        let variables = new Set();
+        let tablaGenerada = null;
+
+        // Función para insertar caracteres en la pantalla
+        function insertarCaracter(caracter) {
+            const pantalla = document.getElementById('pantalla');
+            
+            if (caracter === 'AC') {
+                formulaActual = '';
+                pantalla.textContent = 'Ingresa una fórmula lógica usando el teclado virtual';
+                ocultarResultados();
+            } else if (caracter === 'DEL') {
+                formulaActual = formulaActual.slice(0, -1);
+                if (formulaActual === '') {
+                    pantalla.textContent = 'Ingresa una fórmula lógica usando el teclado virtual';
+                } else {
+                    pantalla.textContent = formulaActual;
+                }
+            } else {
+                formulaActual += caracter;
+                pantalla.textContent = formulaActual;
+            }
+        }
+
+        // Función para limpiar la pantalla
+        function limpiarPantalla() {
+            insertarCaracter('AC');
+        }
+
+        // Función para extraer variables de la fórmula
+        function extraerVariables(formula) {
+            const regex = /[a-zA-Z]/g;
+            const matches = formula.match(regex);
+            const variablesUnicas = matches ? [...new Set(matches)].sort() : [];
+            console.log('Variables extraídas de', formula, ':', variablesUnicas);
+            return variablesUnicas;
+        }
+
+        // Función para generar todas las combinaciones de valores de verdad
+        function generarCombinaciones(numVariables) {
+            const combinaciones = [];
+            const totalCombinaciones = Math.pow(2, numVariables);
+            
+            for (let i = 0; i < totalCombinaciones; i++) {
+                const combinacion = [];
+                for (let j = numVariables - 1; j >= 0; j--) {
+                    combinacion.push((i >> j) & 1);
+                }
+                combinaciones.push(combinacion);
+            }
+            
+            return combinaciones;
+        }
+
+        // Función para evaluar una fórmula con valores específicos
+        function evaluarFormula(formula, valores) {
+            // Crear una copia de la fórmula para trabajar
+            let formulaEvaluada = formula;
+            
+            // Reemplazar variables con valores (usando word boundaries para evitar reemplazos parciales)
+            const arrayVariables = Array.from(variables);
+            arrayVariables.forEach((variable, index) => {
+                const regex = new RegExp('\\b' + variable + '\\b', 'g');
+                formulaEvaluada = formulaEvaluada.replace(regex, valores[index]);
+            });
+            
+            // Debug para ver el proceso
+            console.log('=== EVALUACIÓN ===');
+            console.log('Fórmula original:', formula);
+            console.log('Variables encontradas:', arrayVariables);
+            console.log('Valores asignados:', valores);
+            console.log('Después de reemplazar variables:', formulaEvaluada);
+            
+            // Convertir operadores lógicos a JavaScript
+            formulaEvaluada = formulaEvaluada
+                .replace(/¬/g, '!')
+                .replace(/∧/g, '&&')
+                .replace(/∨/g, '||')
+                .replace(/⊕/g, '!==')
+                .replace(/↔/g, '===');
+            
+            console.log('Después de convertir operadores:', formulaEvaluada);
+            
+            // Procesar implicación: p → q = ¬p ∨ q
+            formulaEvaluada = procesarImplicacion(formulaEvaluada);
+            
+            console.log('Fórmula final para evaluar:', formulaEvaluada);
+            
+            // Evaluar la fórmula
+            try {
+                const resultado = eval(formulaEvaluada);
+                console.log('Resultado de eval:', resultado, '->', resultado ? 1 : 0);
+                return resultado ? 1 : 0;
+            } catch (error) {
+                console.error('Error evaluando fórmula:', formulaEvaluada, error);
+                return null;
+            }
+        }
+
+        // Función para procesar correctamente la implicación
+        function procesarImplicacion(formula) {
+            // La implicación p → q es equivalente a ¬p ∨ q
+            // Necesitamos manejar esto con paréntesis para mantener la precedencia
+            return formula.replace(/(\d+)\s*→\s*(\d+)/g, '(!$1 || $2)');
+        }
+
+        // Función para debug - mostrar la fórmula procesada
+        function debugFormula(formula, valores) {
+            let formulaEvaluada = formula;
+            
+            // Reemplazar variables con valores
+            variables.forEach((variable, index) => {
+                const regex = new RegExp('\\b' + variable + '\\b', 'g');
+                formulaEvaluada = formulaEvaluada.replace(regex, valores[index]);
+            });
+            
+            console.log('Fórmula original:', formula);
+            console.log('Variables:', Array.from(variables));
+            console.log('Valores:', valores);
+            console.log('Después de reemplazar variables:', formulaEvaluada);
+            
+            // Convertir a notación JavaScript
+            let formulaJS = formulaEvaluada
+                .replace(/¬/g, '!')
+                .replace(/∧/g, '&&')
+                .replace(/∨/g, '||')
+                .replace(/⊕/g, '!==')
+                .replace(/↔/g, '===');
+            
+            console.log('Después de convertir operadores:', formulaJS);
+            
+            // Procesar implicación
+            formulaJS = procesarImplicacion(formulaJS);
+            console.log('Después de procesar implicación:', formulaJS);
+            
+            return formulaJS;
+        }
+
+        // Función para analizar una fórmula y extraer subfórmulas paso a paso
+        function analizarSubformulas(formula) {
+            const subformulas = [];
+            const variables = extraerVariables(formula);
+            
+            // Función para añadir subfórmula si no existe
+            function agregarSubformula(expresion, tipo, precedencia) {
+                if (!subformulas.some(sf => sf.expresion === expresion)) {
+                    subformulas.push({
+                        expresion: expresion,
+                        tipo: tipo,
+                        precedencia: precedencia
+                    });
+                }
+            }
+            
+            // 1. Subfórmulas con paréntesis (más internas primero)
+            let nivelParentesis = 0;
+            let maxNivel = 0;
+            
+            // Contar niveles de paréntesis
+            for (let char of formula) {
+                if (char === '(') {
+                    nivelParentesis++;
+                    maxNivel = Math.max(maxNivel, nivelParentesis);
+                } else if (char === ')') {
+                    nivelParentesis--;
+                }
+            }
+            
+            // Extraer subfórmulas por nivel (de adentro hacia afuera)
+            for (let nivel = maxNivel; nivel >= 1; nivel--) {
+                const regex = new RegExp(`\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)`, 'g');
+                let match;
+                while ((match = regex.exec(formula)) !== null) {
+                    const subformula = match[1];
+                    if (subformula.trim() !== '') {
+                        agregarSubformula(subformula, 'parentesis', nivel);
+                    }
+                }
+            }
+            
+            // 2. Negaciones simples (sin paréntesis)
+            const regexNegacionSimple = /¬[a-zA-Z]/g;
+            let match;
+            while ((match = regexNegacionSimple.exec(formula)) !== null) {
+                agregarSubformula(match[0], 'negacion', 10);
+            }
+            
+            // 3. Negaciones de subfórmulas con paréntesis
+            const regexNegacionCompleja = /¬\([^()]+\)/g;
+            while ((match = regexNegacionCompleja.exec(formula)) !== null) {
+                agregarSubformula(match[0], 'negacion', 10);
+            }
+            
+            // 4. Operaciones binarias por precedencia
+            const operadores = [
+                { simbolo: '∧', precedencia: 20, nombre: 'conjuncion' },
+                { simbolo: '∨', precedencia: 30, nombre: 'disyuncion' },
+                { simbolo: '→', precedencia: 40, nombre: 'implicacion' },
+                { simbolo: '↔', precedencia: 50, nombre: 'bicondicional' },
+                { simbolo: '⊕', precedencia: 60, nombre: 'xor' }
+            ];
+            
+            operadores.forEach(op => {
+                // Buscar operaciones que no estén dentro de paréntesis más profundos
+                const regex = new RegExp(`([^${op.simbolo}()]+)${op.simbolo}([^${op.simbolo}()]+)`, 'g');
+                while ((match = regex.exec(formula)) !== null) {
+                    const subformula = match[0];
+                    if (subformula.trim() !== '') {
+                        agregarSubformula(subformula, op.nombre, op.precedencia);
+                    }
+                }
+            });
+            
+            // 5. Ordenar por precedencia y longitud
+            subformulas.sort((a, b) => {
+                if (a.precedencia !== b.precedencia) {
+                    return a.precedencia - b.precedencia;
+                }
+                return a.expresion.length - b.expresion.length;
+            });
+            
+            // 6. Añadir la fórmula completa al final
+            agregarSubformula(formula, 'completa', 100);
+            
+            console.log('Subfórmulas ordenadas:', subformulas);
+            return subformulas;
+        }
+
+        // Función para evaluar una subfórmula específica
+        function evaluarSubformula(subformula, valores, variables) {
+            let formulaEvaluada = subformula;
+            
+            // Reemplazar variables con valores
+            variables.forEach((variable, index) => {
+                const regex = new RegExp('\\b' + variable + '\\b', 'g');
+                formulaEvaluada = formulaEvaluada.replace(regex, valores[index]);
+            });
+            
+            // Convertir operadores lógicos a JavaScript
+            formulaEvaluada = formulaEvaluada
+                .replace(/¬/g, '!')
+                .replace(/∧/g, '&&')
+                .replace(/∨/g, '||')
+                .replace(/⊕/g, '!==')
+                .replace(/↔/g, '===');
+            
+            // Procesar implicación
+            formulaEvaluada = procesarImplicacion(formulaEvaluada);
+            
+            // Evaluar la fórmula
+            try {
+                return eval(formulaEvaluada) ? 1 : 0;
+            } catch (error) {
+                console.error('Error evaluando subfórmula:', subformula, formulaEvaluada, error);
+                return null;
+            }
+        }
+
+        // Función para generar la tabla de verdad paso a paso
+        function generarTablaVerdad() {
+            if (formulaActual.trim() === '') {
+                alert('Por favor ingresa una fórmula lógica');
+                return;
+            }
+
+            // Extraer variables
+            variables = new Set(extraerVariables(formulaActual));
+            const arrayVariables = Array.from(variables);
+            
+            if (arrayVariables.length === 0) {
+                alert('La fórmula debe contener al menos una variable proposicional');
+                return;
+            }
+
+            // Analizar subfórmulas
+            const subformulas = analizarSubformulas(formulaActual);
+            console.log('Subfórmulas encontradas:', subformulas);
+
+            // Generar combinaciones
+            const combinaciones = generarCombinaciones(arrayVariables.length);
+            
+            // Crear tabla
+            let tablaHTML = '<table><thead><tr>';
+            
+            // Encabezados - variables primero
+            arrayVariables.forEach(variable => {
+                tablaHTML += `<th>${variable}</th>`;
+            });
+            
+            // Encabezados - subfórmulas (solo las que no sean variables simples)
+            subformulas.forEach(subformula => {
+                // Solo mostrar subfórmulas que no sean variables simples
+                if (subformula.tipo !== 'variable' && !arrayVariables.includes(subformula.expresion)) {
+                    tablaHTML += `<th>${subformula.expresion}</th>`;
+                }
+            });
+            
+            tablaHTML += '</tr></thead><tbody>';
+            
+            // Filas de datos
+            const resultados = [];
+            combinaciones.forEach(combinacion => {
+                tablaHTML += '<tr>';
+                
+                // Valores de variables
+                combinacion.forEach(valor => {
+                    tablaHTML += `<td class="${valor ? 'valor-verdadero' : 'valor-falso'}">${valor ? 'V' : 'F'}</td>`;
+                });
+                
+                // Evaluar cada subfórmula (solo las que no sean variables simples)
+                const resultadosFila = [];
+                subformulas.forEach(subformula => {
+                    const resultado = evaluarSubformula(subformula.expresion, combinacion, arrayVariables);
+                    resultadosFila.push(resultado);
+                    
+                    // Solo mostrar columnas para subfórmulas que no sean variables simples
+                    if (subformula.tipo !== 'variable' && !arrayVariables.includes(subformula.expresion)) {
+                        if (resultado !== null) {
+                            tablaHTML += `<td class="${resultado ? 'valor-verdadero' : 'valor-falso'}">${resultado ? 'V' : 'F'}</td>`;
+                        } else {
+                            tablaHTML += '<td class="valor-falso">Error</td>';
+                        }
+                    }
+                });
+                
+                // El resultado final es el último elemento
+                resultados.push(resultadosFila[resultadosFila.length - 1]);
+                tablaHTML += '</tr>';
+            });
+            
+            tablaHTML += '</tbody></table>';
+            
+            // Mostrar tabla
+            document.getElementById('tablaVerdad').innerHTML = tablaHTML;
+            document.getElementById('resultadoContainer').style.display = 'block';
+            
+            // Análisis semántico
+            analizarFormula(resultados);
+            
+            // Guardar tabla para verificación de equivalencia
+            tablaGenerada = {
+                formula: formulaActual,
+                variables: arrayVariables,
+                resultados: resultados
+            };
+        }
+
+        // Función para analizar la fórmula
+        function analizarFormula(resultados) {
+            const analisisDiv = document.getElementById('analisisSemantico');
+            const resultadoDiv = document.getElementById('resultadoAnalisis');
+            
+            if (resultados.includes(null)) {
+                resultadoDiv.innerHTML = '<strong>❌ Error:</strong> La fórmula contiene un error de sintaxis.';
+                analisisDiv.className = 'analisis-semantico';
+            } else if (resultados.every(r => r === 1)) {
+                resultadoDiv.innerHTML = '<strong>✅ Tautología:</strong> La fórmula es verdadera para todas las interpretaciones posibles.';
+                analisisDiv.className = 'analisis-semantico tautologia';
+            } else if (resultados.every(r => r === 0)) {
+                resultadoDiv.innerHTML = '<strong>❌ Contradicción:</strong> La fórmula es falsa para todas las interpretaciones posibles.';
+                analisisDiv.className = 'analisis-semantico contradiccion';
+            } else {
+                resultadoDiv.innerHTML = '<strong>🔵 Contingencia:</strong> La fórmula es verdadera para algunas interpretaciones y falsa para otras.';
+                analisisDiv.className = 'analisis-semantico contingencia';
+            }
+            
+            analisisDiv.style.display = 'block';
+        }
+
+        // Función para ocultar resultados
+        function ocultarResultados() {
+            document.getElementById('resultadoContainer').style.display = 'none';
+            document.getElementById('analisisSemantico').style.display = 'none';
+            document.getElementById('verificadorEquivalencia').style.display = 'none';
+            document.getElementById('ejemplos').style.display = 'none';
+        }
+
+        // Función para mostrar ejemplos
+        function mostrarEjemplos() {
+            const ejemplosDiv = document.getElementById('ejemplos');
+            ejemplosDiv.style.display = ejemplosDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Función para cargar un ejemplo
+        function cargarEjemplo(formula, descripcion) {
+            formulaActual = formula;
+            document.getElementById('pantalla').textContent = formula;
+            ocultarResultados();
+        }
+
+        // Función para cargar ejemplo de equivalencia
+        function cargarEjemploEquivalencia() {
+            document.getElementById('formula1').value = 'p → q';
+            document.getElementById('formula2').value = '¬p ∨ q';
+        }
+
+        // Función para toggle del verificador de equivalencia
+        function toggleVerificadorEquivalencia() {
+            const verificadorDiv = document.getElementById('verificadorEquivalencia');
+            verificadorDiv.style.display = verificadorDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Función para evaluar una fórmula específica (para verificación de equivalencia)
+        function evaluarFormulaEspecifica(formula, variablesFormula, valoresCompletos, todasVariables) {
+            let formulaEvaluada = formula;
+            
+            // Reemplazar variables con valores
+            variablesFormula.forEach((variable, index) => {
+                const posicionEnTodas = todasVariables.indexOf(variable);
+                const valor = valoresCompletos[posicionEnTodas];
+                const regex = new RegExp('\\b' + variable + '\\b', 'g');
+                formulaEvaluada = formulaEvaluada.replace(regex, valor);
+            });
+            
+            // Convertir a notación JavaScript con precedencia correcta
+            formulaEvaluada = formulaEvaluada
+                .replace(/¬/g, '!')
+                .replace(/∧/g, '&&')
+                .replace(/∨/g, '||')
+                .replace(/⊕/g, '!==')
+                .replace(/↔/g, '===');
+            
+            // Manejar la implicación correctamente
+            formulaEvaluada = procesarImplicacion(formulaEvaluada);
+            
+            // Evaluar la fórmula
+            try {
+                return eval(formulaEvaluada) ? 1 : 0;
+            } catch (error) {
+                console.error('Error evaluando fórmula:', formulaEvaluada, error);
+                return null;
+            }
+        }
+
+        // Función para verificar equivalencia
+        function verificarEquivalencia() {
+            const formula1 = document.getElementById('formula1').value.trim();
+            const formula2 = document.getElementById('formula2').value.trim();
+            const resultadoDiv = document.getElementById('resultadoEquivalencia');
+            
+            if (formula1 === '' || formula2 === '') {
+                alert('Por favor ingresa ambas fórmulas');
+                return;
+            }
+            
+            // Generar tablas para ambas fórmulas
+            const variables1 = new Set(extraerVariables(formula1));
+            const variables2 = new Set(extraerVariables(formula2));
+            const todasVariables = [...new Set([...variables1, ...variables2])].sort();
+            
+            const combinaciones = generarCombinaciones(todasVariables.length);
+            
+            let sonEquivalentes = true;
+            
+            for (let combinacion of combinaciones) {
+                const resultado1 = evaluarFormulaEspecifica(formula1, Array.from(variables1), combinacion, todasVariables);
+                const resultado2 = evaluarFormulaEspecifica(formula2, Array.from(variables2), combinacion, todasVariables);
+                
+                if (resultado1 !== resultado2) {
+                    sonEquivalentes = false;
+                    break;
+                }
+            }
+            
+            // Mostrar resultado
+            if (sonEquivalentes) {
+                resultadoDiv.innerHTML = '<i class="fas fa-check-circle"></i> <strong>Las fórmulas son lógicamente equivalentes</strong>';
+                resultadoDiv.className = 'comparacion-resultado equivalente';
+            } else {
+                resultadoDiv.innerHTML = '<i class="fas fa-times-circle"></i> <strong>Las fórmulas NO son lógicamente equivalentes</strong>';
+                resultadoDiv.className = 'comparacion-resultado no-equivalente';
+            }
+            
+            resultadoDiv.style.display = 'block';
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Permitir entrada por teclado
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    generarTablaVerdad();
+                } else if (e.key === 'Escape') {
+                    limpiarPantalla();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

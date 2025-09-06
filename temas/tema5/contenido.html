@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 5: Semántica de la Lógica Proposicional - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        table th, table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+        }
+        
+        .tema-actions {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .tema-actions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .progress-indicator {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .tema-content {
+                padding: 1rem;
+            }
+            
+            .tema-header {
+                padding: 2rem 0;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 5: Semántica de la Lógica Proposicional</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">05</div>
+                    <h1 class="tema-title">Semántica de la Lógica Proposicional</h1>
+                    <p class="tema-description">Introducción a la semántica bivalente, tablas de verdad, tautologías, contradicciones y métodos de validación semántica.</p>
+                </div>
+            </div>
+
+            <!-- Indicador de Progreso -->
+            <div class="progress-indicator">
+                <div class="progress-text">
+                    <span>Progreso del Tema</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Introducción a la Semántica</h2>
+                <p>Una vez presentado el sistema formal de deducción natural para la lógica proposicional, podemos asociarle una semántica. La semántica se refiere al significado de las sentencias en un lenguaje formal. En la lógica proposicional, esto se traduce en asignar valores de verdad (Verdadero o Falso) a las proposiciones.</p>
+                <p>Para ello, se establecen una serie de reglas semánticas:</p>
+                <ul>
+                    <li><b>RsV (Principio de bivalencia):</b> Una variable proposicional puede tener valor falso (F) o valor verdadero (V).</li>
+                    <li><b>Rs2 (Negación):</b> El valor semántico de ¬A es V si y solo si el valor semántico de A es F.</li>
+                    <li><b>Rs3 (Conjunción):</b> El valor semántico de A ∧ B es V si y solo si el valor de A es V y el valor de B es V.</li>
+                    <li><b>Rs4 (Disyunción):</b> El valor semántico de A ∨ B es V si y solo si el valor de A es V o el valor de B es V.</li>
+                    <li><b>Rs5 (Condicional):</b> El valor semántico de A → B es V si y solo si el valor de A es F o el valor de B es V.</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-table"></i>Tablas de Verdad</h2>
+                <p>Una tabla de verdad es una representación tabular de todas las posibles interpretaciones de una fórmula. Nos permite visualizar cómo el valor de verdad de una fórmula compuesta depende de los valores de verdad de sus proposiciones simples.</p>
+                
+                <h3>Interpretaciones de las Reglas Semánticas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>A ∧ B (Conjunción)</th>
+                            <th>A ∨ B (Disyunción)</th>
+                            <th>A → B (Condicional)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>F</td><td>F</td><td>F</td><td>F</td><td>V</td></tr>
+                        <tr><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td></tr>
+                        <tr><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td></tr>
+                        <tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+                    </tbody>
+                </table>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-code"></i>Ejemplo de Tabla de Verdad Compleja</h4>
+                    <p>Para una fórmula como <strong>(p → q) ∧ r</strong>, que contiene tres variables, existen 2³ = 8 combinaciones posibles. La tabla de verdad completa se construye evaluando primero las subfórmulas internas.</p>
+                    <table>
+                        <thead>
+                            <tr><th>p</th><th>q</th><th>r</th><th>p → q</th><th>(p → q) ∧ r</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>F</td><td>F</td><td>F</td><td>V</td><td>F</td></tr>
+                            <tr><td>F</td><td>F</td><td>V</td><td>V</td><td>V</td></tr>
+                            <tr><td>F</td><td>V</td><td>F</td><td>V</td><td>F</td></tr>
+                            <tr><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+                            <tr><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr>
+                            <tr><td>V</td><td>F</td><td>V</td><td>F</td><td>F</td></tr>
+                            <tr><td>V</td><td>V</td><td>F</td><td>V</td><td>F</td></tr>
+                            <tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-check-double"></i>Tautologías, Contradicciones y Equivalencia</h2>
+                <p>El análisis de las tablas de verdad nos permite clasificar las fórmulas lógicas.</p>
+                <ul>
+                    <li>Una <strong>tautología</strong> es una fórmula que es verdadera para todas sus interpretaciones (la última columna de su tabla de verdad solo contiene V).</li>
+                    <li>Una <strong>contradicción</strong> es una fórmula que es falsa para todas sus interpretaciones (la última columna solo contiene F).</li>
+                    <li>Dos fórmulas son <strong>equivalentes</strong> si sus tablas de verdad son idénticas para todas las interpretaciones.</li>
+                </ul>
+            </div>
+            
+            <div class="content-section">
+                <h2><i class="fas fa-tasks"></i>Métodos de Validación de Sentencias</h2>
+                <p>La semántica nos proporciona métodos para validar si un argumento o razonamiento es lógicamente correcto. Un argumento es válido si su representación como fórmula es una tautología.</p>
+                
+                <h3>1. Validación mediante Tablas de Verdad</h3>
+                <p>Podemos convertir un razonamiento en una única fórmula uniendo sus premisas con conjunciones (∧) y enlazando la conclusión con un condicional (→). Si la tabla de verdad de esta fórmula resultante es una tautología, el argumento es válido.</p>
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Ejemplo: Modus Ponens</h4>
+                    <p>El razonamiento <i>"Si A entonces B. Se da A. Por lo tanto, se da B"</i> se formaliza como <strong>((A → B) ∧ A) → B</strong>. Al construir su tabla de verdad, se comprueba que es una tautología, demostrando la validez del Modus Ponens.</p>
+                </div>
+                
+                <h3>2. Validación mediante Árboles Semánticos</h3>
+                <p>Los árboles semánticos son un procedimiento gráfico para determinar bajo qué condiciones una fórmula es verdadera. Se construye un árbol ramificando las posibilidades (V o F) para cada variable proposicional y se analizan las consecuencias en cada rama.</p>
+                
+                <h3>3. Validación mediante Refutación</h3>
+                <p>Este método consiste en suponer que la fórmula que queremos validar es <strong>falsa</strong> y analizar si esa suposición nos lleva a una contradicción.
+                <ol>
+                    <li>Si llegamos a una contradicción (ej. una variable debe ser V y F al mismo tiempo), significa que la suposición inicial era imposible. Por lo tanto, la fórmula no puede ser falsa y debe ser una tautología.</li>
+                    <li>Si no se encuentra ninguna contradicción, la fórmula puede ser falsa, y por lo tanto no es una tautología.</li>
+                </ol>
+                </p>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <h3>Recursos del Tema</h3>
+                <div class="action-buttons">
+                    <a href="ejercicios.html" class="btn btn-primary">
+                        <i class="fas fa-tasks"></i> Realizar Ejercicios
+                    </a>
+                    <a href="../../recursos/material-adicional/" class="btn btn-secondary">
+                        <i class="fas fa-book"></i> Material Adicional
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación entre Temas -->
+            <div class="navigation-buttons">
+                <a href="../tema4/contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Tema Anterior</span>
+                </a>
+                <a href="../tema6/contenido.html" class="nav-btn disabled">
+                    <span>Siguiente Tema</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Funcionalidad específica para la página del tema
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text span:last-child');
+            
+            function updateProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = Math.min((scrollTop / docHeight) * 100, 100);
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                localStorage.setItem('tema5_progress', progress);
+            }
+            
+            const savedProgress = localStorage.getItem('tema5_progress') || 0;
+            progressFill.style.width = savedProgress + '%';
+            progressText.textContent = Math.round(savedProgress) + '%';
+            
+            window.addEventListener('scroll', updateProgress);
+            
+            window.addEventListener('scroll', function() {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    localStorage.setItem('tema5_completed', 'true');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

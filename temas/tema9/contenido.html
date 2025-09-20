@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 9: Estrategias de Deducción para la Lógica de Predicados - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .rule-section {
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .rule-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .rule-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .rule-card h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .symbol-box {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+        
+        .steps-section {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .steps-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .step-item {
+            background: var(--bg-primary);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .step-number {
+            background: var(--accent-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+        
+        .deduction-example {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .deduction-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+        
+        .deduction-line:last-child {
+            border-bottom: none;
+        }
+        
+        .line-number {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            min-width: 2rem;
+            text-align: center;
+        }
+        
+        .formula {
+            flex: 1;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+        
+        .justification {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .tema-actions {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .tema-actions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .progress-indicator {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .tema-content {
+                padding: 1rem;
+            }
+            
+            .tema-header {
+                padding: 2rem 0;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .deduction-line {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 9: Estrategias de Deducción para la Lógica de Predicados</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">09</div>
+                    <h1 class="tema-title">Estrategias de Deducción para la Lógica de Predicados</h1>
+                    <p class="tema-description">Técnicas y reglas para realizar deducciones en lógica de predicados</p>
+                </div>
+            </div>
+
+            <!-- Indicador de Progreso -->
+            <div class="progress-indicator">
+                <div class="progress-text">
+                    <span>Progreso del Tema</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Introducción y Objetivos</h2>
+                <p>En este tema se explican las bases de la deducción en lógica de predicados. Aprenderemos a realizar deducciones utilizando las reglas de inferencia específicas para cuantificadores y predicados.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Objetivo Principal</h4>
+                    <p>Dominar las técnicas de deducción para demostrar la validez de argumentos en lógica de predicados, utilizando correctamente las reglas de introducción y eliminación de cuantificadores.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i>Introducción a la Deducción en Lógica de Predicados</h2>
+                <p>La deducción en lógica de predicados extiende las reglas de la lógica proposicional con reglas específicas para manejar cuantificadores. Estas reglas nos permiten introducir y eliminar cuantificadores de manera controlada.</p>
+                
+                <p>Las reglas de deducción para lógica de predicados incluyen:</p>
+                <ul>
+                    <li><strong>Reglas de eliminación de cuantificadores:</strong> Para extraer información de fórmulas cuantificadas</li>
+                    <li><strong>Reglas de introducción de cuantificadores:</strong> Para crear nuevas fórmulas cuantificadas</li>
+                    <li><strong>Reglas de sustitución:</strong> Para reemplazar variables por términos</li>
+                </ul>
+            </div>
+
+            <!-- Sección de Reglas de Eliminación -->
+            <div class="rule-section">
+                <h2><i class="fas fa-arrow-down"></i>Reglas de Eliminación de Cuantificadores</h2>
+                
+                <div class="rule-card">
+                    <h4><i class="fas fa-globe"></i>Eliminación del Cuantificador Universal (∀E)</h4>
+                    <p>Si tenemos una fórmula de la forma ∀xP(x), podemos inferir P(t) para cualquier término t.</p>
+                    <div class="symbol-box">∀xP(x) ⊢ P(t)</div>
+                    
+                    <div class="highlight-box">
+                        <h4>Condiciones</h4>
+                        <ul>
+                            <li>t puede ser cualquier término (constante, variable o función)</li>
+                            <li>No hay restricciones especiales para esta regla</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Ejemplo</h4>
+                        <div class="deduction-example">
+                            <div class="deduction-line">
+                                <span class="line-number">1</span>
+                                <span class="formula">∀x(P(x) → Q(x))</span>
+                                <span class="justification">Premisa</span>
+                            </div>
+                            <div class="deduction-line">
+                                <span class="line-number">2</span>
+                                <span class="formula">P(a) → Q(a)</span>
+                                <span class="justification">∀E, 1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <h4><i class="fas fa-search"></i>Eliminación del Cuantificador Existencial (∃E)</h4>
+                    <p>Si tenemos ∃xP(x) y podemos derivar Q asumiendo P(c) para una constante nueva c, entonces podemos inferir Q.</p>
+                    <div class="symbol-box">∃xP(x), P(c) ⊢ Q → Q</div>
+                    
+                    <div class="highlight-box">
+                        <h4>Condiciones</h4>
+                        <ul>
+                            <li>c debe ser una constante nueva (no usada antes en la deducción)</li>
+                            <li>c no puede aparecer en Q</li>
+                            <li>c no puede aparecer en ninguna premisa anterior</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Ejemplo</h4>
+                        <div class="deduction-example">
+                            <div class="deduction-line">
+                                <span class="line-number">1</span>
+                                <span class="formula">∃xP(x)</span>
+                                <span class="justification">Premisa</span>
+                            </div>
+                            <div class="deduction-line">
+                                <span class="line-number">2</span>
+                                <span class="formula">P(c)</span>
+                                <span class="justification">Supuesto para ∃E</span>
+                            </div>
+                            <div class="deduction-line">
+                                <span class="line-number">3</span>
+                                <span class="formula">Q</span>
+                                <span class="justification">Derivado de 2</span>
+                            </div>
+                            <div class="deduction-line">
+                                <span class="line-number">4</span>
+                                <span class="formula">Q</span>
+                                <span class="justification">∃E, 1, 2-3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Reglas de Introducción -->
+            <div class="rule-section">
+                <h2><i class="fas fa-arrow-up"></i>Reglas de Introducción de Cuantificadores</h2>
+                
+                <div class="rule-card">
+                    <h4><i class="fas fa-globe"></i>Introducción del Cuantificador Universal (∀I)</h4>
+                    <p>Si podemos derivar P(c) para una constante arbitraria c, entonces podemos inferir ∀xP(x).</p>
+                    <div class="symbol-box">P(c) ⊢ ∀xP(x)</div>
+                    
+                    <div class="highlight-box">
+                        <h4>Condiciones</h4>
+                        <ul>
+                            <li>c debe ser una constante arbitraria (no usada en premisas)</li>
+                            <li>c no puede aparecer en ninguna premisa anterior</li>
+                            <li>c no puede aparecer en la conclusión</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Ejemplo</h4>
+                        <div class="deduction-example">
+                            <div class="deduction-line">
+                                <span class="line-number">1</span>
+                                <span class="formula">P(c)</span>
+                                <span class="justification">Premisa</span>
+                            </div>
+                            <div class="deduction-line">
+                                <span class="line-number">2</span>
+                                <span class="formula">∀xP(x)</span>
+                                <span class="justification">∀I, 1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-card">
+                    <h4><i class="fas fa-search"></i>Introducción del Cuantificador Existencial (∃I)</h4>
+                    <p>Si tenemos P(t) para algún término t, podemos inferir ∃xP(x).</p>
+                    <div class="symbol-box">P(t) ⊢ ∃xP(x)</div>
+                    
+                    <div class="highlight-box">
+                        <h4>Condiciones</h4>
+                        <ul>
+                            <li>t puede ser cualquier término</li>
+                            <li>No hay restricciones especiales para esta regla</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Ejemplo</h4>
+                        <div class="deduction-example">
+                            <div class="deduction-line">
+                                <span class="line-number">1</span>
+                                <span class="formula">P(a)</span>
+                                <span class="justification">Premisa</span>
+                            </div>
+                            <div class="deduction-line">
+                                <span class="line-number">2</span>
+                                <span class="formula">∃xP(x)</span>
+                                <span class="justification">∃I, 1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-list-ol"></i>Estrategias para Deducciones</h2>
+                <p>Para realizar deducciones efectivas en lógica de predicados, sigue estos pasos:</p>
+                
+                <div class="steps-section">
+                    <div class="step-item">
+                        <span class="step-number">1</span>
+                        <div>
+                            <h4>Identificar la Estructura</h4>
+                            <p>Analiza las premisas y la conclusión para identificar qué cuantificadores y predicados están involucrados.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <span class="step-number">2</span>
+                        <div>
+                            <h4>Eliminar Cuantificadores</h4>
+                            <p>Usa las reglas de eliminación para extraer información de las fórmulas cuantificadas.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <span class="step-number">3</span>
+                        <div>
+                            <h4>Aplicar Lógica Proposicional</h4>
+                            <p>Usa las reglas de la lógica proposicional para manipular las fórmulas sin cuantificadores.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <span class="step-number">4</span>
+                        <div>
+                            <h4>Introducir Cuantificadores</h4>
+                            <p>Usa las reglas de introducción para crear la fórmula cuantificada deseada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Ejemplos de Deducciones</h2>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-book"></i>Ejemplo 1: Modus Ponens con Cuantificadores</h4>
+                    <p><strong>Premisas:</strong></p>
+                    <ul>
+                        <li>∀x(P(x) → Q(x))</li>
+                        <li>P(a)</li>
+                    </ul>
+                    <p><strong>Conclusión:</strong> Q(a)</p>
+                    
+                    <div class="deduction-example">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <span class="formula">∀x(P(x) → Q(x))</span>
+                            <span class="justification">Premisa</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <span class="formula">P(a)</span>
+                            <span class="justification">Premisa</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">3</span>
+                            <span class="formula">P(a) → Q(a)</span>
+                            <span class="justification">∀E, 1</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">4</span>
+                            <span class="formula">Q(a)</span>
+                            <span class="justification">→E, 2, 3</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-book"></i>Ejemplo 2: Generalización Universal</h4>
+                    <p><strong>Premisa:</strong> P(c) (donde c es arbitraria)</p>
+                    <p><strong>Conclusión:</strong> ∀xP(x)</p>
+                    
+                    <div class="deduction-example">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <span class="formula">P(c)</span>
+                            <span class="justification">Premisa</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <span class="formula">∀xP(x)</span>
+                            <span class="justification">∀I, 1</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-book"></i>Ejemplo 3: Eliminación Existencial</h4>
+                    <p><strong>Premisas:</strong></p>
+                    <ul>
+                        <li>∃xP(x)</li>
+                        <li>∀x(P(x) → Q(x))</li>
+                    </ul>
+                    <p><strong>Conclusión:</strong> ∃xQ(x)</p>
+                    
+                    <div class="deduction-example">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <span class="formula">∃xP(x)</span>
+                            <span class="justification">Premisa</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <span class="formula">∀x(P(x) → Q(x))</span>
+                            <span class="justification">Premisa</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">3</span>
+                            <span class="formula">P(c)</span>
+                            <span class="justification">Supuesto para ∃E</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">4</span>
+                            <span class="formula">P(c) → Q(c)</span>
+                            <span class="justification">∀E, 2</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">5</span>
+                            <span class="formula">Q(c)</span>
+                            <span class="justification">→E, 3, 4</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">6</span>
+                            <span class="formula">∃xQ(x)</span>
+                            <span class="justification">∃I, 5</span>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">7</span>
+                            <span class="formula">∃xQ(x)</span>
+                            <span class="justification">∃E, 1, 3-6</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-exclamation-triangle"></i>Errores Comunes en Deducciones</h2>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-times-circle"></i>Error 1: Violar Restricciones de ∀I</h4>
+                    <p><strong>Incorrecto:</strong> Usar ∀I con una constante que aparece en premisas anteriores.</p>
+                    <p><strong>Correcto:</strong> Usar ∀I solo con constantes arbitrarias que no aparecen en premisas.</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-times-circle"></i>Error 2: Violar Restricciones de ∃E</h4>
+                    <p><strong>Incorrecto:</strong> Usar ∃E con una constante que ya aparece en la conclusión.</p>
+                    <p><strong>Correcto:</strong> Usar ∃E con una constante completamente nueva.</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-times-circle"></i>Error 3: Confundir Orden de Aplicación</h4>
+                    <p><strong>Incorrecto:</strong> Aplicar reglas en orden incorrecto.</p>
+                    <p><strong>Correcto:</strong> Seguir el orden lógico: eliminar cuantificadores, aplicar lógica proposicional, introducir cuantificadores.</p>
+                </div>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <h3>Recursos del Tema</h3>
+                <div class="action-buttons">
+                    <a href="ejercicios.html" class="btn btn-outline">
+                        <i class="fas fa-tasks"></i> Ejercicios Prácticos
+                    </a>
+                    <a href="../../recursos/material-adicional/" class="btn btn-secondary">
+                        <i class="fas fa-book"></i> Material Adicional
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación entre Temas -->
+            <div class="navigation-buttons">
+                <a href="../tema8/contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Tema Anterior: Estrategias de Formalización</span>
+                </a>
+                <a href="../tema10/contenido.html" class="nav-btn disabled">
+                    <span>Siguiente Tema: Lógica de Predicados con Identidad</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Funcionalidad específica para la página del tema
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar progreso al leer el contenido
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text span:last-child');
+            
+            function updateProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = Math.min((scrollTop / docHeight) * 100, 100);
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                // Guardar progreso en localStorage
+                localStorage.setItem('tema9_progress', progress);
+            }
+            
+            // Cargar progreso guardado
+            const savedProgress = localStorage.getItem('tema9_progress') || 0;
+            progressFill.style.width = savedProgress + '%';
+            progressText.textContent = Math.round(savedProgress) + '%';
+            
+            // Actualizar progreso al hacer scroll
+            window.addEventListener('scroll', updateProgress);
+            
+            // Marcar tema como completado si se llega al final
+            window.addEventListener('scroll', function() {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    localStorage.setItem('tema9_completed', 'true');
+                    console.log('Tema 9 completado');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

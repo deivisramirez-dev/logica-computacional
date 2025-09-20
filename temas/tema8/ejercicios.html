@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios - Tema 8: Estrategias de Formalización - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ejercicios-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .ejercicios-header {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #d97706 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .ejercicios-header-content {
+            text-align: center;
+        }
+        
+        .ejercicios-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .ejercicios-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .ejercicio-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .ejercicio-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .ejercicio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+        
+        .ejercicio-number {
+            background: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .ejercicio-difficulty {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .difficulty-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-light);
+        }
+        
+        .difficulty-dot.active {
+            background: var(--accent-color);
+        }
+        
+        .ejercicio-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .ejercicio-content h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .enunciado {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .predicados {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .formula-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .formula-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .ejercicio-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-verificar {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-verificar:hover {
+            background: #059669;
+        }
+        
+        .btn-solucion {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-solucion:hover {
+            background: #d97706;
+        }
+        
+        .resultado {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .resultado.correcto {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .resultado.incorrecto {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--error-color);
+            color: var(--error-color);
+        }
+        
+        .solucion {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .solucion.show {
+            display: block;
+        }
+        
+        .solucion h4 {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .formula-correcta {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .explicacion {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+        
+        .instructions-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .instructions-box h3 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .instructions-box ul {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-left: 2rem;
+        }
+        
+        .instructions-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .ejercicios-content {
+                padding: 1rem;
+            }
+            
+            .ejercicios-header {
+                padding: 2rem 0;
+            }
+            
+            .ejercicios-title {
+                font-size: 2rem;
+            }
+            
+            .ejercicio-card {
+                padding: 1.5rem;
+            }
+            
+            .ejercicio-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .ejercicio-actions {
+                flex-direction: column;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="ejercicios-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="contenido.html">Tema 8</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Ejercicios</span>
+            </div>
+
+            <!-- Header de Ejercicios -->
+            <div class="ejercicios-header">
+                <div class="ejercicios-header-content">
+                    <h1 class="ejercicios-title">Ejercicios de Formalización</h1>
+                    <p class="ejercicios-description">Practica la formalización de enunciados en lógica de predicados</p>
+                </div>
+            </div>
+
+            <!-- Instrucciones -->
+            <div class="instructions-box">
+                <h3><i class="fas fa-info-circle"></i>Instrucciones</h3>
+                <p>Formaliza los siguientes enunciados utilizando las letras predicativas y constantes de individuo que se indican para cada uno de ellos. Sigue los pasos de formalización explicados en el contenido del tema.</p>
+                
+                <h4>Pasos a seguir:</h4>
+                <ul>
+                    <li><strong>Identificar el universo de discurso</strong></li>
+                    <li><strong>Asociar símbolos</strong> a predicados y constantes</li>
+                    <li><strong>Hacer paráfrasis</strong> del enunciado</li>
+                    <li><strong>Considerar el orden</strong> de términos en predicados relacionales</li>
+                    <li><strong>Usar paréntesis</strong> correctamente para evitar variables libres</li>
+                </ul>
+                
+                <h4>Símbolos disponibles:</h4>
+                <ul>
+                    <li><strong>Cuantificadores:</strong> ∀ (universal), ∃ (existencial), ∃! (existencial único)</li>
+                    <li><strong>Operadores:</strong> ∧ (conjunción), ∨ (disyunción), → (condicional), ↔ (bicondicional), ¬ (negación)</li>
+                    <li><strong>Variables:</strong> x, y, z, w</li>
+                    <li><strong>Constantes:</strong> a, b, c, d</li>
+                </ul>
+            </div>
+
+            <!-- Ejercicio 1 -->
+            <div class="ejercicio-card" data-ejercicio="1">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">1</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 1</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Los pájaros no son mamíferos.
+                    </div>
+                    <div class="predicados">
+                        <strong>Predicados:</strong> P(x): "... es pájaro", M(x): "... es mamífero"
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-1">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(1)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(1)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-1"></div>
+                
+                <div class="solucion" id="solucion-1">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">∀x(P(x) → ¬M(x))</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "Para todo x, si x es pájaro, entonces x no es mamífero"</p>
+                        <p><strong>Explicación:</strong> Usamos el cuantificador universal ∀ porque el enunciado se refiere a "todos" los pájaros. La estructura es un condicional porque "ser pájaro" implica "no ser mamífero".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 2 -->
+            <div class="ejercicio-card" data-ejercicio="2">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">2</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 2</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> No es cierto que los felinos no son mamíferos.
+                    </div>
+                    <div class="predicados">
+                        <strong>Predicados:</strong> F(x): "... es felino", M(x): "... es mamífero"
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-2">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(2)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(2)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-2"></div>
+                
+                <div class="solucion" id="solucion-2">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">¬∀x(F(x) → ¬M(x))</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "No es cierto que para todo x, si x es felino, entonces x no es mamífero"</p>
+                        <p><strong>Explicación:</strong> La negación "No es cierto que" afecta a toda la proposición cuantificada. Esto equivale a decir que existe al menos un felino que sí es mamífero.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 3 -->
+            <div class="ejercicio-card" data-ejercicio="3">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">3</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 3</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> No hay ballenas que no sean gordas.
+                    </div>
+                    <div class="predicados">
+                        <strong>Predicados:</strong> B(x): "... es ballena", G(x): "... es gorda"
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-3">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(3)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(3)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-2"></div>
+                
+                <div class="solucion" id="solucion-3">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">¬∃x(B(x) ∧ ¬G(x))</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "No existe x tal que x es ballena y x no es gorda"</p>
+                        <p><strong>Explicación:</strong> "No hay" se formaliza como "no existe". La conjunción ∧ conecta "es ballena" con "no es gorda".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 4 -->
+            <div class="ejercicio-card" data-ejercicio="4">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">4</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 4</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Lidia es amiga de al menos un madrileño.
+                    </div>
+                    <div class="predicados">
+                        <strong>Constantes:</strong> a: "Lidia"<br>
+                        <strong>Predicados:</strong> A(x,y): "... es amiga de ...", M(x): "... es madrileño"
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-4">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(4)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(4)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-4"></div>
+                
+                <div class="solucion" id="solucion-4">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">∃x(M(x) ∧ A(a,x))</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "Existe x tal que x es madrileño y Lidia es amiga de x"</p>
+                        <p><strong>Explicación:</strong> "Al menos un" se formaliza con ∃. La conjunción conecta "es madrileño" con "Lidia es amiga de".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 5 -->
+            <div class="ejercicio-card" data-ejercicio="5">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">5</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 5</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Algunos españoles tienen amantes.
+                    </div>
+                    <div class="predicados">
+                        <strong>Predicados:</strong> E(x): "... es español", A(x,y): "... es amante de ..."
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-5">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(5)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(5)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-5"></div>
+                
+                <div class="solucion" id="solucion-5">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">∃x(E(x) ∧ ∃yA(x,y))</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "Existe x tal que x es español y existe y tal que x es amante de y"</p>
+                        <p><strong>Explicación:</strong> "Algunos" se formaliza con ∃. Necesitamos dos cuantificadores existenciales: uno para el español y otro para el amante.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 6 -->
+            <div class="ejercicio-card" data-ejercicio="6">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">6</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 6</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Ana es enemiga de María.
+                    </div>
+                    <div class="predicados">
+                        <strong>Constantes:</strong> a: "Ana", b: "María"<br>
+                        <strong>Predicados:</strong> E(x,y): "... es enemiga de ..."
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-6">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(6)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(6)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-6"></div>
+                
+                <div class="solucion" id="solucion-6">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">E(a,b)</div>
+                    <div class="explicacion">
+                        <p><strong>Explicación:</strong> Este es un caso simple donde solo necesitamos aplicar el predicado relacional a las constantes específicas. Ana es el primer argumento y María el segundo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 7 -->
+            <div class="ejercicio-card" data-ejercicio="7">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">7</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 7</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Alguien está sentado entre María y Andrea.
+                    </div>
+                    <div class="predicados">
+                        <strong>Constantes:</strong> a: "María", b: "Andrea"<br>
+                        <strong>Predicados:</strong> S(x,y,z): "... está sentado entre ... y ..."
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-7">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(7)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(7)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-7"></div>
+                
+                <div class="solucion" id="solucion-7">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">∃xS(x,a,b)</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "Existe x tal que x está sentado entre María y Andrea"</p>
+                        <p><strong>Explicación:</strong> "Alguien" se formaliza con ∃. El predicado ternario S(x,y,z) tiene el orden: quien está sentado, entre quién y quién.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 8 -->
+            <div class="ejercicio-card" data-ejercicio="8">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">8</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 8</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Hay alguien de quien María no es amiga.
+                    </div>
+                    <div class="predicados">
+                        <strong>Constantes:</strong> a: "María"<br>
+                        <strong>Predicados:</strong> A(x,y): "... es amiga de ..."
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-8">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(8)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(8)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-8"></div>
+                
+                <div class="solucion" id="solucion-8">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">∃x¬A(a,x)</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "Existe x tal que María no es amiga de x"</p>
+                        <p><strong>Explicación:</strong> "Hay alguien" se formaliza con ∃. La negación afecta al predicado de amistad.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 9 -->
+            <div class="ejercicio-card" data-ejercicio="9">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">9</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 9</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Si alguien es colombiano entonces es amigo de alguien.
+                    </div>
+                    <div class="predicados">
+                        <strong>Predicados:</strong> C(x): "... es colombiano", A(x,y): "... es amigo de ..."
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-9">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(9)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(9)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-9"></div>
+                
+                <div class="solucion" id="solucion-9">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">∀x(C(x) → ∃yA(x,y))</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "Para todo x, si x es colombiano, entonces existe y tal que x es amigo de y"</p>
+                        <p><strong>Explicación:</strong> El "si" indica un condicional. "Alguien" en la primera parte se formaliza con ∀ (todos los colombianos), y "alguien" en la segunda parte con ∃ (al menos un amigo).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 10 -->
+            <div class="ejercicio-card" data-ejercicio="10">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">10</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 10</h3>
+                    <div class="enunciado">
+                        <strong>Enunciado:</strong> Todos los estudiantes que estudian lógica son inteligentes.
+                    </div>
+                    <div class="predicados">
+                        <strong>Predicados:</strong> E(x): "... es estudiante", L(x): "... estudia lógica", I(x): "... es inteligente"
+                    </div>
+                    <input type="text" class="formula-input" placeholder="Ingresa tu formalización aquí..." id="respuesta-10">
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarRespuesta(10)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(10)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-10"></div>
+                
+                <div class="solucion" id="solucion-10">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="formula-correcta">∀x((E(x) ∧ L(x)) → I(x))</div>
+                    <div class="explicacion">
+                        <p><strong>Paráfrasis:</strong> "Para todo x, si x es estudiante y x estudia lógica, entonces x es inteligente"</p>
+                        <p><strong>Explicación:</strong> "Todos" se formaliza con ∀. La conjunción ∧ conecta las dos condiciones del antecedente, y el condicional → conecta con la conclusión.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="navigation-buttons">
+                <a href="contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver al Contenido</span>
+                </a>
+                <a href="../../index.html#temas" class="nav-btn">
+                    <span>Ver Todos los Temas</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Respuestas correctas
+        const respuestasCorrectas = {
+            1: '∀x(P(x) → ¬M(x))',
+            2: '¬∀x(F(x) → ¬M(x))',
+            3: '¬∃x(B(x) ∧ ¬G(x))',
+            4: '∃x(M(x) ∧ A(a,x))',
+            5: '∃x(E(x) ∧ ∃yA(x,y))',
+            6: 'E(a,b)',
+            7: '∃xS(x,a,b)',
+            8: '∃x¬A(a,x)',
+            9: '∀x(C(x) → ∃yA(x,y))',
+            10: '∀x((E(x) ∧ L(x)) → I(x))'
+        };
+
+        // Verificar respuesta
+        function verificarRespuesta(ejercicioId) {
+            const input = document.getElementById(`respuesta-${ejercicioId}`);
+            const resultado = document.getElementById(`resultado-${ejercicioId}`);
+            const respuestaUsuario = input.value.trim();
+            const respuestaCorrecta = respuestasCorrectas[ejercicioId];
+            
+            if (respuestaUsuario === '') {
+                alert('Por favor ingresa una respuesta');
+                return;
+            }
+            
+            // Normalizar respuestas (quitar espacios extra, convertir a minúsculas para comparación)
+            const normalizar = (str) => str.replace(/\s+/g, '').toLowerCase();
+            const esCorrecta = normalizar(respuestaUsuario) === normalizar(respuestaCorrecta);
+            
+            if (esCorrecta) {
+                resultado.textContent = '¡Correcto! Has formalizado correctamente el enunciado.';
+                resultado.className = 'resultado correcto';
+            } else {
+                resultado.textContent = 'Incorrecto. Revisa la solución para entender el error.';
+                resultado.className = 'resultado incorrecto';
+            }
+            
+            resultado.style.display = 'block';
+        }
+
+        // Mostrar solución
+        function mostrarSolucion(ejercicioId) {
+            const solucion = document.getElementById(`solucion-${ejercicioId}`);
+            const input = document.getElementById(`respuesta-${ejercicioId}`);
+            const respuestaCorrecta = respuestasCorrectas[ejercicioId];
+            
+            solucion.classList.add('show');
+            input.value = respuestaCorrecta;
+        }
+
+        // Marcar ejercicios como completados
+        document.addEventListener('DOMContentLoaded', function() {
+            const verifyButtons = document.querySelectorAll('.btn-verificar');
+            
+            verifyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const exerciseCard = this.closest('.ejercicio-card');
+                    const exerciseNumber = exerciseCard.querySelector('.ejercicio-number').textContent;
+                    
+                    // Marcar como completado en localStorage
+                    localStorage.setItem(`ejercicio_8_${exerciseNumber}_completed`, 'true');
+                    
+                    // Cambiar estilo visual
+                    exerciseCard.style.borderColor = 'var(--success-color)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

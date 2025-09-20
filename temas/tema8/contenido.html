@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 8: Estrategias de Formalización para la Lógica de Predicados - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantifier-section {
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .quantifier-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .quantifier-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .quantifier-card h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .symbol-box {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+        
+        .steps-section {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .steps-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .step-item {
+            background: var(--bg-primary);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .step-number {
+            background: var(--accent-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+        
+        .tema-actions {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .tema-actions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .progress-indicator {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Estilos para la sección comparativa */
+        .comparison-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .comparison-section h3 {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .comparison-table {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+        
+        .comparison-cell {
+            padding: 1rem;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .comparison-cell:last-child {
+            border-right: none;
+        }
+        
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .comparison-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .comparison-card h4 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .comparison-content h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+        }
+        
+        .comparison-content ul {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .deduction-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .deduction-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .deduction-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .deduction-card h4 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .deduction-rules h5 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+        }
+        
+        .deduction-rules ul {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .deduction-rules li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .usage-guide {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .usage-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .usage-card:hover {
+            border-color: var(--success-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .usage-card h4 {
+            color: var(--success-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .usage-card ul {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .learning-progression {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .progression-step {
+            background: var(--bg-primary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            max-width: 200px;
+            transition: var(--transition);
+        }
+        
+        .progression-step:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .progression-step .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem auto;
+        }
+        
+        .progression-step h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progression-step p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .progression-step ul {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            text-align: left;
+            padding-left: 1rem;
+        }
+        
+        .progression-arrow {
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-cards,
+            .deduction-comparison,
+            .usage-guide {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-header,
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-cell {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .learning-progression {
+                flex-direction: column;
+            }
+            
+            .progression-arrow {
+                transform: rotate(90deg);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .tema-content {
+                padding: 1rem;
+            }
+            
+            .tema-header {
+                padding: 2rem 0;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 8: Estrategias de Formalización para la Lógica de Predicados</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">08</div>
+                    <h1 class="tema-title">Estrategias de Formalización para la Lógica de Predicados</h1>
+                    <p class="tema-description">Técnicas y métodos para formalizar enunciados del lenguaje natural en lógica de predicados</p>
+                </div>
+            </div>
+
+            <!-- Indicador de Progreso -->
+            <div class="progress-indicator">
+                <div class="progress-text">
+                    <span>Progreso del Tema</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Introducción y Objetivos</h2>
+                <p>En este tema se explican las bases de la formalización en lógica de predicados. Aprenderemos a convertir enunciados del lenguaje natural en fórmulas lógicas de predicados, utilizando cuantificadores, predicados y constantes de individuo.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Objetivo Principal</h4>
+                    <p>Dominar las técnicas de formalización para convertir enunciados del lenguaje natural en fórmulas bien formadas de la lógica de predicados, utilizando correctamente los cuantificadores universal y existencial.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i>Introducción a la Formalización en Lógica de Predicados</h2>
+                <p>Todo lo señalado con respecto a la formalización en lógica proposicional vale para la formalización en lógica de predicados, pero para este cometido hay que tener en cuenta además algunos otros aspectos.</p>
+                
+                <p>La formalización en el contexto de la lógica de enunciados solo requiere diferenciar entre enunciados básicos y operadores lógicos. En lógica de predicados, la formalización es algo más compleja.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i>Elementos Básicos</h4>
+                    <p>En lógica de predicados, además de las constantes lógicas (operadores y cuantificadores), disponemos de:</p>
+                    <ul>
+                        <li><strong>Constantes de individuo:</strong> Representan objetos específicos (a, b, c...)</li>
+                        <li><strong>Variables de individuo:</strong> Representan objetos genéricos (x, y, z...)</li>
+                        <li><strong>Predicados:</strong> Representan propiedades o relaciones (P, Q, R...)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección de Cuantificadores -->
+            <div class="quantifier-section">
+                <h2><i class="fas fa-calculator"></i>Estrategias de Formalización con Cuantificadores</h2>
+                <p>A partir de un predicado y un universo de significados podemos construir nuevas proposiciones mediante un proceso que llamamos de cuantificación.</p>
+                
+                <div class="quantifier-card">
+                    <h4><i class="fas fa-globe"></i>Cuantificador Universal (∀)</h4>
+                    <p>Si nos interesa afirmar que todos los elementos de un determinado universo local satisfacen p(x), entonces escribimos:</p>
+                    <div class="symbol-box">∀x(p(x))</div>
+                    <p><strong>Se lee:</strong> "Para todo x, p(x)" o "p(x), para cualquier x"</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Principio de Verdad</h4>
+                        <p><strong>∀x(p(x)) es V</strong> si y solo si p(x) es V para cada x.</p>
+                        <p><strong>∀x(p(x)) es F</strong> si y solo si p(x) es F para al menos un x.</p>
+                    </div>
+                </div>
+                
+                <div class="quantifier-card">
+                    <h4><i class="fas fa-search"></i>Cuantificador Existencial (∃)</h4>
+                    <p>Si solo nos interesa afirmar que existe al menos un valor para x para el cual p(x) es una proposición V, entonces escribimos:</p>
+                    <div class="symbol-box">∃x(p(x))</div>
+                    <p><strong>Se lee:</strong> "Existe x tal que p(x)" o "Para algún x, p(x)"</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Principio de Verdad</h4>
+                        <p><strong>∃x(p(x)) es V</strong> si y solo si p(x) es V para algún x.</p>
+                        <p><strong>∃x(p(x)) es F</strong> si y solo si p(x) es F para cada x.</p>
+                    </div>
+                </div>
+                
+                <div class="quantifier-card">
+                    <h4><i class="fas fa-star"></i>Cuantificador Existencial Único (∃!)</h4>
+                    <p>Para afirmar que existe un único objeto x para el cual la proposición p(x) es V:</p>
+                    <div class="symbol-box">∃!x(p(x))</div>
+                    <p><strong>Se lee:</strong> "Existe un único x tal que p(x)"</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Principio de Verdad</h4>
+                        <p><strong>∃!x(p(x)) es V</strong> si y solo si p(x) es V para un único x.</p>
+                        <p><strong>∃!x(p(x)) es F</strong> si y solo si p(x) es F para cada x, o bien p(x) y p(y) son V para al menos dos x e y distintos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-list-ol"></i>Pasos para Formalizar en Lógica de Predicados</h2>
+                <p>Para formalizar en lógica de predicados es conveniente seguir los siguientes pasos:</p>
+                
+                <div class="steps-section">
+                    <div class="step-item">
+                        <span class="step-number">1</span>
+                        <div>
+                            <h4>Indicar el Universo de Discurso</h4>
+                            <p>Cuando no se explicita previamente, es necesario indicar cuál es el universo de discurso sobre el que vamos a cuantificar. La expresión "todo" o "para todo" se restringe siempre a un universo de discurso.</p>
+                            <div class="example-box">
+                                <h4>Ejemplo</h4>
+                                <p>Cuando decimos "todas son blancas" tenemos que tener claro sobre qué conjunto de cosas se aplica el término "todas" (bolas en una caja, población de un pueblo, cartulinas en un cajón, etc.).</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <span class="step-number">2</span>
+                        <div>
+                            <h4>Asociar Símbolos</h4>
+                            <p>Si no se indica, hay que asociar una letra predicativa a las propiedades o relaciones que entran en juego en la formalización y una constante de individuo a los objetos concretos que se consideren.</p>
+                            <div class="example-box">
+                                <h4>Ejemplo</h4>
+                                <p>En "Botero es colombiano": constante de individuo para Botero ("a") y letra predicativa para "... es colombiano" ("E"). Resultado: E(a)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <span class="step-number">3</span>
+                        <div>
+                            <h4>Hacer Paráfrasis</h4>
+                            <p>Conviene hacer una paráfrasis del lenguaje natural para aproximarlo al lenguaje formal de la lógica de predicados.</p>
+                            <div class="example-box">
+                                <h4>Ejemplo</h4>
+                                <p>"Todos los caleños son colombianos" → "Para todo x, si x es caleño, entonces x es colombiano" → ∀x(C(x) → E(x))</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <span class="step-number">4</span>
+                        <div>
+                            <h4>Considerar el Orden de Términos</h4>
+                            <p>Tener en cuenta que los términos de individuo llevan un orden determinado cuando trabajamos con predicados poliádicos (los que son dos o más nombres de individuos).</p>
+                            <div class="example-box">
+                                <h4>Ejemplo</h4>
+                                <p>Para "... es padre de ..." el primer término indica el padre y el segundo el hijo. Si lo formalizamos al revés, no estaremos dando buena cuenta de la expresión del lenguaje natural.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <span class="step-number">5</span>
+                        <div>
+                            <h4>Usar Paréntesis Correctamente</h4>
+                            <p>Ser muy claros a la hora de indicar a qué variables de individuo afectan los cuantificadores que utilizaremos en la fórmula final. Hay que hacer uso de los paréntesis para ello y tener en cuenta que no pueden quedar variables libres para que la fórmula sea una sentencia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Ejemplos de Formalización</h2>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-book"></i>Ejemplo 1: Cuantificador Universal</h4>
+                    <p><strong>Enunciado:</strong> "Todos los pájaros no son mamíferos"</p>
+                    <p><strong>Predicados:</strong> P(x): "x es pájaro", M(x): "x es mamífero"</p>
+                    <p><strong>Paráfrasis:</strong> "Para todo x, si x es pájaro, entonces x no es mamífero"</p>
+                    <p><strong>Formalización:</strong> <span class="symbol-box">∀x(P(x) → ¬M(x))</span></p>
+                </div>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-book"></i>Ejemplo 2: Cuantificador Existencial</h4>
+                    <p><strong>Enunciado:</strong> "Algunos españoles tienen amantes"</p>
+                    <p><strong>Predicados:</strong> E(x): "x es español", A(x,y): "x es amante de y"</p>
+                    <p><strong>Paráfrasis:</strong> "Existe al menos un x tal que x es español y x tiene amante"</p>
+                    <p><strong>Formalización:</strong> <span class="symbol-box">∃x(E(x) ∧ ∃yA(x,y))</span></p>
+                </div>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-book"></i>Ejemplo 3: Cuantificador Existencial Único</h4>
+                    <p><strong>Enunciado:</strong> "Existe un único número que es igual a su cuadrado"</p>
+                    <p><strong>Predicado:</strong> P(x): "x es igual a su cuadrado"</p>
+                    <p><strong>Formalización:</strong> <span class="symbol-box">∃!x(x = x²)</span></p>
+                </div>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-book"></i>Ejemplo 4: Predicados Relacionales</h4>
+                    <p><strong>Enunciado:</strong> "Ana es enemiga de María"</p>
+                    <p><strong>Constantes:</strong> a: "Ana", b: "María"</p>
+                    <p><strong>Predicado:</strong> E(x,y): "x es enemiga de y"</p>
+                    <p><strong>Formalización:</strong> <span class="symbol-box">E(a,b)</span></p>
+                </div>
+            </div>
+
+            <!-- Sección Comparativa -->
+            <div class="content-section">
+                <h2><i class="fas fa-balance-scale"></i>Comparación: Lógica Proposicional vs Lógica de Predicados</h2>
+                <p>Para comprender mejor las estrategias de formalización en lógica de predicados, es fundamental entender las diferencias y similitudes con la lógica proposicional. Esta comparación te ayudará a identificar cuándo usar cada tipo de lógica.</p>
+                
+                <div class="comparison-section">
+                    <h3><i class="fas fa-table"></i>Tabla Comparativa General</h3>
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="comparison-cell"><strong>Aspecto</strong></div>
+                            <div class="comparison-cell"><strong>Lógica Proposicional</strong></div>
+                            <div class="comparison-cell"><strong>Lógica de Predicados</strong></div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell"><strong>Unidad básica</strong></div>
+                            <div class="comparison-cell">Enunciados completos (p, q, r...)</div>
+                            <div class="comparison-cell">Predicados y objetos (P(x), Q(a,b)...)</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell"><strong>Estructura interna</strong></div>
+                            <div class="comparison-cell">No analiza la estructura interna</div>
+                            <div class="comparison-cell">Analiza sujetos, predicados y relaciones</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell"><strong>Cuantificadores</strong></div>
+                            <div class="comparison-cell">No utiliza cuantificadores</div>
+                            <div class="comparison-cell">Utiliza ∀, ∃, ∃!</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell"><strong>Variables</strong></div>
+                            <div class="comparison-cell">Solo variables proposicionales</div>
+                            <div class="comparison-cell">Variables de individuo (x, y, z...)</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell"><strong>Constantes</strong></div>
+                            <div class="comparison-cell">No utiliza constantes</div>
+                            <div class="comparison-cell">Constantes de individuo (a, b, c...)</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell"><strong>Expresividad</strong></div>
+                            <div class="comparison-cell">Limitada a conexiones entre enunciados</div>
+                            <div class="comparison-cell">Puede expresar propiedades y relaciones</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-section">
+                    <h3><i class="fas fa-edit"></i>Estrategias de Formalización: Comparación</h3>
+                    
+                    <div class="comparison-cards">
+                        <div class="comparison-card">
+                            <h4><i class="fas fa-puzzle-piece"></i>Lógica Proposicional</h4>
+                            <div class="comparison-content">
+                                <h5>Características:</h5>
+                                <ul>
+                                    <li>Identifica enunciados atómicos</li>
+                                    <li>Asigna letras proposicionales</li>
+                                    <li>Conecta con operadores lógicos</li>
+                                    <li>No analiza estructura interna</li>
+                                </ul>
+                                
+                                <h5>Ejemplo de Formalización:</h5>
+                                <div class="example-box">
+                                    <p><strong>Enunciado:</strong> "Si llueve, entonces el suelo se moja"</p>
+                                    <p><strong>Formalización:</strong> <span class="symbol-box">p → q</span></p>
+                                    <p><strong>Donde:</strong> p = "llueve", q = "el suelo se moja"</p>
+                                </div>
+                                
+                                <h5>Ventajas:</h5>
+                                <ul>
+                                    <li>Simplicidad en la formalización</li>
+                                    <li>Fácil de entender y aplicar</li>
+                                    <li>Herramientas computacionales eficientes</li>
+                                </ul>
+                                
+                                <h5>Limitaciones:</h5>
+                                <ul>
+                                    <li>No puede expresar "todos" o "algunos"</li>
+                                    <li>No distingue entre objetos específicos</li>
+                                    <li>No puede formalizar relaciones</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-card">
+                            <h4><i class="fas fa-cogs"></i>Lógica de Predicados</h4>
+                            <div class="comparison-content">
+                                <h5>Características:</h5>
+                                <ul>
+                                    <li>Identifica predicados y objetos</li>
+                                    <li>Asigna símbolos a propiedades/relaciones</li>
+                                    <li>Utiliza cuantificadores</li>
+                                    <li>Analiza estructura interna detalladamente</li>
+                                </ul>
+                                
+                                <h5>Ejemplo de Formalización:</h5>
+                                <div class="example-box">
+                                    <p><strong>Enunciado:</strong> "Todos los estudiantes estudian"</p>
+                                    <p><strong>Formalización:</strong> <span class="symbol-box">∀x(E(x) → S(x))</span></p>
+                                    <p><strong>Donde:</strong> E(x) = "x es estudiante", S(x) = "x estudia"</p>
+                                </div>
+                                
+                                <h5>Ventajas:</h5>
+                                <ul>
+                                    <li>Expresividad mucho mayor</li>
+                                    <li>Puede formalizar cuantificadores</li>
+                                    <li>Maneja relaciones entre objetos</li>
+                                    <li>Base para lógicas más complejas</li>
+                                </ul>
+                                
+                                <h5>Complejidad:</h5>
+                                <ul>
+                                    <li>Formalización más compleja</li>
+                                    <li>Requiere más pasos de análisis</li>
+                                    <li>Mayor posibilidad de errores</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-section">
+                    <h3><i class="fas fa-arrow-right"></i>Estrategias de Deducción: Comparación</h3>
+                    
+                    <div class="deduction-comparison">
+                        <div class="deduction-card">
+                            <h4><i class="fas fa-puzzle-piece"></i>Lógica Proposicional</h4>
+                            <div class="deduction-rules">
+                                <h5>Reglas de Inferencia:</h5>
+                                <ul>
+                                    <li><strong>Modus Ponens:</strong> p → q, p ⊢ q</li>
+                                    <li><strong>Modus Tollens:</strong> p → q, ¬q ⊢ ¬p</li>
+                                    <li><strong>Silogismo Hipotético:</strong> p → q, q → r ⊢ p → r</li>
+                                    <li><strong>Silogismo Disyuntivo:</strong> p ∨ q, ¬p ⊢ q</li>
+                                    <li><strong>Conjunción:</strong> p, q ⊢ p ∧ q</li>
+                                    <li><strong>Simplificación:</strong> p ∧ q ⊢ p</li>
+                                </ul>
+                                
+                                <h5>Ejemplo de Deducción:</h5>
+                                <div class="deduction-example">
+                                    <div class="deduction-line">
+                                        <span class="line-number">1</span>
+                                        <span class="formula">p → q</span>
+                                        <span class="justification">Premisa</span>
+                                    </div>
+                                    <div class="deduction-line">
+                                        <span class="line-number">2</span>
+                                        <span class="formula">p</span>
+                                        <span class="justification">Premisa</span>
+                                    </div>
+                                    <div class="deduction-line">
+                                        <span class="line-number">3</span>
+                                        <span class="formula">q</span>
+                                        <span class="justification">MP, 1, 2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="deduction-card">
+                            <h4><i class="fas fa-cogs"></i>Lógica de Predicados</h4>
+                            <div class="deduction-rules">
+                                <h5>Reglas de Inferencia:</h5>
+                                <ul>
+                                    <li><strong>Todas las reglas proposicionales</strong></li>
+                                    <li><strong>∀E (Eliminación Universal):</strong> ∀xP(x) ⊢ P(t)</li>
+                                    <li><strong>∃E (Eliminación Existencial):</strong> ∃xP(x), P(c) ⊢ Q → Q</li>
+                                    <li><strong>∀I (Introducción Universal):</strong> P(c) ⊢ ∀xP(x)</li>
+                                    <li><strong>∃I (Introducción Existencial):</strong> P(t) ⊢ ∃xP(x)</li>
+                                </ul>
+                                
+                                <h5>Ejemplo de Deducción:</h5>
+                                <div class="deduction-example">
+                                    <div class="deduction-line">
+                                        <span class="line-number">1</span>
+                                        <span class="formula">∀x(P(x) → Q(x))</span>
+                                        <span class="justification">Premisa</span>
+                                    </div>
+                                    <div class="deduction-line">
+                                        <span class="line-number">2</span>
+                                        <span class="formula">P(a)</span>
+                                        <span class="justification">Premisa</span>
+                                    </div>
+                                    <div class="deduction-line">
+                                        <span class="line-number">3</span>
+                                        <span class="formula">P(a) → Q(a)</span>
+                                        <span class="justification">∀E, 1</span>
+                                    </div>
+                                    <div class="deduction-line">
+                                        <span class="line-number">4</span>
+                                        <span class="formula">Q(a)</span>
+                                        <span class="justification">MP, 2, 3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-section">
+                    <h3><i class="fas fa-lightbulb"></i>Cuándo Usar Cada Tipo de Lógica</h3>
+                    
+                    <div class="usage-guide">
+                        <div class="usage-card">
+                            <h4><i class="fas fa-puzzle-piece"></i>Usa Lógica Proposicional cuando:</h4>
+                            <ul>
+                                <li>Los enunciados son simples y no requieren análisis interno</li>
+                                <li>No necesitas expresar "todos" o "algunos"</li>
+                                <li>No hay relaciones entre objetos específicos</li>
+                                <li>Quieres simplicidad y eficiencia computacional</li>
+                                <li>Los problemas son de naturaleza booleana</li>
+                            </ul>
+                            
+                            <div class="example-box">
+                                <h5>Ejemplo:</h5>
+                                <p><strong>Problema:</strong> "Si el semáforo está en rojo, entonces los autos se detienen"</p>
+                                <p><strong>Solución:</strong> Usar lógica proposicional (p → q)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="usage-card">
+                            <h4><i class="fas fa-cogs"></i>Usa Lógica de Predicados cuando:</h4>
+                            <ul>
+                                <li>Necesitas expresar cuantificadores (todos, algunos, ninguno)</li>
+                                <li>Hay relaciones entre objetos específicos</li>
+                                <li>Los enunciados tienen estructura interna compleja</li>
+                                <li>Quieres máxima expresividad lógica</li>
+                                <li>Los problemas involucran propiedades y relaciones</li>
+                            </ul>
+                            
+                            <div class="example-box">
+                                <h5>Ejemplo:</h5>
+                                <p><strong>Problema:</strong> "Todos los estudiantes que estudian lógica son inteligentes"</p>
+                                <p><strong>Solución:</strong> Usar lógica de predicados (∀x((E(x) ∧ L(x)) → I(x)))</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-section">
+                    <h3><i class="fas fa-chart-line"></i>Progresión del Aprendizaje</h3>
+                    <div class="learning-progression">
+                        <div class="progression-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Lógica Proposicional</h4>
+                                <p>Fundamentos básicos de la lógica formal</p>
+                                <ul>
+                                    <li>Conectores lógicos</li>
+                                    <li>Tablas de verdad</li>
+                                    <li>Deducción natural básica</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="progression-arrow">→</div>
+                        
+                        <div class="progression-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Transición</h4>
+                                <p>Reconocimiento de limitaciones</p>
+                                <ul>
+                                    <li>Identificar cuándo la lógica proposicional es insuficiente</li>
+                                    <li>Introducir conceptos de predicados</li>
+                                    <li>Entender la necesidad de cuantificadores</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="progression-arrow">→</div>
+                        
+                        <div class="progression-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Lógica de Predicados</h4>
+                                <p>Extensión natural de la lógica proposicional</p>
+                                <ul>
+                                    <li>Cuantificadores y predicados</li>
+                                    <li>Formalización avanzada</li>
+                                    <li>Deducción con cuantificadores</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-exclamation-triangle"></i>Errores Comunes en la Formalización</h2>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-times-circle"></i>Error 1: Confundir Cuantificadores</h4>
+                    <p><strong>Incorrecto:</strong> "Todos los estudiantes" → ∃x(E(x))</p>
+                    <p><strong>Correcto:</strong> "Todos los estudiantes" → ∀x(E(x))</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-times-circle"></i>Error 2: Variables Libres</h4>
+                    <p><strong>Incorrecto:</strong> P(x) ∧ Q(x) (x libre)</p>
+                    <p><strong>Correcto:</strong> ∀x(P(x) ∧ Q(x)) o ∃x(P(x) ∧ Q(x))</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-times-circle"></i>Error 3: Orden Incorrecto en Predicados Relacionales</h4>
+                    <p><strong>Incorrecto:</strong> "Juan es padre de María" → P(m,j)</p>
+                    <p><strong>Correcto:</strong> "Juan es padre de María" → P(j,m)</p>
+                </div>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <h3>Recursos del Tema</h3>
+                <div class="action-buttons">
+                    <a href="ejercicios.html" class="btn btn-outline">
+                        <i class="fas fa-tasks"></i> Ejercicios Prácticos
+                    </a>
+                    <a href="../../recursos/material-adicional/" class="btn btn-secondary">
+                        <i class="fas fa-book"></i> Material Adicional
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación entre Temas -->
+            <div class="navigation-buttons">
+                <a href="../tema7/contenido.html" class="nav-btn disabled">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Tema Anterior: Cálculo de Deducción Natural de Predicados</span>
+                </a>
+                <a href="../tema9/contenido.html" class="nav-btn">
+                    <span>Siguiente Tema: Estrategias de Deducción para la Lógica de Predicados</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Funcionalidad específica para la página del tema
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar progreso al leer el contenido
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text span:last-child');
+            
+            function updateProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = Math.min((scrollTop / docHeight) * 100, 100);
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                // Guardar progreso en localStorage
+                localStorage.setItem('tema8_progress', progress);
+            }
+            
+            // Cargar progreso guardado
+            const savedProgress = localStorage.getItem('tema8_progress') || 0;
+            progressFill.style.width = savedProgress + '%';
+            progressText.textContent = Math.round(savedProgress) + '%';
+            
+            // Actualizar progreso al hacer scroll
+            window.addEventListener('scroll', updateProgress);
+            
+            // Marcar tema como completado si se llega al final
+            window.addEventListener('scroll', function() {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    localStorage.setItem('tema8_completed', 'true');
+                    console.log('Tema 8 completado');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

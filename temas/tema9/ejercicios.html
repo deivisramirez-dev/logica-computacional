@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios - Tema 9: Estrategias de Deducción - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ejercicios-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .ejercicios-header {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #d97706 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .ejercicios-header-content {
+            text-align: center;
+        }
+        
+        .ejercicios-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .ejercicios-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .ejercicio-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .ejercicio-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .ejercicio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+        
+        .ejercicio-number {
+            background: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .ejercicio-difficulty {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .difficulty-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-light);
+        }
+        
+        .difficulty-dot.active {
+            background: var(--accent-color);
+        }
+        
+        .ejercicio-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .ejercicio-content h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .premises {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .conclusion {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .deduction-area {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .deduction-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+        
+        .deduction-line:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .line-number {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            min-width: 2rem;
+            text-align: center;
+            margin-right: 1rem;
+        }
+        
+        .formula-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+        
+        .formula-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .justification-input {
+            width: 150px;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+        }
+        
+        .justification-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .add-line-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+        
+        .add-line-btn:hover {
+            background: #059669;
+        }
+        
+        .ejercicio-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-verificar {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-verificar:hover {
+            background: #059669;
+        }
+        
+        .btn-solucion {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-solucion:hover {
+            background: #d97706;
+        }
+        
+        .resultado {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .resultado.correcto {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .resultado.incorrecto {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--error-color);
+            color: var(--error-color);
+        }
+        
+        .solucion {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .solucion.show {
+            display: block;
+        }
+        
+        .solucion h4 {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .deduction-solution {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .solution-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+        
+        .solution-line:last-child {
+            border-bottom: none;
+        }
+        
+        .explicacion {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+        
+        .instructions-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .instructions-box h3 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .instructions-box ul {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-left: 2rem;
+        }
+        
+        .instructions-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .ejercicios-content {
+                padding: 1rem;
+            }
+            
+            .ejercicios-header {
+                padding: 2rem 0;
+            }
+            
+            .ejercicios-title {
+                font-size: 2rem;
+            }
+            
+            .ejercicio-card {
+                padding: 1.5rem;
+            }
+            
+            .ejercicio-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .ejercicio-actions {
+                flex-direction: column;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .deduction-line {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+            
+            .formula-input, .justification-input {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="ejercicios-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="contenido.html">Tema 9</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Ejercicios</span>
+            </div>
+
+            <!-- Header de Ejercicios -->
+            <div class="ejercicios-header">
+                <div class="ejercicios-header-content">
+                    <h1 class="ejercicios-title">Ejercicios de Deducción</h1>
+                    <p class="ejercicios-description">Practica las técnicas de deducción en lógica de predicados</p>
+                </div>
+            </div>
+
+            <!-- Instrucciones -->
+            <div class="instructions-box">
+                <h3><i class="fas fa-info-circle"></i>Instrucciones</h3>
+                <p>Realiza las siguientes deducciones utilizando las reglas de inferencia para lógica de predicados. Sigue los pasos de deducción explicados en el contenido del tema.</p>
+                
+                <h4>Reglas disponibles:</h4>
+                <ul>
+                    <li><strong>∀E (Eliminación Universal):</strong> ∀xP(x) ⊢ P(t)</li>
+                    <li><strong>∃E (Eliminación Existencial):</strong> ∃xP(x), P(c) ⊢ Q → Q</li>
+                    <li><strong>∀I (Introducción Universal):</strong> P(c) ⊢ ∀xP(x)</li>
+                    <li><strong>∃I (Introducción Existencial):</strong> P(t) ⊢ ∃xP(x)</li>
+                    <li><strong>Reglas proposicionales:</strong> MP, MT, HS, DS, etc.</li>
+                </ul>
+                
+                <h4>Pasos a seguir:</h4>
+                <ul>
+                    <li><strong>Identificar la estructura</strong> de premisas y conclusión</li>
+                    <li><strong>Eliminar cuantificadores</strong> usando ∀E y ∃E</li>
+                    <li><strong>Aplicar lógica proposicional</strong> para manipular fórmulas</li>
+                    <li><strong>Introducir cuantificadores</strong> usando ∀I y ∃I</li>
+                </ul>
+            </div>
+
+            <!-- Ejercicio 1 -->
+            <div class="ejercicio-card" data-ejercicio="1">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">1</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 1</h3>
+                    <div class="premises">
+                        <strong>Premisas:</strong>
+                        <ul>
+                            <li>∀x(P(x) → Q(x))</li>
+                            <li>P(a)</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> Q(a)
+                    </div>
+                    
+                    <div class="deduction-area" id="deduction-1">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="∀x(P(x) → Q(x))" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="P(a)" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">3</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-1-3">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-1-3">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">4</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-1-4">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-1-4">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarDeduccion(1)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(1)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-1"></div>
+                
+                <div class="solucion" id="solucion-1">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-solution">
+                        <div class="solution-line">
+                            <span>1. ∀x(P(x) → Q(x))</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>2. P(a)</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>3. P(a) → Q(a)</span>
+                            <span>∀E, 1</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>4. Q(a)</span>
+                            <span>MP, 2, 3</span>
+                        </div>
+                    </div>
+                    <div class="explicacion">
+                        <p><strong>Explicación:</strong> Primero eliminamos el cuantificador universal de la primera premisa para obtener P(a) → Q(a). Luego aplicamos Modus Ponens con P(a) para obtener Q(a).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 2 -->
+            <div class="ejercicio-card" data-ejercicio="2">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">2</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 2</h3>
+                    <div class="premises">
+                        <strong>Premisas:</strong>
+                        <ul>
+                            <li>P(c) (donde c es arbitraria)</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> ∀xP(x)
+                    </div>
+                    
+                    <div class="deduction-area" id="deduction-2">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="P(c)" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-2-2">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-2-2">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarDeduccion(2)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(2)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-2"></div>
+                
+                <div class="solucion" id="solucion-2">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-solution">
+                        <div class="solution-line">
+                            <span>1. P(c)</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>2. ∀xP(x)</span>
+                            <span>∀I, 1</span>
+                        </div>
+                    </div>
+                    <div class="explicacion">
+                        <p><strong>Explicación:</strong> Como c es una constante arbitraria (no aparece en premisas), podemos aplicar la regla de introducción universal para generalizar a ∀xP(x).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 3 -->
+            <div class="ejercicio-card" data-ejercicio="3">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">3</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 3</h3>
+                    <div class="premises">
+                        <strong>Premisas:</strong>
+                        <ul>
+                            <li>P(a)</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> ∃xP(x)
+                    </div>
+                    
+                    <div class="deduction-area" id="deduction-3">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="P(a)" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-3-2">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-3-2">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarDeduccion(3)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(3)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-3"></div>
+                
+                <div class="solucion" id="solucion-3">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-solution">
+                        <div class="solution-line">
+                            <span>1. P(a)</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>2. ∃xP(x)</span>
+                            <span>∃I, 1</span>
+                        </div>
+                    </div>
+                    <div class="explicacion">
+                        <p><strong>Explicación:</strong> Aplicamos directamente la regla de introducción existencial, ya que tenemos P(a) y podemos inferir ∃xP(x).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 4 -->
+            <div class="ejercicio-card" data-ejercicio="4">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">4</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 4</h3>
+                    <div class="premises">
+                        <strong>Premisas:</strong>
+                        <ul>
+                            <li>∃xP(x)</li>
+                            <li>∀x(P(x) → Q(x))</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> ∃xQ(x)
+                    </div>
+                    
+                    <div class="deduction-area" id="deduction-4">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="∃xP(x)" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="∀x(P(x) → Q(x))" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">3</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-4-3">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-4-3">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">4</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-4-4">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-4-4">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">5</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-4-5">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-4-5">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">6</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-4-6">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-4-6">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">7</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-4-7">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-4-7">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarDeduccion(4)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(4)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-4"></div>
+                
+                <div class="solucion" id="solucion-4">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-solution">
+                        <div class="solution-line">
+                            <span>1. ∃xP(x)</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>2. ∀x(P(x) → Q(x))</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>3. P(c)</span>
+                            <span>Supuesto para ∃E</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>4. P(c) → Q(c)</span>
+                            <span>∀E, 2</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>5. Q(c)</span>
+                            <span>MP, 3, 4</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>6. ∃xQ(x)</span>
+                            <span>∃I, 5</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>7. ∃xQ(x)</span>
+                            <span>∃E, 1, 3-6</span>
+                        </div>
+                    </div>
+                    <div class="explicacion">
+                        <p><strong>Explicación:</strong> Usamos eliminación existencial para asumir P(c), luego aplicamos ∀E para obtener P(c) → Q(c), aplicamos MP para obtener Q(c), introducimos ∃xQ(x) con ∃I, y finalmente aplicamos ∃E para concluir ∃xQ(x).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicio 5 -->
+            <div class="ejercicio-card" data-ejercicio="5">
+                <div class="ejercicio-header">
+                    <div class="ejercicio-number">5</div>
+                    <div class="ejercicio-difficulty">
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                        <div class="difficulty-dot active"></div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-content">
+                    <h3>Ejercicio 5</h3>
+                    <div class="premises">
+                        <strong>Premisas:</strong>
+                        <ul>
+                            <li>∀x(P(x) → Q(x))</li>
+                            <li>∀x(Q(x) → R(x))</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion">
+                        <strong>Conclusión:</strong> ∀x(P(x) → R(x))
+                    </div>
+                    
+                    <div class="deduction-area" id="deduction-5">
+                        <div class="deduction-line">
+                            <span class="line-number">1</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="∀x(P(x) → Q(x))" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">2</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" value="∀x(Q(x) → R(x))" readonly>
+                            <input type="text" class="justification-input" placeholder="Justificación" value="Premisa" readonly>
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">3</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-5-3">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-5-3">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">4</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-5-4">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-5-4">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">5</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-5-5">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-5-5">
+                        </div>
+                        <div class="deduction-line">
+                            <span class="line-number">6</span>
+                            <input type="text" class="formula-input" placeholder="Fórmula" id="formula-5-6">
+                            <input type="text" class="justification-input" placeholder="Justificación" id="just-5-6">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ejercicio-actions">
+                    <button class="btn-verificar" onclick="verificarDeduccion(5)">
+                        <i class="fas fa-check"></i> Verificar
+                    </button>
+                    <button class="btn-solucion" onclick="mostrarSolucion(5)">
+                        <i class="fas fa-eye"></i> Ver Solución
+                    </button>
+                </div>
+                
+                <div class="resultado" id="resultado-5"></div>
+                
+                <div class="solucion" id="solucion-5">
+                    <h4><i class="fas fa-check-circle"></i>Solución</h4>
+                    <div class="deduction-solution">
+                        <div class="solution-line">
+                            <span>1. ∀x(P(x) → Q(x))</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>2. ∀x(Q(x) → R(x))</span>
+                            <span>Premisa</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>3. P(c) → Q(c)</span>
+                            <span>∀E, 1</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>4. Q(c) → R(c)</span>
+                            <span>∀E, 2</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>5. P(c) → R(c)</span>
+                            <span>HS, 3, 4</span>
+                        </div>
+                        <div class="solution-line">
+                            <span>6. ∀x(P(x) → R(x))</span>
+                            <span>∀I, 5</span>
+                        </div>
+                    </div>
+                    <div class="explicacion">
+                        <p><strong>Explicación:</strong> Eliminamos los cuantificadores universales para obtener P(c) → Q(c) y Q(c) → R(c), aplicamos Silogismo Hipotético para obtener P(c) → R(c), y finalmente aplicamos ∀I para generalizar a ∀x(P(x) → R(x)).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="navigation-buttons">
+                <a href="contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver al Contenido</span>
+                </a>
+                <a href="../../index.html#temas" class="nav-btn">
+                    <span>Ver Todos los Temas</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Soluciones correctas para cada ejercicio
+        const solucionesCorrectas = {
+            1: {
+                formulas: ['P(a) → Q(a)', 'Q(a)'],
+                justificaciones: ['∀E, 1', 'MP, 2, 3']
+            },
+            2: {
+                formulas: ['∀xP(x)'],
+                justificaciones: ['∀I, 1']
+            },
+            3: {
+                formulas: ['∃xP(x)'],
+                justificaciones: ['∃I, 1']
+            },
+            4: {
+                formulas: ['P(c)', 'P(c) → Q(c)', 'Q(c)', '∃xQ(x)', '∃xQ(x)'],
+                justificaciones: ['Supuesto para ∃E', '∀E, 2', 'MP, 3, 4', '∃I, 5', '∃E, 1, 3-6']
+            },
+            5: {
+                formulas: ['P(c) → Q(c)', 'Q(c) → R(c)', 'P(c) → R(c)', '∀x(P(x) → R(x))'],
+                justificaciones: ['∀E, 1', '∀E, 2', 'HS, 3, 4', '∀I, 5']
+            }
+        };
+
+        // Verificar deducción
+        function verificarDeduccion(ejercicioId) {
+            const solucion = solucionesCorrectas[ejercicioId];
+            const resultado = document.getElementById(`resultado-${ejercicioId}`);
+            let esCorrecta = true;
+            let errores = [];
+
+            // Verificar cada línea de la deducción
+            for (let i = 0; i < solucion.formulas.length; i++) {
+                const formulaInput = document.getElementById(`formula-${ejercicioId}-${i + 3}`);
+                const justInput = document.getElementById(`just-${ejercicioId}-${i + 3}`);
+                
+                if (formulaInput && justInput) {
+                    const formulaUsuario = formulaInput.value.trim();
+                    const justificacionUsuario = justInput.value.trim();
+                    const formulaCorrecta = solucion.formulas[i];
+                    const justificacionCorrecta = solucion.justificaciones[i];
+                    
+                    if (formulaUsuario !== formulaCorrecta) {
+                        esCorrecta = false;
+                        errores.push(`Línea ${i + 3}: Fórmula incorrecta. Esperada: ${formulaCorrecta}`);
+                    }
+                    
+                    if (justificacionUsuario !== justificacionCorrecta) {
+                        esCorrecta = false;
+                        errores.push(`Línea ${i + 3}: Justificación incorrecta. Esperada: ${justificacionCorrecta}`);
+                    }
+                }
+            }
+
+            if (esCorrecta) {
+                resultado.textContent = '¡Correcto! Has realizado la deducción correctamente.';
+                resultado.className = 'resultado correcto';
+            } else {
+                resultado.textContent = 'Incorrecto. Errores encontrados:\n' + errores.join('\n');
+                resultado.className = 'resultado incorrecto';
+            }
+            
+            resultado.style.display = 'block';
+        }
+
+        // Mostrar solución
+        function mostrarSolucion(ejercicioId) {
+            const solucion = document.getElementById(`solucion-${ejercicioId}`);
+            const solucionCorrecta = solucionesCorrectas[ejercicioId];
+            
+            // Llenar los campos con la solución correcta
+            for (let i = 0; i < solucionCorrecta.formulas.length; i++) {
+                const formulaInput = document.getElementById(`formula-${ejercicioId}-${i + 3}`);
+                const justInput = document.getElementById(`just-${ejercicioId}-${i + 3}`);
+                
+                if (formulaInput && justInput) {
+                    formulaInput.value = solucionCorrecta.formulas[i];
+                    justInput.value = solucionCorrecta.justificaciones[i];
+                }
+            }
+            
+            solucion.classList.add('show');
+        }
+
+        // Marcar ejercicios como completados
+        document.addEventListener('DOMContentLoaded', function() {
+            const verifyButtons = document.querySelectorAll('.btn-verificar');
+            
+            verifyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const exerciseCard = this.closest('.ejercicio-card');
+                    const exerciseNumber = exerciseCard.querySelector('.ejercicio-number').textContent;
+                    
+                    // Marcar como completado en localStorage
+                    localStorage.setItem(`ejercicio_9_${exerciseNumber}_completed`, 'true');
+                    
+                    // Cambiar estilo visual
+                    exerciseCard.style.borderColor = 'var(--success-color)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

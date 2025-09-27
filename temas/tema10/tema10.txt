@@ -1,0 +1,339 @@
+﻿
+Tema 10
+
+
+
+
+
+
+Lógica Computacional
+
+Teoría de conjuntos y lógica de predicados
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+© Universidad Internacional de La Rioja (UNIR)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ideas clave
+
+10.1. Introducción y objetivos
+
+
+
+En este tema se presentan las nociones básicas de teoría de conjuntos necesarias para una comprensión correcta de la semántica de la lógica de predicados que se presentará en el próximo tema.
+
+
+
+10.2. Teoría intuitiva de conjuntos
+
+Es necesario tener una mínima idea de lo que es la de teoría de conjuntos para poder entender con claridad la semántica de la lógica de predicados. Por este motivo, este tema es una mera introducción a este ámbito. No será necesario tener una gran solvencia ni conocer todo el aparato formal de la teoría de conjuntos, bastará con dominar los conceptos básicos y tener claras las notaciones fundamentales.
+
+Nociones primitivas: relaciones y operaciones fundamentales
+
+Pertenencia
+
+La relación de pertenencia de un elemento a un conjunto es un concepto primitivo que no se define, sino que se presenta de forma intuitiva. Se suele representar en teoría de
+
+
+
+Lógica Computacional Tema 10. Ideas clave
+
+conjuntos con el símbolo ∈. Por ejemplo 𝑏 ∈ 𝐴, y se lee «el elemento b pertenece al conjunto A».
+
+Inclusión impropia y propia
+
+
+Un conjunto A está incluido impropiamente en otro conjunto B (A es un subconjunto impropio de B), se denota 𝐴 ⊆ 𝐵, si y solo si para todo elemento, al pertenecer a A, entonces pertenece a B.
+
+Un conjunto A está incluido propiamente en otro conjunto B (A es un subconjunto propio de B), se denota 𝐴 ⊂ 𝐵, si y solo si, para todo elemento si pertenece a A, entonces pertenece a B y A es distinto de B.
+
+Operaciones entre conjuntos
+
+ Unión: la unión de dos conjuntos es el conjunto de todos aquellos elementos que pertenecen a A o a B o a ambos:
+𝐴 ∪ 𝐵
+
+
+ Intersección: la intersección de dos conjuntos es el conjunto de todos aquellos elementos que pertenecen a A y a B.
+𝐴 ∩ 𝐵
+
+
+ Diferencia: la diferencia de dos conjuntos es el conjunto de todos aquellos elementos que pertenecen a A y no pertenecen a B:
+𝐴 – 𝐵
+
+
+ Conjunto potencia: el conjunto potencia de un conjunto es el conjunto de todos los subconjuntos de A y se denota:
+𝑃(𝐴)
+
+
+
+
+
+
+Lógica Computacional Tema 10. Ideas clave
+
+ Producto cartesiano: algunos conjuntos contienen un tipo especial de elementos denotados de la forma <a,b>, <a,b,c>, <a,b,c,d>, donde a, b, c y d son elementos del estilo de los considerados hasta el momento. Este tipo especial de elementos se denominan n-tuplas ordenadas. Aquellas formadas por dos elementos se denominan pares ordenados, las formadas por tres elementos tripletas ordenadas, y así sucesivamente.
+
+El producto cartesiano de dos conjuntos se denota y es el conjunto de todos aquellos pares ordenados en el que el primer elemento de cada par pertenece a A y el segundo pertenece a B:
+𝐴 × 𝐵
+
+
+Relaciones, aplicaciones, funciones, relaciones de equivalencia y de orden, estructuras y morfismos
+
+Relaciones: una relación n-aria es un subconjunto del producto cartesiano de n conjuntos.
+
+Funciones: una función es una relación en la que no pueden existir dos pares ordenados cuyo primer elemento sea el mismo y el segundo elemento diferente. A esta condición se le denomina univocidad por la derecha.
+
+
+
+10.3. Álgebra de conjuntos con diagramas de Venn
+Los diagramas de Venn son representaciones visuales de conjuntos matemáticos, o colecciones de objetos, que se estudian utilizando una rama de la lógica llamada teoría de conjuntos. La teoría de conjuntos es uno de los sistemas fundamentales para las
+
+
+
+Lógica Computacional Tema 10. Ideas clave
+
+matemáticas y ayuda a desarrollar nuestra comprensión moderna del infinito y los números reales.
+
+Figura 1. Unión de dos conjuntos.
+
+
+Figura 2. Intersección de conjuntos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 10. Ideas clave
+
+
+
+A fondo
+
+
+Lógica y conjuntos
+
+
+
+Este documento nos lleva a encontrar esa estrecha relación entre la lógica de proposiciones y la teoría de conjuntos. Nos facilitará entender la relación, conversión y representación de las diferentes operaciones y formulaciones.
+
+Accede al documento a través del aula virtual o desde la siguiente dirección web: https://www.academia.edu/12249981/Cap%C3%ADtulo_1_L%C3%B3gica_y_Conju ntos
+
+
+
+Nociones de conjuntos
+
+Este documento visual nos da una introducción muy básica a la noción de conjunto.
+
+
+
+
+Accede al vídeo a través del aula virtual o desde la siguiente dirección web: https://youtu.be/z3d7EsmmF8I
+
+
+
+
+Lógica Computacional Tema 10. A fondo
+
+Teoría de conjuntos
+
+
+Presentación breve pero clarificadora de algunos de los conceptos presentados en este tema.
+
+
+
+Accede al vídeo a través del aula virtual o desde la siguiente dirección web: https://youtu.be/DcrNJczhfZs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 10. A fondo
+
+
+
+Test
+
+1. ¿Qué entidad le corresponde en la teoría de conjuntos a un predicado monádico?
+A. Un conjunto.
+B. Una relación.
+C. Ninguna.
+D. Un elemento de un conjunto.
+
+
+2. ¿Qué entidad le corresponde en la teoría de conjuntos a un individuo?
+A. Un conjunto.
+B. Una relación.
+C. Ninguna.
+D. Un elemento de un conjunto.
+
+
+3. ¿Qué entidad le corresponde en la teoría de conjuntos a un predicado poliádico?
+A. Un conjunto.
+B. Una relación.
+C. Ninguna.
+D. Un elemento de un conjunto.
+
+4. La unión de dos conjuntos A y B es:
+A. El conjunto de todos los elementos del universo de discurso que pertenecen a A y a B.
+B. El conjunto de todos los elementos del universo de discurso que pertenecen a A o a B.
+C. El conjunto de todos los elementos del universo de discurso que pertenecen a A pero no a B.
+D. El conjunto de todos los elementos del universo de discurso que no pertenecen a A ni a B.
+
+
+
+
+Lógica Computacional
+Tema 10. Test
+
+5. La intersección de dos conjuntos A y B es:
+A. El conjunto de todos los elementos del universo de discurso que pertenecen a A y a B.
+B. El conjunto de todos los elementos del universo de discurso que pertenecen a A o a B.
+C. El conjunto de todos los elementos del universo de discurso que pertenecen a A pero no a B.
+D. El conjunto de todos los elementos del universo de discurso que no pertenecen a A ni a B.
+
+6. La diferencia de dos conjuntos A y B es:
+A. El conjunto de todos los elementos del universo de discurso que pertenecen a A y a B.
+B. El conjunto de todos los elementos del universo de discurso que pertenecen a A o a B.
+C. El conjunto de todos los elementos del universo de discurso que pertenecen a A pero no a B.
+D. El conjunto de todos los elementos del universo de discurso que no pertenecen a A ni a B.
+
+7. El conjunto potencia de un conjunto A es:
+A. El conjunto mayor que se puede formar con todos los elementos de A.
+B. El conjunto de todos los subconjuntos de A.
+C. El conjunto de todos los pares de elementos que se pueden formar con A.
+D. Un subconjunto del producto cartesiano de 𝑛 conjuntos.
+
+
+8. El producto cartesiano de A y B es:
+A. El conjunto mayor que se puede formar con todos los elementos de A.
+B. El conjunto de todos los subconjuntos de A.
+C. El conjunto de todos los pares de elementos tales que el primer elemento del par pertenece a A y el segundo elemento pertenece a B.
+D. Un subconjunto del producto cartesiano de 𝑛 conjuntos.
+
+Lógica Computacional
+Tema 10. Test
+
+9. Una relación 𝑛-aria es:
+A. El conjunto mayor que se puede formar con todos los elementos de A.
+B. El conjunto de todos los subconjuntos de A.
+C. El conjunto de todos los pares de elementos que se pueden formar con A.
+D. Un subconjunto del producto cartesiano de 𝑛 conjuntos.
+
+10. Una función es:
+A. Una relación unívoca por la derecha.
+B. Un tipo especial de conjunto.
+C. Una relación en la que el primer elemento del par no puede estar relacionado con más de un elemento.
+D. Todas las respuestas son correctas, aunque la B es muy incompleta.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional
+Tema 10. Test

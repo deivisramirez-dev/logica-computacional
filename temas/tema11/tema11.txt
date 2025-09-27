@@ -1,0 +1,299 @@
+﻿
+Tema 11
+
+
+
+
+
+
+Lógica Computacional
+
+Semántica de la lógica de
+predicados
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ideas clave
+
+11.1. Introducción y objetivos
+
+
+
+11.2. Introducción a la semántica de predicados
+
+Una de las principales dificultades que tiene la presentación de una semántica para la lógica de predicados es que hay que tener en cuenta el valor semántico de todas las fórmulas bien formadas, ya sean estas sentencias o no.
+
+Por este motivo, además de la noción de posible relación, que es la estructura que proporciona el valor semántico de las sentencias, necesitaremos introducir también el concepto de asignación.
+
+Figura 1. Concepto de asignación.
+
+
+Dada una posible realización 𝑨 = < 𝐴, ƒ > y una asignación 𝑱 para la lógica de predicados, donde:
+
+ Si 𝒂 es una constante de individuo de la lógica de predicados, entonces ƒ(𝑎) ∈ 𝐴.
+
+
+Lógica Computacional Tema 11. Ideas clave
+
+ Si 𝑹 es un predicado 𝑛-ádico de la lógica de predicados, entonces ƒ(𝑅) ⊆ 𝐴𝑛.
+ 𝐽: 𝑉𝐴𝑅 → 𝐴, siendo VAR el conjunto de variables de individuo de la lógica de predicados.
+
+La semántica estándar para la lógica de predicados queda definida por los valores semánticos de expresiones básicas (no lógicas), las reglas semánticas para fbf y las definiciones para la evaluación semántica de fbf cuando el valor veritativo correspondiente es indiferente de qué asignación se seleccione.
+
+Valores semánticos de expresiones básicas (no lógicas)
+
+ Si 𝒂 es una constante de individuo de la lógica de predicados, entonces [𝑎]𝐴𝐽 = ƒ(𝑎).
+ Si 𝑹 es un predicado 𝑛-ádico de la lógica de predicados, entonces ƒ(𝑅) ⊆ 𝐴𝑛.
+ Si 𝒙 es una variable de individuo de la lógica de predicados, entonces [𝑥]𝐴𝐽 = ƒ(𝑥).
+
+
+Reglas semánticas para fbf
+
+RSF1. Dado un predicado 𝑛-ádico cualquiera del lenguaje, 𝑹, y una sucesión cualquiera de 𝑛 términos del lenguaje, 𝜏1, … , 𝜏𝑛 se dice que [𝑅𝜏1, … , 𝜏𝑛]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 < [𝜏1]𝐴𝐽, [𝜏2]𝐴𝐽, … , [𝜏𝑛]𝐴𝐽 >∈ [𝑅]𝐴𝐽. Cuando 𝑅 es monario, se dice que [??𝜏1]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 [𝜏1]𝐴𝐽 ∈ [𝑅]𝐴𝐽.
+
+RSF2. Si 𝑨 es una fbf de la lógica de predicados, entonces [¬𝐴]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 [𝐴]𝐴𝐽 = 0.
+
+RSF3. Si 𝑨 y 𝑩 son fbf de la lógica de predicados, entonces:
+
+ [𝐴 ∨ 𝐵]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 [𝐴]𝐴𝐽 = 1 𝑜 [𝐵]𝐴𝐽 = 1.
+ [𝐴 ∧ 𝐵]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 [𝐴]𝐴𝐽 = 1 𝑦 [𝐵]𝐴𝐽 = 1.
+ [𝐴 → 𝐵]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 [𝐴]𝐴𝐽 = 0 𝑜 [𝐵]𝐴𝐽 = 1.
+
+
+
+
+Lógica Computacional Tema 11. Ideas clave
+
+RSF4. Si 𝑨 es una fbf de la lógica de predicados, entonces:
+
+ [∃𝑥𝐴]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 para al menos un elemento 𝛼 del dominio 𝑨 se cumple que [𝐴]𝐴𝐽 = 1, donde 𝑱 es una asignación en todo igual a 𝑱 salvo, posiblemente en que asigna 𝛼 a la variable de individuo 𝑥.
+ [∀𝑥𝐴]𝐴𝐽 = 1 𝑠𝑦𝑠𝑠 para todo elemento 𝛼 del dominio 𝑨 se cumple que [𝐴]𝐴𝐽 = 1, donde 𝑱 es una asignación en todo igual a 𝑱 salvo, posiblemente en que asigna 𝛼 a la variable 𝑥.
+
+Definiciones para la evaluación semántica de fbf cuando el valor veritativo correspondiente es indiferente de qué asignación se seleccione
+
+ Si 𝑨 es una constante de individuo de la lógica de predicados, entonces [𝐴]𝐴 = 1 por definición 𝑦𝑠𝑠 [𝐴]𝐴𝐽 = 1 para toda asignación 𝑱.
+ Si 𝑨 es una fbf de la lógica de predicados, entonces [𝐴]𝐴 = 0 por definición
+𝑦𝑠𝑠 [𝐴]𝐴𝐽 = 0 para toda asignación 𝑱.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 11. Ideas clave
+
+
+
+A fondo
+
+
+Lógica de predicados
+
+
+
+Recomendamos de nuevo esta lectura ya citada en otros temas; este recurso nos lleva al mundo de la lógica de predicados y a conocer el lenguaje que es propio de esta extensión de la lógica proposicional. En este caso nos interesa más abordarla desde el punto de vista de la formalización y validación del razonamiento, con un lenguaje más potente, más expresivo.
+
+Accede al documento a través del aula virtual o desde la siguiente dirección web: https://www.academia.edu/12249981/Cap%C3%ADtulo_1_L%C3%B3gica_y_Conju ntos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 11. A fondo
+
+Nociones de conjuntos
+
+
+Este documento visual muestra qué son, para qué sirven, y cómo hacer mediante varios ejemplos, árboles de verdad para el lenguaje proposicional en lógica de predicados.
+
+
+
+Accede al vídeo a través del aula virtual o desde la siguiente dirección web: https://youtu.be/sTPukUhK_YM
+
+
+
+
+Introducción a la lógica borrosa
+
+
+
+Fantástica exposición de una semántica no bivalente para una lógica de predicados. En el libro completo se describe una semántica bivalente en el capítulo 1, una semántica multivalorada en el capítulo 2 y la semántica borrosa o fuzzy en el tercero.
+
+Disponible en el aula virtual en virtud del artículo 32.4 de la Ley de Propiedad Intelectual
+
+
+
+
+
+
+
+
+Lógica Computacional Tema 11. A fondo
+
+
+
+Actividades
+
+Ejercicios avanzados de semántica
+
+Calcula el valor semántico de las siguientes fórmulas para la posible realización 𝐴 y para asignación 𝐽:
+𝐴 =< 𝐴, 𝑓 >
+𝐴 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
+
+𝑓(𝑎)=3𝑓(𝑏)=5𝑓(𝑐)=9𝑓(𝑑)=0𝑓(𝑆) = {3, 6, 7, 8}
+𝑓(𝑅) = {< 0,5 >, < 9,4 >, < 9,1 >}
+𝐽(𝑥) = 2
+𝐽(𝑦) = 4
+𝐽(𝑧) = 6
+. . .
+
+1. 𝑆𝑑.
+2. 𝑅𝑑𝑎.
+3. ∃𝑥(𝑆𝑥 ∧ ¬𝑅𝑥𝑑).
+4. ∀𝑥(𝑆𝑥 → ¬𝑆𝑥).
+5. 𝑆𝑥 → ¬𝑆𝑥.
+6. ∀𝑥∃𝑦𝑅𝑦𝑥.
+7. 𝑆𝑥 → ∃𝑦𝑅𝑥𝑦.
+8. ∀𝑥(𝑆𝑥 → ∃𝑦𝑅𝑥𝑦).
+9. ∀𝑥(𝑆𝑥 → ∃𝑦𝑅𝑦𝑥).
+10. 𝑆𝑥 ∨ ¬𝑆𝑥.
+11. (𝑅𝑥𝑦 ∧ 𝑅𝑦𝑥 → 𝑅𝑦𝑧) → (𝑅𝑥𝑦 → (𝑅𝑦𝑥 → 𝑅𝑦𝑧)).
+12. 𝑆𝑦 ∧ ¬𝑅𝑥𝑑
+
+
+Lógica Computacional Tema 11. Actividades
+
+
+
+Test
+
+1. ¿Qué debe suceder para que ∀𝑥𝑃𝑥 sea verdadero?
+A. Que todos los elementos del universo de discurso tengan la propiedad P.
+B. Que el conjunto P sea igual al universo de discurso.
+C. Basta con que un elemento del universo de discurso tenga la propiedad P.
+D. Basta con que un elemento del universo de discurso esté en el conjunto P.
+
+
+2. ¿Qué debe suceder para que ∃𝑥𝑃𝑥 sea verdadero?
+A. Que todos los elementos del universo de discurso tengan la propiedad P.
+B. Que el conjunto P sea igual al universo de discurso.
+C. Basta con que un elemento del universo de discurso tenga la propiedad P.
+D. Basta con que un elemento del universo de discurso esté en el conjunto P.
+
+3. ¿Qué debe suceder para que ∀𝑥(𝑃𝑥 → 𝑄𝑥) sea verdadero?
+A. Que P esté incluido en Q.
+B. Que P no esté incluido en Q.
+C. Que la intersección de P y Q no sea vacía.
+D. Que la intersección de P y Q sea vacía.
+
+4. ¿Qué debe suceder para que ¬∃𝑥(𝑃𝑥 ∧ 𝑄𝑥) sea verdadero?
+A. Que P esté incluido en Q.
+B. Que P no esté incluido en Q.
+C. Que la intersección de P y Q no sea vacía.
+D. Que la intersección de P y Q sea vacía.
+
+5. ¿Qué debe suceder para que ¬∀𝑥(𝑃𝑥 → 𝑄𝑥) sea verdadero?
+A. Que P esté incluido en Q.
+B. Que P no esté incluido en Q.
+C. Que la intersección de P y Q no sea vacía.
+D. Que la intersección de P y Q sea vacía.
+
+Lógica Computacional
+Tema 11. Test
+
+6. ¿Qué debe suceder para que ∃𝑥(𝑃𝑥 ∧ 𝑄𝑥) sea verdadero?
+A. Que P esté incluido en Q.
+B. Que P no esté incluido en Q.
+C. Que la intersección de P y Q no sea vacía.
+D. Que la intersección de P y Q sea vacía.
+
+7. ¿Qué debe suceder para que ∀𝑥(𝑃𝑥 ∧ 𝑄𝑥) sea verdadero?
+A. Que el conjunto P sea vacío.
+B. Que el conjunto Q sea vacío.
+C. Que el conjunto P sea igual al universo y el conjunto Q sea igual al universo.
+D. Que o P no sea igual al universo o Q no sea igual al universo.
+
+8. ¿Qué debe suceder para que ¬∀𝑥(𝑃𝑥 ∧ 𝑄𝑥) sea verdadero?
+A. Que el conjunto P sea vacío.
+B. Que el conjunto Q sea vacío.
+C. Que el conjunto P sea igual al universo y el conjunto Q sea igual al universo.
+D. Que o P no sea igual al universo o Q no sea igual al universo.
+
+
+9. ¿Qué debe suceder para que ¬∃𝑥𝑄𝑥 sea verdadero?
+A. Que el conjunto P sea vacío.
+B. Que el conjunto Q sea vacío.
+C. Que el conjunto P sea igual al universo y el conjunto Q sea igual al universo.
+D. Que o P no sea igual al universo o Q no sea igual al universo.
+
+10. ¿Para qué sirven las asignaciones?
+A. Para calcular el valor semántico de los operadores lógicos.
+B. Para que podamos obtener valor semántico de fórmulas que no son sentencias.
+C. Para hacer que las variables tengan valor falso.
+D. Todas las respuestas son correctas.
+
+
+
+
+
+Lógica Computacional
+Tema 11. Test

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 11: Semántica de la Lógica de Predicados - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .semantic-rule {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .semantic-rule h4 {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .rule-formula {
+            background: var(--bg-primary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .assignment-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .assignment-box h4 {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .formula-example {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .formula-example h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .formula-example .formula {
+            background: var(--bg-primary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .concept-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .concept-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .concept-card h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .symbol-box {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .symbol-box .symbol {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .symbol-box .description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .tema-actions {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .tema-actions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .progress-indicator {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .tema-content {
+                padding: 1rem;
+            }
+            
+            .tema-header {
+                padding: 2rem 0;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 11: Semántica de la Lógica de Predicados</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">11</div>
+                    <h1 class="tema-title">Semántica de la Lógica de Predicados</h1>
+                    <p class="tema-description">Comprensión de la semántica estándar para la lógica de predicados y su evaluación</p>
+                </div>
+            </div>
+
+            <!-- Indicador de Progreso -->
+            <div class="progress-indicator">
+                <div class="progress-text">
+                    <span>Progreso del Tema</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Introducción y Objetivos</h2>
+                <p>Una de las principales dificultades que tiene la presentación de una semántica para la lógica de predicados es que hay que tener en cuenta el valor semántico de todas las fórmulas bien formadas, ya sean estas sentencias o no.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Conceptos Clave</h4>
+                    <p>Además de la noción de posible realización, que es la estructura que proporciona el valor semántico de las sentencias, necesitaremos introducir también el concepto de <strong>asignación</strong>.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i>Introducción a la Semántica de Predicados</h2>
+                
+                <div class="assignment-box">
+                    <h4><i class="fas fa-assignment"></i>Concepto de Asignación</h4>
+                    <p>Dada una posible realización <strong>A = &lt;A, ƒ&gt;</strong> y una asignación <strong>J</strong> para la lógica de predicados, donde:</p>
+                    <ul>
+                        <li>Si <strong>a</strong> es una constante de individuo de la lógica de predicados, entonces ƒ(a) ∈ A.</li>
+                        <li>Si <strong>R</strong> es un predicado n-ádico de la lógica de predicados, entonces ƒ(R) ⊆ Aⁿ.</li>
+                        <li><strong>J: VAR → A</strong>, siendo VAR el conjunto de variables de individuo de la lógica de predicados.</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Semántica Estándar</h4>
+                    <p>La semántica estándar para la lógica de predicados queda definida por:</p>
+                    <ul>
+                        <li>Los valores semánticos de expresiones básicas (no lógicas)</li>
+                        <li>Las reglas semánticas para fbf</li>
+                        <li>Las definiciones para la evaluación semántica de fbf cuando el valor veritativo correspondiente es indiferente de qué asignación se seleccione</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-calculator"></i>Valores Semánticos de Expresiones Básicas</h2>
+                
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4><i class="fas fa-user"></i>Constantes de Individuo</h4>
+                        <p>Si <strong>a</strong> es una constante de individuo de la lógica de predicados, entonces:</p>
+                        <div class="rule-formula">
+                            [a]ᴬⱼ = ƒ(a)
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-tag"></i>Predicados n-ádicos</h4>
+                        <p>Si <strong>R</strong> es un predicado n-ádico de la lógica de predicados, entonces:</p>
+                        <div class="rule-formula">
+                            ƒ(R) ⊆ Aⁿ
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-variable"></i>Variables de Individuo</h4>
+                        <p>Si <strong>x</strong> es una variable de individuo de la lógica de predicados, entonces:</p>
+                        <div class="rule-formula">
+                            [x]ᴬⱼ = J(x)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-list-ol"></i>Reglas Semánticas para FBF</h2>
+                
+                <div class="semantic-rule">
+                    <h4><i class="fas fa-rule"></i>RSF1: Predicados</h4>
+                    <p>Dado un predicado n-ádico cualquiera del lenguaje, <strong>R</strong>, y una sucesión cualquiera de n términos del lenguaje, τ₁, ..., τₙ:</p>
+                    <div class="rule-formula">
+                        [Rτ₁, ..., τₙ]ᴬⱼ = 1 syss &lt;[τ₁]ᴬⱼ, [τ₂]ᴬⱼ, ..., [τₙ]ᴬⱼ&gt; ∈ [R]ᴬⱼ
+                    </div>
+                    <p>Cuando R es monario, se dice que:</p>
+                    <div class="rule-formula">
+                        [Rτ₁]ᴬⱼ = 1 syss [τ₁]ᴬⱼ ∈ [R]ᴬⱼ
+                    </div>
+                </div>
+                
+                <div class="semantic-rule">
+                    <h4><i class="fas fa-rule"></i>RSF2: Negación</h4>
+                    <p>Si <strong>A</strong> es una fbf de la lógica de predicados, entonces:</p>
+                    <div class="rule-formula">
+                        [¬A]ᴬⱼ = 1 syss [A]ᴬⱼ = 0
+                    </div>
+                </div>
+                
+                <div class="semantic-rule">
+                    <h4><i class="fas fa-rule"></i>RSF3: Conectivos Lógicos</h4>
+                    <p>Si <strong>A</strong> y <strong>B</strong> son fbf de la lógica de predicados, entonces:</p>
+                    <ul>
+                        <li><strong>Disyunción:</strong> [A ∨ B]ᴬⱼ = 1 syss [A]ᴬⱼ = 1 o [B]ᴬⱼ = 1</li>
+                        <li><strong>Conjunción:</strong> [A ∧ B]ᴬⱼ = 1 syss [A]ᴬⱼ = 1 y [B]ᴬⱼ = 1</li>
+                        <li><strong>Implicación:</strong> [A → B]ᴬⱼ = 1 syss [A]ᴬⱼ = 0 o [B]ᴬⱼ = 1</li>
+                    </ul>
+                </div>
+                
+                <div class="semantic-rule">
+                    <h4><i class="fas fa-rule"></i>RSF4: Cuantificadores</h4>
+                    <p>Si <strong>A</strong> es una fbf de la lógica de predicados, entonces:</p>
+                    
+                    <div class="example-box">
+                        <h4><i class="fas fa-exists"></i>Cuantificador Existencial</h4>
+                        <div class="rule-formula">
+                            [∃x A]ᴬⱼ = 1 syss para al menos un elemento α del dominio A se cumple que [A]ᴬⱼ = 1
+                        </div>
+                        <p>donde J' es una asignación en todo igual a J salvo, posiblemente en que asigna α a la variable de individuo x.</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4><i class="fas fa-for-all"></i>Cuantificador Universal</h4>
+                        <div class="rule-formula">
+                            [∀x A]ᴬⱼ = 1 syss para todo elemento α del dominio A se cumple que [A]ᴬⱼ = 1
+                        </div>
+                        <p>donde J' es una asignación en todo igual a J salvo, posiblemente en que asigna α a la variable x.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-equals"></i>Definiciones para la Evaluación Semántica</h2>
+                
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4><i class="fas fa-check-circle"></i>Verdad en una Realización</h4>
+                        <p>Si <strong>A</strong> es una fbf de la lógica de predicados, entonces:</p>
+                        <div class="rule-formula">
+                            [A]ᴬ = 1 por definición syss [A]ᴬⱼ = 1 para toda asignación J
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-times-circle"></i>Falsedad en una Realización</h4>
+                        <p>Si <strong>A</strong> es una fbf de la lógica de predicados, entonces:</p>
+                        <div class="rule-formula">
+                            [A]ᴬ = 0 por definición syss [A]ᴬⱼ = 0 para toda asignación J
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-calculator"></i>Ejemplos Prácticos</h2>
+                
+                <div class="formula-example">
+                    <h4><i class="fas fa-lightbulb"></i>Ejemplo de Evaluación</h4>
+                    <p>Dada la posible realización A y asignación J:</p>
+                    <ul>
+                        <li>A = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}</li>
+                        <li>ƒ(a) = 3, ƒ(b) = 5, ƒ(c) = 9, ƒ(d) = 0</li>
+                        <li>ƒ(S) = {3, 6, 7, 8}</li>
+                        <li>ƒ(R) = {&lt;0,5&gt;, &lt;9,4&gt;, &lt;9,1&gt;}</li>
+                        <li>J(x) = 2, J(y) = 4, J(z) = 6</li>
+                    </ul>
+                    
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h4>Evaluación de Sd</h4>
+                            <div class="formula">
+                                Sd
+                            </div>
+                            <p><strong>Proceso:</strong> [Sd]ᴬⱼ = 1 syss [d]ᴬⱼ ∈ [S]ᴬⱼ</p>
+                            <p>[d]ᴬⱼ = ƒ(d) = 0</p>
+                            <p>[S]ᴬⱼ = ƒ(S) = {3, 6, 7, 8}</p>
+                            <p><strong>Resultado:</strong> 0 ∉ {3, 6, 7, 8}, por tanto [Sd]ᴬⱼ = 0</p>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h4>Evaluación de Rda</h4>
+                            <div class="formula">
+                                Rda
+                            </div>
+                            <p><strong>Proceso:</strong> [Rda]ᴬⱼ = 1 syss &lt;[d]ᴬⱼ, [a]ᴬⱼ&gt; ∈ [R]ᴬⱼ</p>
+                            <p>[d]ᴬⱼ = ƒ(d) = 0, [a]ᴬⱼ = ƒ(a) = 3</p>
+                            <p>[R]ᴬⱼ = ƒ(R) = {&lt;0,5&gt;, &lt;9,4&gt;, &lt;9,1&gt;}</p>
+                            <p><strong>Resultado:</strong> &lt;0,3&gt; ∉ {&lt;0,5&gt;, &lt;9,4&gt;, &lt;9,1&gt;}, por tanto [Rda]ᴬⱼ = 0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-bridge"></i>Relación con la Teoría de Conjuntos</h2>
+                <p>La semántica de la lógica de predicados se fundamenta en la teoría de conjuntos:</p>
+                
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4><i class="fas fa-user"></i>Individuos</h4>
+                        <p>Los individuos en la lógica de predicados corresponden a elementos de conjuntos en la teoría de conjuntos.</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-tag"></i>Predicados Monádicos</h4>
+                        <p>Los predicados monádicos corresponden a conjuntos en la teoría de conjuntos.</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-link"></i>Predicados Poliádicos</h4>
+                        <p>Los predicados poliádicos corresponden a relaciones en la teoría de conjuntos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <h3>Recursos del Tema</h3>
+                <div class="action-buttons">
+                    <a href="../../recursos/material-adicional/" class="btn btn-secondary">
+                        <i class="fas fa-book"></i> Material Adicional
+                    </a>
+                    <a href="../../herramientas/tablas-verdad.html" class="btn btn-primary">
+                        <i class="fas fa-calculator"></i> Herramientas
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación entre Temas -->
+            <div class="navigation-buttons">
+                <a href="../tema10/contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Tema Anterior: Teoría de Conjuntos y Lógica de Predicados</span>
+                </a>
+                <a href="#" class="nav-btn disabled">
+                    <span>Próximo Tema</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Funcionalidad específica para la página del tema
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar progreso al leer el contenido
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text span:last-child');
+            
+            function updateProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = Math.min((scrollTop / docHeight) * 100, 100);
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                // Guardar progreso en localStorage
+                localStorage.setItem('tema11_progress', progress);
+            }
+            
+            // Cargar progreso guardado
+            const savedProgress = localStorage.getItem('tema11_progress') || 0;
+            progressFill.style.width = savedProgress + '%';
+            progressText.textContent = Math.round(savedProgress) + '%';
+            
+            // Actualizar progreso al hacer scroll
+            window.addEventListener('scroll', updateProgress);
+            
+            // Marcar tema como completado si se llega al final
+            window.addEventListener('scroll', function() {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    localStorage.setItem('tema11_completed', 'true');
+                    console.log('Tema 11 completado');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

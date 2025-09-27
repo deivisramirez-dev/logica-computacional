@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 10: Teoría de Conjuntos y Lógica de Predicados - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .concept-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .concept-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .concept-card h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .symbol-box {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .symbol-box .symbol {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .symbol-box .description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .operation-examples {
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .operation-examples h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .example-formula {
+            background: var(--bg-primary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .venn-diagram {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .venn-diagram h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .venn-interactive-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .venn-diagram-container {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .venn-diagram-container h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .venn-diagram-container p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .venn-explanation {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .venn-explanation h5 {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .venn-explanation ul {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .venn-explanation li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .tema-actions {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .tema-actions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .progress-indicator {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .tema-content {
+                padding: 1rem;
+            }
+            
+            .tema-header {
+                padding: 2rem 0;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 10: Teoría de Conjuntos y Lógica de Predicados</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">10</div>
+                    <h1 class="tema-title">Teoría de Conjuntos y Lógica de Predicados</h1>
+                    <p class="tema-description">Nociones básicas de teoría de conjuntos necesarias para la comprensión de la semántica de la lógica de predicados</p>
+                </div>
+            </div>
+
+            <!-- Indicador de Progreso -->
+            <div class="progress-indicator">
+                <div class="progress-text">
+                    <span>Progreso del Tema</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Introducción y Objetivos</h2>
+                <p>En este tema se presentan las nociones básicas de teoría de conjuntos necesarias para una comprensión correcta de la semántica de la lógica de predicados que se presentará en el próximo tema.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Objetivo Principal</h4>
+                    <p>Dominar los conceptos fundamentales de la teoría de conjuntos para comprender la semántica de la lógica de predicados.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i>Teoría Intuitiva de Conjuntos</h2>
+                <p>Es necesario tener una mínima idea de lo que es la teoría de conjuntos para poder entender con claridad la semántica de la lógica de predicados. Por este motivo, este tema es una mera introducción a este ámbito.</p>
+                
+                <p>No será necesario tener una gran solvencia ni conocer todo el aparato formal de la teoría de conjuntos, bastará con dominar los conceptos básicos y tener claras las notaciones fundamentales.</p>
+
+                <h3>Nociones Primitivas: Relaciones y Operaciones Fundamentales</h3>
+                
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4><i class="fas fa-element-group"></i>Pertenencia</h4>
+                        <p>La relación de pertenencia de un elemento a un conjunto es un concepto primitivo que no se define, sino que se presenta de forma intuitiva.</p>
+                        
+                        <div class="symbol-box">
+                            <div class="symbol">∈</div>
+                            <div class="description">Se lee "pertenece a"</div>
+                        </div>
+                        
+                        <p><strong>Ejemplo:</strong> b ∈ A se lee "el elemento b pertenece al conjunto A"</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-subset"></i>Inclusión Impropia y Propia</h4>
+                        <p>Un conjunto A está incluido en otro conjunto B cuando todos los elementos de A también pertenecen a B.</p>
+                        
+                        <div class="symbol-box">
+                            <div class="symbol">⊆</div>
+                            <div class="description">Inclusión impropia</div>
+                        </div>
+                        
+                        <div class="symbol-box">
+                            <div class="symbol">⊂</div>
+                            <div class="description">Inclusión propia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-calculator"></i>Operaciones entre Conjuntos</h2>
+                
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4><i class="fas fa-plus"></i>Unión</h4>
+                        <p>La unión de dos conjuntos es el conjunto de todos aquellos elementos que pertenecen a A o a B o a ambos.</p>
+                        
+                        <div class="example-formula">
+                            A ∪ B
+                        </div>
+                        
+                        <p><strong>Definición:</strong> A ∪ B = {x | x ∈ A ∨ x ∈ B}</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-times"></i>Intersección</h4>
+                        <p>La intersección de dos conjuntos es el conjunto de todos aquellos elementos que pertenecen a A y a B.</p>
+                        
+                        <div class="example-formula">
+                            A ∩ B
+                        </div>
+                        
+                        <p><strong>Definición:</strong> A ∩ B = {x | x ∈ A ∧ x ∈ B}</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-minus"></i>Diferencia</h4>
+                        <p>La diferencia de dos conjuntos es el conjunto de todos aquellos elementos que pertenecen a A y no pertenecen a B.</p>
+                        
+                        <div class="example-formula">
+                            A – B
+                        </div>
+                        
+                        <p><strong>Definición:</strong> A – B = {x | x ∈ A ∧ x ∉ B}</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-layer-group"></i>Conjunto Potencia</h4>
+                        <p>El conjunto potencia de un conjunto es el conjunto de todos los subconjuntos de A.</p>
+                        
+                        <div class="example-formula">
+                            P(A)
+                        </div>
+                        
+                        <p><strong>Definición:</strong> P(A) = {X | X ⊆ A}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-project-diagram"></i>Producto Cartesiano</h2>
+                <p>Algunos conjuntos contienen un tipo especial de elementos denotados de la forma &lt;a,b&gt;, &lt;a,b,c&gt;, &lt;a,b,c,d&gt;, donde a, b, c y d son elementos del estilo de los considerados hasta el momento.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>N-tuplas Ordenadas</h4>
+                    <ul>
+                        <li><strong>Pares ordenados:</strong> Formadas por dos elementos</li>
+                        <li><strong>Tripletas ordenadas:</strong> Formadas por tres elementos</li>
+                        <li><strong>N-tuplas:</strong> Formadas por n elementos</li>
+                    </ul>
+                </div>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i>Definición del Producto Cartesiano</h4>
+                    <p>El producto cartesiano de dos conjuntos A y B es el conjunto de todos aquellos pares ordenados en el que el primer elemento de cada par pertenece a A y el segundo pertenece a B:</p>
+                    
+                    <div class="example-formula">
+                        A × B = {&lt;a,b&gt; | a ∈ A ∧ b ∈ B}
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-sitemap"></i>Relaciones, Aplicaciones y Funciones</h2>
+                
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4><i class="fas fa-link"></i>Relaciones</h4>
+                        <p>Una relación n-aria es un subconjunto del producto cartesiano de n conjuntos.</p>
+                        
+                        <div class="example-formula">
+                            R ⊆ A₁ × A₂ × ... × Aₙ
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-arrow-right"></i>Funciones</h4>
+                        <p>Una función es una relación en la que no pueden existir dos pares ordenados cuyo primer elemento sea el mismo y el segundo elemento diferente.</p>
+                        
+                        <div class="highlight-box">
+                            <h4>Univocidad por la Derecha</h4>
+                            <p>Esta condición se denomina univocidad por la derecha.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-chart-pie"></i>Álgebra de Conjuntos con Diagramas de Venn</h2>
+                <p>Los diagramas de Venn son representaciones visuales de conjuntos matemáticos, o colecciones de objetos, que se estudian utilizando una rama de la lógica llamada teoría de conjuntos.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Importancia de la Teoría de Conjuntos</h4>
+                    <p>La teoría de conjuntos es uno de los sistemas fundamentales para las matemáticas y ayuda a desarrollar nuestra comprensión moderna del infinito y los números reales.</p>
+                </div>
+                
+                <div class="venn-diagram">
+                    <h4><i class="fas fa-circle"></i>Diagramas de Venn Interactivos</h4>
+                    <p>Los diagramas de Venn permiten visualizar las operaciones entre conjuntos de manera intuitiva. Usa los controles para explorar las diferentes operaciones:</p>
+                    
+                    <div class="venn-interactive-container">
+                        <div class="venn-diagram-container" id="venn-union">
+                            <h5>Unión de Conjuntos (A ∪ B)</h5>
+                            <p>La unión incluye todos los elementos que pertenecen a A o a B o a ambos.</p>
+                        </div>
+                        
+                        <div class="venn-diagram-container" id="venn-intersection">
+                            <h5>Intersección de Conjuntos (A ∩ B)</h5>
+                            <p>La intersección incluye solo los elementos que pertenecen tanto a A como a B.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="venn-explanation">
+                        <h5><i class="fas fa-info-circle"></i> Cómo usar los diagramas:</h5>
+                        <ul>
+                            <li><strong>Mostrar Unión:</strong> Resalta todos los elementos que están en A o en B</li>
+                            <li><strong>Mostrar Intersección:</strong> Resalta solo los elementos comunes a ambos conjuntos</li>
+                            <li><strong>Mostrar Diferencia:</strong> Resalta los elementos que están en A pero no en B</li>
+                            <li><strong>Reiniciar:</strong> Vuelve al estado inicial del diagrama</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-bridge"></i>Relación con la Lógica de Predicados</h2>
+                <p>La teoría de conjuntos proporciona el marco semántico para la lógica de predicados:</p>
+                
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4><i class="fas fa-user"></i>Individuos</h4>
+                        <p>Los individuos en la lógica de predicados corresponden a elementos de conjuntos en la teoría de conjuntos.</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-tag"></i>Predicados Monádicos</h4>
+                        <p>Los predicados monádicos corresponden a conjuntos en la teoría de conjuntos.</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4><i class="fas fa-link"></i>Predicados Poliádicos</h4>
+                        <p>Los predicados poliádicos corresponden a relaciones en la teoría de conjuntos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <h3>Recursos del Tema</h3>
+                <div class="action-buttons">
+                    <a href="ejercicios.html" class="btn btn-outline">
+                        <i class="fas fa-tasks"></i> Ejercicios Prácticos
+                    </a>
+                    <a href="../../recursos/material-adicional/" class="btn btn-secondary">
+                        <i class="fas fa-book"></i> Material Adicional
+                    </a>
+                    <a href="../../herramientas/tablas-verdad.html" class="btn btn-primary">
+                        <i class="fas fa-calculator"></i> Herramientas
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación entre Temas -->
+            <div class="navigation-buttons">
+                <a href="../tema9/contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Tema Anterior: Estrategias de Deducción para la Lógica de Predicados</span>
+                </a>
+                <a href="../tema11/contenido.html" class="nav-btn">
+                    <span>Siguiente Tema: Semántica de la Lógica de Predicados</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script src="../../assets/js/svg-venn-diagrams.js"></script>
+    <script>
+        // Funcionalidad específica para la página del tema
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar progreso al leer el contenido
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text span:last-child');
+            
+            function updateProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = Math.min((scrollTop / docHeight) * 100, 100);
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                // Guardar progreso en localStorage
+                localStorage.setItem('tema10_progress', progress);
+            }
+            
+            // Cargar progreso guardado
+            const savedProgress = localStorage.getItem('tema10_progress') || 0;
+            progressFill.style.width = savedProgress + '%';
+            progressText.textContent = Math.round(savedProgress) + '%';
+            
+            // Actualizar progreso al hacer scroll
+            window.addEventListener('scroll', updateProgress);
+            
+            // Marcar tema como completado si se llega al final
+            window.addEventListener('scroll', function() {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    localStorage.setItem('tema10_completed', 'true');
+                    console.log('Tema 10 completado');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

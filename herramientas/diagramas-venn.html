@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas de Venn Interactivos - Lógica Computacional</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+        }
+        
+        .demo-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .demo-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .demo-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .demo-card h3 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .venn-container {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .operation-explanation {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .operation-explanation h4 {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .operation-explanation ul {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .operation-explanation li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .formula-box {
+            background: var(--bg-primary);
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            margin-bottom: 2rem;
+        }
+        
+        .back-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: 1rem;
+            }
+            
+            .demo-header {
+                padding: 2rem 0;
+            }
+            
+            .demo-title {
+                font-size: 2rem;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../index.html#temas">Temas</a></li>
+                        <li><a href="../index.html#recursos">Recursos</a></li>
+                        <li><a href="../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="demo-container">
+        <!-- Botón de regreso -->
+        <a href="../index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            <span>Volver al Inicio</span>
+        </a>
+
+        <!-- Header de la demostración -->
+        <div class="demo-header">
+            <h1 class="demo-title">Diagramas de Venn Interactivos</h1>
+            <p class="demo-description">Explora las operaciones entre conjuntos de manera visual e interactiva</p>
+        </div>
+
+        <!-- Sección de operaciones básicas -->
+        <div class="demo-section">
+            <h2><i class="fas fa-calculator"></i>Operaciones Básicas entre Conjuntos</h2>
+            <p>Los diagramas de Venn son representaciones visuales que nos permiten entender las operaciones entre conjuntos de manera intuitiva. Usa los controles para explorar cada operación:</p>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>Unión de Conjuntos</h3>
+                    <p>La unión de dos conjuntos A y B es el conjunto de todos los elementos que pertenecen a A o a B o a ambos.</p>
+                    <div class="formula-box">A ∪ B = {x | x ∈ A ∨ x ∈ B}</div>
+                    <div class="venn-container">
+                        <div class="venn-diagram-container" id="venn-union-demo"></div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <h3>Intersección de Conjuntos</h3>
+                    <p>La intersección de dos conjuntos A y B es el conjunto de todos los elementos que pertenecen tanto a A como a B.</p>
+                    <div class="formula-box">A ∩ B = {x | x ∈ A ∧ x ∈ B}</div>
+                    <div class="venn-container">
+                        <div class="venn-diagram-container" id="venn-intersection-demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de operaciones avanzadas -->
+        <div class="demo-section">
+            <h2><i class="fas fa-cogs"></i>Operaciones Avanzadas</h2>
+            <p>Explora operaciones más complejas entre conjuntos:</p>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>Diferencia de Conjuntos</h3>
+                    <p>La diferencia de dos conjuntos A y B es el conjunto de todos los elementos que pertenecen a A pero no a B.</p>
+                    <div class="formula-box">A - B = {x | x ∈ A ∧ x ∉ B}</div>
+                    <div class="venn-container">
+                        <div class="venn-diagram-container" id="venn-difference-demo"></div>
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <h3>Diferencia Simétrica</h3>
+                    <p>La diferencia simétrica de dos conjuntos A y B es el conjunto de elementos que están en A o en B, pero no en ambos.</p>
+                    <div class="formula-box">A △ B = (A - B) ∪ (B - A)</div>
+                    <div class="venn-container">
+                        <div class="venn-diagram-container" id="venn-symmetric-demo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explicación de uso -->
+        <div class="operation-explanation">
+            <h4><i class="fas fa-info-circle"></i> Cómo usar los diagramas interactivos</h4>
+            <ul>
+                <li><strong>Unión (A ∪ B):</strong> Muestra todos los elementos que están en A o en B, incluyendo la intersección</li>
+                <li><strong>Intersección (A ∩ B):</strong> Resalta solo los elementos comunes a ambos conjuntos</li>
+                <li><strong>Diferencia (A - B):</strong> Muestra los elementos que están en A pero no en B</li>
+                <li><strong>Diferencia Simétrica:</strong> Muestra los elementos que están en A o en B, pero no en ambos</li>
+                <li><strong>Reiniciar:</strong> Vuelve al estado inicial del diagrama</li>
+            </ul>
+        </div>
+
+        <!-- Ejemplos prácticos -->
+        <div class="demo-section">
+            <h2><i class="fas fa-lightbulb"></i>Ejemplos Prácticos</h2>
+            <p>Veamos algunos ejemplos concretos de cómo se aplican estas operaciones:</p>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>Ejemplo 1: Estudiantes</h3>
+                    <p>Sea A = {estudiantes que estudian matemáticas} y B = {estudiantes que estudian física}.</p>
+                    <ul style="text-align: left; color: var(--text-secondary);">
+                        <li><strong>A ∪ B:</strong> Estudiantes que estudian matemáticas o física</li>
+                        <li><strong>A ∩ B:</strong> Estudiantes que estudian ambas materias</li>
+                        <li><strong>A - B:</strong> Estudiantes que estudian solo matemáticas</li>
+                    </ul>
+                </div>
+                
+                <div class="demo-card">
+                    <h3>Ejemplo 2: Números</h3>
+                    <p>Sea A = {1, 2, 3, 4, 5} y B = {3, 4, 5, 6, 7}.</p>
+                    <ul style="text-align: left; color: var(--text-secondary);">
+                        <li><strong>A ∪ B:</strong> {1, 2, 3, 4, 5, 6, 7}</li>
+                        <li><strong>A ∩ B:</strong> {3, 4, 5}</li>
+                        <li><strong>A - B:</strong> {1, 2}</li>
+                        <li><strong>B - A:</strong> {6, 7}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aplicaciones -->
+        <div class="demo-section">
+            <h2><i class="fas fa-bridge"></i>Aplicaciones en Lógica de Predicados</h2>
+            <p>Los diagramas de Venn son fundamentales para entender la semántica de la lógica de predicados:</p>
+            
+            <div class="operation-explanation">
+                <h4><i class="fas fa-link"></i> Relación con la Lógica de Predicados</h4>
+                <ul>
+                    <li><strong>Predicados Monádicos:</strong> Se representan como conjuntos en el universo de discurso</li>
+                    <li><strong>Individuos:</strong> Son elementos de los conjuntos</li>
+                    <li><strong>Cuantificadores:</strong> ∀x P(x) significa que el conjunto P es igual al universo</li>
+                    <li><strong>Existenciales:</strong> ∃x P(x) significa que el conjunto P no es vacío</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/svg-venn-diagrams.js"></script>
+    <script>
+        // Inicializar diagramas específicos para la demostración
+        document.addEventListener('DOMContentLoaded', function() {
+            // Crear diagramas específicos para cada operación
+            const operations = ['union', 'intersection', 'difference', 'symmetric'];
+            
+            operations.forEach(operation => {
+                const container = document.getElementById(`venn-${operation}-demo`);
+                if (container) {
+                    new SVGVennDiagram(`venn-${operation}-demo`, {
+                        width: 500,
+                        height: 400
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

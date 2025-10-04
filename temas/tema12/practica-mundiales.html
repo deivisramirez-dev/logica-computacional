@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica: Mundiales de Fútbol en Prolog</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        .practica-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .practica-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .practica-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .practica-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .objetivos-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #28a745;
+        }
+        
+        .objetivos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .objetivo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .objetivo-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .objetivo-card i {
+            font-size: 2em;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        
+        .actividad-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid #007bff;
+        }
+        
+        .actividad-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .actividad-number {
+            background: #007bff;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .actividad-content h3 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        
+        .actividad-content .tiempo {
+            background: #ffc107;
+            color: #212529;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .codigo-ejemplo {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .codigo-ejemplo .comentario {
+            color: #68d391;
+        }
+        
+        .codigo-ejemplo .consulta {
+            color: #fbb6ce;
+        }
+        
+        .codigo-ejemplo .resultado {
+            color: #faf089;
+        }
+        
+        .consulta-interactiva {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .consulta-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        
+        .btn-consulta {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-consulta:hover {
+            background: #3182ce;
+        }
+        
+        .resultado-consulta {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            display: none;
+        }
+        
+        .archivos-descarga {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .archivo-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .archivo-item i {
+            color: #2196f3;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .archivo-item a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .archivo-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .evaluacion-section {
+            background: #fff3cd;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .criterios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .criterio-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .criterio-card .porcentaje {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        
+        .reflexion-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .pregunta-reflexion {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .pregunta-reflexion h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .pregunta-reflexion p {
+            color: #6c757d;
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .practica-header h1 {
+                font-size: 2em;
+            }
+            
+            .objetivos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .criterios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="practica-container">
+        <!-- Header -->
+        <div class="practica-header">
+            <h1><i class="fas fa-futbol"></i> Práctica: Mundiales de Fútbol en Prolog</h1>
+            <p>Aplica los conceptos de Prolog en un contexto real y motivador</p>
+        </div>
+
+        <!-- Objetivos -->
+        <div class="objetivos-section">
+            <h2><i class="fas fa-target"></i> Objetivos de la Práctica</h2>
+            <p>Al finalizar esta práctica, serás capaz de aplicar los conceptos fundamentales de Prolog en un contexto real y motivador.</p>
+            
+            <div class="objetivos-grid">
+                <div class="objetivo-card">
+                    <i class="fas fa-database"></i>
+                    <h4>Base de Hechos</h4>
+                    <p>Crear y estructurar datos sobre mundiales de fútbol</p>
+                </div>
+                <div class="objetivo-card">
+                    <i class="fas fa-cogs"></i>
+                    <h4>Base de Reglas</h4>
+                    <p>Definir lógica para derivar nuevo conocimiento</p>
+                </div>
+                <div class="objetivo-card">
+                    <i class="fas fa-search"></i>
+                    <h4>Consultas</h4>
+                    <p>Formular preguntas al sistema de conocimiento</p>
+                </div>
+                <div class="objetivo-card">
+                    <i class="fas fa-code"></i>
+                    <h4>Variables</h4>
+                    <p>Usar variables para obtener información dinámica</p>
+                </div>
+                <div class="objetivo-card">
+                    <i class="fas fa-link"></i>
+                    <h4>Unificación</h4>
+                    <p>Entender cómo Prolog hace coincidir términos</p>
+                </div>
+                <div class="objetivo-card">
+                    <i class="fas fa-undo"></i>
+                    <h4>Backtracking</h4>
+                    <p>Aplicar la búsqueda de múltiples soluciones</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Archivos de Descarga -->
+        <div class="archivos-descarga">
+            <h3><i class="fas fa-download"></i> Archivos para la Práctica</h3>
+            <div class="archivo-item">
+                <i class="fas fa-file-code"></i>
+                <a href="mundiales.pl" download>mundiales.pl</a> - Base de datos de mundiales
+            </div>
+            <div class="archivo-item">
+                <i class="fas fa-file-alt"></i>
+                <a href="practica-mundiales-futbol.md" download>practica-mundiales-futbol.md</a> - Instrucciones completas
+            </div>
+            <div class="archivo-item">
+                <i class="fas fa-file-code"></i>
+                <a href="consultas-soluciones.md" download>consultas-soluciones.md</a> - Consultas y soluciones
+            </div>
+            <div class="archivo-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <a href="instrucciones-profesor.md" download>instrucciones-profesor.md</a> - Guía para el profesor
+            </div>
+        </div>
+
+        <!-- Actividad 1 -->
+        <div class="actividad-section">
+            <div class="actividad-header">
+                <div class="actividad-number">1</div>
+                <div>
+                    <h3>Consultas Básicas</h3>
+                    <span class="tiempo">15 minutos</span>
+                </div>
+            </div>
+            <div class="actividad-content">
+                <p><strong>Objetivo:</strong> Familiarizarse con consultas simples y el uso de variables.</p>
+                
+                <h4>Instrucciones:</h4>
+                <ol>
+                    <li>Carga el archivo <code>mundiales.pl</code> en tu intérprete de Prolog</li>
+                    <li>Realiza las siguientes consultas y anota los resultados</li>
+                </ol>
+
+                <div class="consulta-interactiva">
+                    <h4>Consulta 1: ¿Qué país ganó el mundial de 1998?</h4>
+                    <input type="text" class="consulta-input" value="?- mundial(1998, Pais, _, _)." readonly>
+                    <button class="btn-consulta" onclick="mostrarResultado('resultado1')">Ver Resultado</button>
+                    <div class="resultado-consulta" id="resultado1">
+                        <span class="resultado">Pais = francia</span>
+                    </div>
+                </div>
+
+                <div class="consulta-interactiva">
+                    <h4>Consulta 2: ¿En qué año ganó Brasil un mundial?</h4>
+                    <input type="text" class="consulta-input" value="?- mundial(Año, brasil, _, _)." readonly>
+                    <button class="btn-consulta" onclick="mostrarResultado('resultado2')">Ver Resultado</button>
+                    <div class="resultado-consulta" id="resultado2">
+                        <span class="resultado">Año = 1958 ;<br>Año = 1962 ;<br>Año = 1970 ;<br>Año = 1994 ;<br>Año = 2002</span>
+                    </div>
+                </div>
+
+                <div class="consulta-interactiva">
+                    <h4>Consulta 3: ¿Cuáles son todos los países que han ganado mundiales?</h4>
+                    <input type="text" class="consulta-input" value="?- mundial(_, Pais, _, _)." readonly>
+                    <button class="btn-consulta" onclick="mostrarResultado('resultado3')">Ver Resultado</button>
+                    <div class="resultado-consulta" id="resultado3">
+                        <span class="resultado">Pais = uruguay ;<br>Pais = italia ;<br>Pais = brasil ;<br>Pais = alemania_occidental ;<br>Pais = inglaterra ;<br>Pais = argentina ;<br>Pais = espana ;<br>Pais = francia ;<br>Pais = alemania</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actividad 2 -->
+        <div class="actividad-section">
+            <div class="actividad-header">
+                <div class="actividad-number">2</div>
+                <div>
+                    <h3>Creación de Reglas</h3>
+                    <span class="tiempo">20 minutos</span>
+                </div>
+            </div>
+            <div class="actividad-content">
+                <p><strong>Objetivo:</strong> Aprender a definir reglas que deriven nuevo conocimiento.</p>
+                
+                <h4>Reglas a Implementar:</h4>
+                
+                <div class="codigo-ejemplo">
+                    <span class="comentario">% Regla 1: Un país es campeón del mundo si ha ganado al menos un mundial</span><br>
+                    <span class="consulta">campeon_mundial(Pais) :- mundial(_, Pais, _, _).</span><br><br>
+                    
+                    <span class="comentario">% Regla 2: Un país es potencia futbolística si ha ganado más de un mundial</span><br>
+                    <span class="consulta">potencia_futbolistica(Pais) :-</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(_, Pais, _, _),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(_, Pais, _, _).</span><br><br>
+                    
+                    <span class="comentario">% Regla 3: Un país ha ganado en su propio país</span><br>
+                    <span class="consulta">gano_en_su_pais(Pais, Año) :-</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(Año, Pais, Pais, _).</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actividad 3 -->
+        <div class="actividad-section">
+            <div class="actividad-header">
+                <div class="actividad-number">3</div>
+                <div>
+                    <h3>Consultas Complejas</h3>
+                    <span class="tiempo">25 minutos</span>
+                </div>
+            </div>
+            <div class="actividad-content">
+                <p><strong>Objetivo:</strong> Aplicar conceptos de unificación y backtracking en consultas complejas.</p>
+                
+                <h4>Consultas a Resolver:</h4>
+                
+                <div class="codigo-ejemplo">
+                    <span class="comentario">% Consulta 1: Países que han ganado mundiales en su propio país</span><br>
+                    <span class="consulta">?- mundial(Año, Pais, Pais, _).</span><br><br>
+                    
+                    <span class="comentario">% Consulta 2: Países que han ganado en diferentes continentes</span><br>
+                    <span class="consulta">?- mundial(_, Pais, _, Continente1),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(_, Pais, _, Continente2),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">Continente1 \= Continente2.</span><br><br>
+                    
+                    <span class="comentario">% Consulta 3: Países que han ganado mundiales consecutivos</span><br>
+                    <span class="consulta">?- mundial(Año1, Pais, _, _),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(Año2, Pais, _, _),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">Año2 is Año1 + 4.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actividad 4 -->
+        <div class="actividad-section">
+            <div class="actividad-header">
+                <div class="actividad-number">4</div>
+                <div>
+                    <h3>Análisis Estadístico</h3>
+                    <span class="tiempo">20 minutos</span>
+                </div>
+            </div>
+            <div class="actividad-content">
+                <p><strong>Objetivo:</strong> Crear reglas para análisis estadístico y aplicar conceptos avanzados.</p>
+                
+                <h4>Reglas de Análisis:</h4>
+                
+                <div class="codigo-ejemplo">
+                    <span class="comentario">% Contar mundiales ganados por país</span><br>
+                    <span class="consulta">mundiales_ganados(Pais, Cantidad) :-</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">findall(Año, mundial(Año, Pais, _, _), Mundiales),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">length(Mundiales, Cantidad).</span><br><br>
+                    
+                    <span class="comentario">% Dominio continental</span><br>
+                    <span class="consulta">dominio_continental(Continente, Cantidad) :-</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">findall(Pais, mundial(_, Pais, _, Continente), Paises),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">length(Paises, Cantidad).</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actividad 5 -->
+        <div class="actividad-section">
+            <div class="actividad-header">
+                <div class="actividad-number">5</div>
+                <div>
+                    <h3>Desafío Final</h3>
+                    <span class="tiempo">15 minutos</span>
+                </div>
+            </div>
+            <div class="actividad-content">
+                <p><strong>Objetivo:</strong> Integrar todos los conceptos en un problema complejo.</p>
+                
+                <h4>Superpotencias Futbolísticas:</h4>
+                <p>Crea una regla que identifique "superpotencias futbolísticas":</p>
+                <ul>
+                    <li>Han ganado más de 2 mundiales</li>
+                    <li>Han ganado en al menos 2 continentes diferentes</li>
+                    <li>Han ganado mundiales en diferentes décadas</li>
+                </ul>
+                
+                <div class="codigo-ejemplo">
+                    <span class="consulta">superpotencia_futbolistica(Pais) :-</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundiales_ganados(Pais, Cantidad),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">Cantidad > 2,</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(_, Pais, _, Continente1),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(_, Pais, _, Continente2),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">Continente1 \= Continente2,</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(Año1, Pais, _, _),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">mundial(Año2, Pais, _, _),</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">Decada1 is Año1 // 10,</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">Decada2 is Año2 // 10,</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="consulta">Decada1 \= Decada2.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evaluación -->
+        <div class="evaluacion-section">
+            <h2><i class="fas fa-clipboard-check"></i> Criterios de Evaluación</h2>
+            <p>Al finalizar la práctica, serás evaluado según los siguientes criterios:</p>
+            
+            <div class="criterios-grid">
+                <div class="criterio-card">
+                    <div class="porcentaje">40%</div>
+                    <h4>Correctitud Técnica</h4>
+                    <p>Código funciona sin errores</p>
+                </div>
+                <div class="criterio-card">
+                    <div class="porcentaje">30%</div>
+                    <h4>Comprensión Conceptual</h4>
+                    <p>Entiende los conceptos aplicados</p>
+                </div>
+                <div class="criterio-card">
+                    <div class="porcentaje">20%</div>
+                    <h4>Creatividad</h4>
+                    <p>Propone consultas o reglas adicionales</p>
+                </div>
+                <div class="criterio-card">
+                    <div class="porcentaje">10%</div>
+                    <h4>Documentación</h4>
+                    <p>Código bien comentado</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reflexión -->
+        <div class="reflexion-section">
+            <h2><i class="fas fa-lightbulb"></i> Preguntas de Reflexión</h2>
+            <p>Al finalizar la práctica, reflexiona sobre las siguientes preguntas:</p>
+            
+            <div class="pregunta-reflexion">
+                <h4>¿Cómo funciona la unificación en las consultas que realizaste?</h4>
+                <p>Explica cómo Prolog hace coincidir términos y sustituye variables por valores específicos.</p>
+            </div>
+            
+            <div class="pregunta-reflexion">
+                <h4>¿Cuándo y por qué Prolog usa backtracking?</h4>
+                <p>Describe en qué situaciones Prolog "vuelve atrás" para buscar más soluciones.</p>
+            </div>
+            
+            <div class="pregunta-reflexion">
+                <h4>¿Qué ventajas tiene usar variables en lugar de constantes?</h4>
+                <p>Explica por qué las variables hacen que las consultas sean más flexibles y poderosas.</p>
+            </div>
+            
+            <div class="pregunta-reflexion">
+                <h4>¿Cómo las reglas permiten derivar nuevo conocimiento?</h4>
+                <p>Describe cómo las reglas lógicas pueden inferir información que no está explícitamente en los hechos.</p>
+            </div>
+            
+            <div class="pregunta-reflexion">
+                <h4>¿Qué limitaciones encuentras en este enfoque de programación?</h4>
+                <p>Identifica las ventajas y desventajas de la programación lógica comparada con otros paradigmas.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarResultado(id) {
+            const resultado = document.getElementById(id);
+            if (resultado.style.display === 'none' || resultado.style.display === '') {
+                resultado.style.display = 'block';
+            } else {
+                resultado.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

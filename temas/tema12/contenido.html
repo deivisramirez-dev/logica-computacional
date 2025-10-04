@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 12: Aplicaciones de la Lógica de Predicados - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tema-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .tema-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+        
+        .tema-header-content {
+            text-align: center;
+        }
+        
+        .tema-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tema-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tema-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul, .content-section ol {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .example-box h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .prolog-syntax {
+            color: #d63384;
+            font-weight: 600;
+        }
+        
+        .prolog-comment {
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .prolog-variable {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+        
+        .prolog-constant {
+            color: #198754;
+            font-weight: 600;
+        }
+        
+        .tema-actions {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .tema-actions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .progress-indicator {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .resource-links {
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .resource-links h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .resource-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .resource-links a:hover {
+            color: var(--primary-dark);
+        }
+        
+        .resource-links a:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 768px) {
+            .tema-content {
+                padding: 1rem;
+            }
+            
+            .tema-header {
+                padding: 2rem 0;
+            }
+            
+            .tema-number {
+                font-size: 3rem;
+            }
+            
+            .tema-title {
+                font-size: 2rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="tema-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tema 12: Aplicaciones de la Lógica de Predicados</span>
+            </div>
+
+            <!-- Header del Tema -->
+            <div class="tema-header">
+                <div class="tema-header-content">
+                    <div class="tema-number">12</div>
+                    <h1 class="tema-title">Aplicaciones de la Lógica de Predicados</h1>
+                    <p class="tema-description">Introducción a la Programación Lógica y Prolog</p>
+                </div>
+            </div>
+
+            <!-- Indicador de Progreso -->
+            <div class="progress-indicator">
+                <div class="progress-text">
+                    <span>Progreso del Tema</span>
+                    <span>0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Contenido del Tema -->
+            <div class="content-section">
+                <h2><i class="fas fa-lightbulb"></i>Introducción y Objetivos</h2>
+                <p>En este tema final del curso, exploraremos cómo los conceptos de lógica de predicados que hemos estudiado se pueden aplicar de manera práctica en la programación lógica. Nos enfocaremos en <strong>Prolog</strong>, el lenguaje de programación lógica más conocido y utilizado.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Objetivos del Tema</h4>
+                    <ul>
+                        <li>Comprender la relación entre lógica de predicados y programación lógica</li>
+                        <li>Conocer los elementos fundamentales de Prolog</li>
+                        <li>Aprender a escribir hechos, reglas y consultas básicas</li>
+                        <li>Entender el concepto de corte en programación lógica</li>
+                        <li>Explorar aplicaciones prácticas de la programación lógica</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i>Presentación Informal de la Programación Lógica</h2>
+                <p>La programación lógica es un paradigma de programación que se basa en la lógica formal. <strong>Prolog</strong> (Programming in Logic) es el lenguaje más representativo de este paradigma y constituye un intento de automatización de la lógica de predicados.</p>
+                
+                <h3>Concepto Fundamental</h3>
+                <p>La idea general consiste en poder expresar conocimiento en forma de programas con un lenguaje semejante al de la lógica de predicados, de manera que un computador sea capaz de procesar ese programa y que un usuario pueda hacer consultas sobre ese conocimiento previamente establecido.</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-code"></i>Estructura de un Programa Prolog</h4>
+                    <p>Un programa Prolog consta de dos partes fundamentales:</p>
+                    <ul>
+                        <li><strong>Base de hechos:</strong> Conocimiento básico sobre el dominio</li>
+                        <li><strong>Base de reglas:</strong> Conocimiento derivado mediante reglas lógicas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-puzzle-piece"></i>Elementos del Prolog</h2>
+                
+                <h3>Los Predicados</h3>
+                <p>Los predicados en Prolog se expresan con un <strong>functor</strong> y una serie de términos entre paréntesis y separados por comas. Para un predicado n-ádico, la forma es:</p>
+                
+                <div class="code-block">
+                    <span class="prolog-syntax">functor</span>(<span class="prolog-constant">termino1</span>, <span class="prolog-constant">termino2</span>, ..., <span class="prolog-constant">terminon</span>)
+                </div>
+                
+                <h3>Los Hechos y la Base de Hechos</h3>
+                <p>Los hechos se expresan mediante functores y los términos mediante constantes de individuo, que en Prolog se expresan en minúsculas.</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-database"></i>Ejemplo de Base de Hechos</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Animales cánidos</span><br>
+                        <span class="prolog-syntax">canido</span>(<span class="prolog-constant">perro</span>).<br>
+                        <span class="prolog-syntax">canido</span>(<span class="prolog-constant">lobo</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Animales felinos</span><br>
+                        <span class="prolog-syntax">felino</span>(<span class="prolog-constant">gato</span>).<br>
+                        <span class="prolog-syntax">felino</span>(<span class="prolog-constant">leon</span>).<br>
+                        <span class="prolog-syntax">felino</span>(<span class="prolog-constant">tigre</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Plantas</span><br>
+                        <span class="prolog-syntax">arbol</span>(<span class="prolog-constant">roble</span>).<br>
+                        <span class="prolog-syntax">arbol</span>(<span class="prolog-constant">pino</span>).<br>
+                        <span class="prolog-syntax">arbol</span>(<span class="prolog-constant">encina</span>).
+                    </div>
+                </div>
+                
+                <h3>El Diálogo</h3>
+                <p>A partir de un programa Prolog, podemos realizar consultas. El sistema responde con <code>true</code> o <code>false</code> para consultas con constantes, y con los valores posibles para consultas con variables.</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-comments"></i>Ejemplos de Consultas</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Consultas con constantes</span><br>
+                        ?- <span class="prolog-syntax">canido</span>(<span class="prolog-constant">perro</span>).<br>
+                        <span class="prolog-comment">true.</span><br><br>
+                        
+                        ?- <span class="prolog-syntax">felino</span>(<span class="prolog-constant">perro</span>).<br>
+                        <span class="prolog-comment">false.</span><br><br>
+                        
+                        <span class="prolog-comment">% Consultas con variables</span><br>
+                        ?- <span class="prolog-syntax">canido</span>(<span class="prolog-variable">X</span>).<br>
+                        <span class="prolog-comment">X = perro ;</span><br>
+                        <span class="prolog-comment">X = lobo.</span>
+                    </div>
+                </div>
+                
+                <h3>Las Variables</h3>
+                <p>Las variables en Prolog se representan en <strong>mayúsculas</strong> y permiten hacer consultas más interesantes y generales.</p>
+                
+                <h3>Las Reglas</h3>
+                <p>Las reglas añaden mayor potencialidad al programa. Permiten definir conceptos derivados a partir de los hechos básicos.</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-rules"></i>Ejemplo de Reglas</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Un mamífero es un felino o un cánido</span><br>
+                        <span class="prolog-syntax">mamifero</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">felino</span>(<span class="prolog-variable">X</span>).<br>
+                        <span class="prolog-syntax">mamifero</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">canido</span>(<span class="prolog-variable">X</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Una planta es un árbol</span><br>
+                        <span class="prolog-syntax">planta</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">arbol</span>(<span class="prolog-variable">X</span>).
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cogs"></i>Caracteres y Constantes</h2>
+                
+                <h3>Los Caracteres</h3>
+                <p>Prolog soporta diferentes tipos de caracteres, aunque puede haber variaciones entre diferentes intérpretes. Es importante consultar la documentación específica del intérprete que se esté utilizando.</p>
+                
+                <h3>Las Constantes</h3>
+                <p>En Prolog existen dos tipos principales de constantes:</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-tag"></i>Tipos de Constantes</h4>
+                    <ul>
+                        <li><strong>Constantes atómicas:</strong> Se escriben en minúsculas sin tildes ni espacios en blanco</li>
+                        <li><strong>Constantes numéricas:</strong> Números enteros y reales</li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <span class="prolog-comment">% Constantes atómicas</span><br>
+                        <span class="prolog-constant">perro</span>, <span class="prolog-constant">gato</span>, <span class="prolog-constant">arbol</span><br><br>
+                        
+                        <span class="prolog-comment">% Constantes numéricas</span><br>
+                        <span class="prolog-constant">123</span>, <span class="prolog-constant">3.14</span>, <span class="prolog-constant">-5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-search"></i>Seguimiento o Traza de un Programa</h2>
+                <p>Una de las ventajas de Prolog es que, ante cualquier pregunta, podemos seguir paso a paso todo el proceso que el sistema sigue para llegar a la respuesta. A esto se le denomina <strong>traza</strong> y es un procedimiento altamente interesante y de gran ayuda cuando estamos programando en Prolog.</p>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Ventajas de la Traza</h4>
+                    <ul>
+                        <li>Permite entender cómo Prolog resuelve las consultas</li>
+                        <li>Facilita la depuración de programas</li>
+                        <li>Ayuda a comprender el mecanismo de unificación</li>
+                        <li>Es útil para optimizar el rendimiento del programa</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-link"></i>Unificación: El Corazón de Prolog</h2>
+                <p>La <strong>unificación</strong> es el proceso mediante el cual Prolog hace coincidir términos. Es el mecanismo fundamental que permite que Prolog funcione y es esencial para entender cómo se resuelven las consultas.</p>
+                
+                <h3>¿Qué es la Unificación?</h3>
+                <p>La unificación es el proceso de hacer que dos términos sean idénticos mediante la sustitución de variables. Dos términos se unifican si:</p>
+                <ul>
+                    <li>Son idénticos</li>
+                    <li>Pueden hacerse idénticos sustituyendo variables</li>
+                </ul>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-puzzle-piece"></i>Ejemplos de Unificación</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Unificación exitosa</span><br>
+                        <span class="prolog-syntax">padre</span>(<span class="prolog-constant">juan</span>, <span class="prolog-constant">maria</span>) unifica con <span class="prolog-syntax">padre</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>)<br>
+                        <span class="prolog-comment">% Resultado: X = juan, Y = maria</span><br><br>
+                        
+                        <span class="prolog-comment">% Unificación con listas</span><br>
+                        [<span class="prolog-constant">1</span>, <span class="prolog-constant">2</span>, <span class="prolog-constant">3</span>] unifica con [<span class="prolog-variable">X</span> | <span class="prolog-variable">Y</span>]<br>
+                        <span class="prolog-comment">% Resultado: X = 1, Y = [2, 3]</span>
+                    </div>
+                </div>
+                
+                <h3>Reglas de Unificación</h3>
+                <ul>
+                    <li><strong>Constantes:</strong> Solo se unifican consigo mismas</li>
+                    <li><strong>Variables:</strong> Se unifican con cualquier término</li>
+                    <li><strong>Estructuras:</strong> Se unifican si tienen el mismo functor y aridad</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-search"></i>Backtracking: La Búsqueda de Soluciones</h2>
+                <p>El <strong>backtracking</strong> es el mecanismo que permite a Prolog encontrar múltiples soluciones. Cuando una consulta falla, Prolog "vuelve atrás" y prueba alternativas.</p>
+                
+                <h3>¿Cómo Funciona el Backtracking?</h3>
+                <p>Prolog mantiene un "punto de elección" para cada regla. Cuando una consulta falla:</p>
+                <ol>
+                    <li>Vuelve al último punto de elección</li>
+                    <li>Prueba la siguiente alternativa</li>
+                    <li>Continúa la búsqueda</li>
+                </ol>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-tree"></i>Ejemplo de Backtracking</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Base de hechos</span><br>
+                        <span class="prolog-syntax">animal</span>(<span class="prolog-constant">perro</span>).<br>
+                        <span class="prolog-syntax">animal</span>(<span class="prolog-constant">gato</span>).<br>
+                        <span class="prolog-syntax">animal</span>(<span class="prolog-constant">pajaro</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Consulta: ?- animal(X).</span><br>
+                        <span class="prolog-comment">% Prolog encuentra: X = perro</span><br>
+                        <span class="prolog-comment">% Al presionar ';' busca más: X = gato</span><br>
+                        <span class="prolog-comment">% Y luego: X = pajaro</span>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i>Puntos Clave del Backtracking</h4>
+                    <ul>
+                        <li><strong>Exhaustivo:</strong> Prolog busca todas las soluciones posibles</li>
+                        <li><strong>Sistemático:</strong> Sigue un orden determinado</li>
+                        <li><strong>Eficiente:</strong> Solo explora ramas relevantes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-list"></i>Listas en Prolog</h2>
+                <p>Las <strong>listas</strong> son estructuras de datos fundamentales en Prolog. Permiten manejar colecciones de elementos de manera eficiente.</p>
+                
+                <h3>Sintaxis de Listas</h3>
+                <div class="example-box">
+                    <h4><i class="fas fa-code"></i>Formas de Representar Listas</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Lista completa</span><br>
+                        [<span class="prolog-constant">1</span>, <span class="prolog-constant">2</span>, <span class="prolog-constant">3</span>, <span class="prolog-constant">4</span>]<br><br>
+                        
+                        <span class="prolog-comment">% Lista con cabeza y cola</span><br>
+                        [<span class="prolog-variable">Primero</span> | <span class="prolog-variable">Resto</span>]<br><br>
+                        
+                        <span class="prolog-comment">% Lista vacía</span><br>
+                        []
+                    </div>
+                </div>
+                
+                <h3>Predicados Útiles con Listas</h3>
+                <div class="example-box">
+                    <h4><i class="fas fa-tools"></i>Predicados Básicos</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Verificar si un elemento está en la lista</span><br>
+                        <span class="prolog-syntax">member</span>(<span class="prolog-variable">X</span>, [<span class="prolog-variable">X</span> | <span class="prolog-variable">_</span>]).<br>
+                        <span class="prolog-syntax">member</span>(<span class="prolog-variable">X</span>, [<span class="prolog-variable">_</span> | <span class="prolog-variable">T</span>]) :- <span class="prolog-syntax">member</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">T</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Concatenar dos listas</span><br>
+                        <span class="prolog-syntax">append</span>([], <span class="prolog-variable">L</span>, <span class="prolog-variable">L</span>).<br>
+                        <span class="prolog-syntax">append</span>([<span class="prolog-variable">X</span> | <span class="prolog-variable">L1</span>], <span class="prolog-variable">L2</span>, [<span class="prolog-variable">X</span> | <span class="prolog-variable">L3</span>]) :-<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">append</span>(<span class="prolog-variable">L1</span>, <span class="prolog-variable">L2</span>, <span class="prolog-variable">L3</span>).
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-sync"></i>Recursión en Prolog</h2>
+                <p>La <strong>recursión</strong> es fundamental en Prolog. Muchos predicados se definen de manera recursiva, donde un caso base termina la recursión y un caso recursivo reduce el problema.</p>
+                
+                <h3>Estructura de la Recursión</h3>
+                <ul>
+                    <li><strong>Caso Base:</strong> Condición de parada</li>
+                    <li><strong>Caso Recursivo:</strong> Llamada recursiva con problema más pequeño</li>
+                </ul>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-calculator"></i>Ejemplo: Factorial Recursivo</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Caso base: factorial de 0 es 1</span><br>
+                        <span class="prolog-syntax">factorial</span>(<span class="prolog-constant">0</span>, <span class="prolog-constant">1</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Caso recursivo</span><br>
+                        <span class="prolog-syntax">factorial</span>(<span class="prolog-variable">N</span>, <span class="prolog-variable">F</span>) :-<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">N</span> > <span class="prolog-constant">0</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">N1</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">N</span> - <span class="prolog-constant">1</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">factorial</span>(<span class="prolog-variable">N1</span>, <span class="prolog-variable">F1</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">F</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">N</span> * <span class="prolog-variable">F1</span>.
+                    </div>
+                </div>
+                
+                <h3>Recursión con Listas</h3>
+                <div class="example-box">
+                    <h4><i class="fas fa-list-ol"></i>Longitud de una Lista</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Caso base: lista vacía tiene longitud 0</span><br>
+                        <span class="prolog-syntax">longitud</span>([], <span class="prolog-constant">0</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Caso recursivo</span><br>
+                        <span class="prolog-syntax">longitud</span>([<span class="prolog-variable">_</span> | <span class="prolog-variable">T</span>], <span class="prolog-variable">L</span>) :-<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">longitud</span>(<span class="prolog-variable">T</span>, <span class="prolog-variable">L1</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">L</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">L1</span> + <span class="prolog-constant">1</span>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-cut"></i>La Reevaluación y el Corte</h2>
+                <p>Cuando hacemos consultas en Prolog, el intérprete es completamente exhaustivo y va a proporcionarnos siempre todas las respuestas posibles. En ocasiones no resulta necesario que el programa proporcione todas y cada una de las respuestas.</p>
+                
+                <p>Este es el motivo por el cual Prolog incorpora un procedimiento para evitar que las respuestas sean exhaustivas: <strong>el corte</strong> (representado por <code>!</code>).</p>
+                
+                <div class="example-box">
+                    <h4><i class="fas fa-scissors"></i>Ejemplo del Corte</h4>
+                    <div class="code-block">
+                        <span class="prolog-comment">% Sin corte - devuelve todas las respuestas</span><br>
+                        <span class="prolog-syntax">mamifero</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">felino</span>(<span class="prolog-variable">X</span>).<br>
+                        <span class="prolog-syntax">mamifero</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">canido</span>(<span class="prolog-variable">X</span>).<br><br>
+                        
+                        <span class="prolog-comment">% Con corte - se detiene en la primera respuesta</span><br>
+                        <span class="prolog-syntax">mamifero</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">felino</span>(<span class="prolog-variable">X</span>), <span class="prolog-syntax">!</span>.<br>
+                        <span class="prolog-syntax">mamifero</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">canido</span>(<span class="prolog-variable">X</span>).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recursos Adicionales -->
+            <div class="content-section">
+                <h2><i class="fas fa-book"></i>Recursos Adicionales</h2>
+                <p>Para profundizar en el tema de programación lógica y Prolog, te recomendamos los siguientes recursos:</p>
+                
+                <div class="resource-links">
+                    <h4><i class="fas fa-file-pdf"></i> Documentos de Referencia</h4>
+                    <a href="https://www.infor.uva.es/~calonso/IAI/PracticasProlog/Tema1/Tema%201.%20Introduccion%20PROLOG.pdf" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Introducción al Prolog (I)
+                    </a>
+                    <a href="http://www.itnuevolaredo.edu.mx/takeyas/Apuntes/Inteligencia%20Artificial/Apuntes/IA/Prolog.pdf" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Introducción a Prolog (II)
+                    </a>
+                </div>
+                
+                <div class="resource-links">
+                    <h4><i class="fas fa-video"></i> Tutoriales en Video</h4>
+                    <a href="https://youtu.be/SWh7ysIuBeo" target="_blank">
+                        <i class="fas fa-play"></i> Tutorial de Prolog - Parte 1
+                    </a>
+                    <a href="https://youtu.be/OpjAyhrQhU4" target="_blank">
+                        <i class="fas fa-play"></i> Tutorial de Prolog - Parte 2
+                    </a>
+                    <a href="https://youtu.be/vNs7orEWewc" target="_blank">
+                        <i class="fas fa-play"></i> Tutorial de Prolog - Parte 3
+                    </a>
+                    <a href="https://youtu.be/uMFS4Cf8PP8" target="_blank">
+                        <i class="fas fa-play"></i> Tutorial de Prolog - Parte 4
+                    </a>
+                </div>
+                
+                <div class="resource-links">
+                    <h4><i class="fas fa-download"></i> Intérpretes de Prolog</h4>
+                    <a href="http://www.swi-prolog.org/" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> SWI-Prolog (Gratuito)
+                    </a>
+                    <a href="http://gprolog.univ-paris1.fr/" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> GNU-Prolog (Gratuito)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Acciones del Tema -->
+            <div class="tema-actions">
+                <h3>Recursos del Tema</h3>
+                <div class="action-buttons">
+                    <a href="ejercicios.html" class="btn btn-primary">
+                        <i class="fas fa-tasks"></i> Ejercicios Prácticos
+                    </a>
+                    <a href="../../recursos/material-adicional/" class="btn btn-outline">
+                        <i class="fas fa-book"></i> Material Adicional
+                    </a>
+                    <a href="../../herramientas/tablas-verdad.html" class="btn btn-secondary">
+                        <i class="fas fa-calculator"></i> Herramientas
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación entre Temas -->
+            <div class="navigation-buttons">
+                <a href="../tema11/contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Tema 11: Semántica de la Lógica de Predicados</span>
+                </a>
+                <a href="../../index.html" class="nav-btn">
+                    <span>Volver al Inicio</span>
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Funcionalidad específica para la página del tema
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar progreso al leer el contenido
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text span:last-child');
+            
+            function updateProgress() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = Math.min((scrollTop / docHeight) * 100, 100);
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                // Guardar progreso en localStorage
+                localStorage.setItem('tema12_progress', progress);
+            }
+            
+            // Cargar progreso guardado
+            const savedProgress = localStorage.getItem('tema12_progress') || 0;
+            progressFill.style.width = savedProgress + '%';
+            progressText.textContent = Math.round(savedProgress) + '%';
+            
+            // Actualizar progreso al hacer scroll
+            window.addEventListener('scroll', updateProgress);
+            
+            // Marcar tema como completado si se llega al final
+            window.addEventListener('scroll', function() {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+                    localStorage.setItem('tema12_completed', 'true');
+                    console.log('Tema 12 completado');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

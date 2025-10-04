@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios - Tema 12: Aplicaciones de la Lógica de Predicados - Lógica Computacional</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ejercicios-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .ejercicios-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+        }
+        
+        .ejercicios-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .ejercicios-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .ejercicio-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .ejercicio-section h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ejercicio-item {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .ejercicio-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .ejercicio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .ejercicio-number {
+            background: var(--primary-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .ejercicio-dificultad {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .dificultad-facil {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        
+        .dificultad-medio {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .dificultad-dificil {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+        }
+        
+        .ejercicio-content h3 {
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .ejercicio-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .prolog-syntax {
+            color: #d63384;
+            font-weight: 600;
+        }
+        
+        .prolog-comment {
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .prolog-variable {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+        
+        .prolog-constant {
+            color: #198754;
+            font-weight: 600;
+        }
+        
+        .ejercicio-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-ejercicio {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .btn-ejercicio:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-ejercicio.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-ejercicio.primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .solucion {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            display: none;
+        }
+        
+        .solucion.show {
+            display: block;
+        }
+        
+        .solucion h4 {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        
+        .test-question {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .test-question h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .test-options {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .test-options li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-options label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+        
+        .test-options label:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .test-options input[type="radio"] {
+            margin: 0;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .nav-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .ejercicios-content {
+                padding: 1rem;
+            }
+            
+            .ejercicios-header {
+                padding: 2rem 0;
+            }
+            
+            .ejercicios-title {
+                font-size: 2rem;
+            }
+            
+            .ejercicio-section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .ejercicio-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Lógica Computacional</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../../index.html#temas">Temas</a></li>
+                        <li><a href="../../index.html#recursos">Recursos</a></li>
+                        <li><a href="../../index.html#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="ejercicios-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../../index.html">Inicio</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../../index.html#temas">Temas</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="contenido.html">Tema 12</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Ejercicios</span>
+            </div>
+
+            <!-- Header -->
+            <div class="ejercicios-header">
+                <h1 class="ejercicios-title">Ejercicios Prácticos</h1>
+                <p class="ejercicios-description">Tema 12: Aplicaciones de la Lógica de Predicados - Programación Lógica</p>
+            </div>
+
+            <!-- Ejercicios Básicos -->
+            <div class="ejercicio-section">
+                <h2><i class="fas fa-play-circle"></i>Ejercicios Básicos</h2>
+                
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">1</div>
+                        <div class="ejercicio-dificultad dificultad-facil">Fácil</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Base de Hechos</h3>
+                        <p>Crea una base de hechos en Prolog que represente la siguiente información:</p>
+                        <ul>
+                            <li>Juan es padre de María</li>
+                            <li>María es madre de Pedro</li>
+                            <li>Ana es hermana de Juan</li>
+                            <li>Carlos es hijo de Ana</li>
+                        </ul>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol1')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol1">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% Base de hechos familiares</span><br>
+                                <span class="prolog-syntax">padre</span>(<span class="prolog-constant">juan</span>, <span class="prolog-constant">maria</span>).<br>
+                                <span class="prolog-syntax">madre</span>(<span class="prolog-constant">maria</span>, <span class="prolog-constant">pedro</span>).<br>
+                                <span class="prolog-syntax">hermana</span>(<span class="prolog-constant">ana</span>, <span class="prolog-constant">juan</span>).<br>
+                                <span class="prolog-syntax">hijo</span>(<span class="prolog-constant">carlos</span>, <span class="prolog-constant">ana</span>).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">2</div>
+                        <div class="ejercicio-dificultad dificultad-facil">Fácil</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Consultas Básicas</h3>
+                        <p>Dada la siguiente base de hechos:</p>
+                        <div class="code-example">
+                            <span class="prolog-syntax">animal</span>(<span class="prolog-constant">perro</span>).<br>
+                            <span class="prolog-syntax">animal</span>(<span class="prolog-constant">gato</span>).<br>
+                            <span class="prolog-syntax">animal</span>(<span class="prolog-constant">pajaro</span>).<br>
+                            <span class="prolog-syntax">domestico</span>(<span class="prolog-constant">perro</span>).<br>
+                            <span class="prolog-syntax">domestico</span>(<span class="prolog-constant">gato</span>).
+                        </div>
+                        <p>¿Qué consultas harías para obtener:</p>
+                        <ul>
+                            <li>Todos los animales</li>
+                            <li>Todos los animales domésticos</li>
+                            <li>Verificar si el perro es doméstico</li>
+                        </ul>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol2')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol2">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% Obtener todos los animales</span><br>
+                                ?- <span class="prolog-syntax">animal</span>(<span class="prolog-variable">X</span>).<br><br>
+                                
+                                <span class="prolog-comment">% Obtener todos los animales domésticos</span><br>
+                                ?- <span class="prolog-syntax">domestico</span>(<span class="prolog-variable">X</span>).<br><br>
+                                
+                                <span class="prolog-comment">% Verificar si el perro es doméstico</span><br>
+                                ?- <span class="prolog-syntax">domestico</span>(<span class="prolog-constant">perro</span>).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicios Intermedios -->
+            <div class="ejercicio-section">
+                <h2><i class="fas fa-cogs"></i>Ejercicios Intermedios</h2>
+                
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">3</div>
+                        <div class="ejercicio-dificultad dificultad-medio">Medio</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Reglas de Parentesco</h3>
+                        <p>Usando la base de hechos del ejercicio 1, define reglas para:</p>
+                        <ul>
+                            <li>abuelo(X, Y): X es abuelo de Y</li>
+                            <li>tio(X, Y): X es tío de Y</li>
+                            <li>primo(X, Y): X es primo de Y</li>
+                        </ul>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol3')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol3">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% Un abuelo es padre del padre o madre</span><br>
+                                <span class="prolog-syntax">abuelo</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>) :- <span class="prolog-syntax">padre</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Z</span>), <span class="prolog-syntax">padre</span>(<span class="prolog-variable">Z</span>, <span class="prolog-variable">Y</span>).<br>
+                                <span class="prolog-syntax">abuelo</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>) :- <span class="prolog-syntax">padre</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Z</span>), <span class="prolog-syntax">madre</span>(<span class="prolog-variable">Z</span>, <span class="prolog-variable">Y</span>).<br><br>
+                                
+                                <span class="prolog-comment">% Un tío es hermano del padre o madre</span><br>
+                                <span class="prolog-syntax">tio</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>) :- <span class="prolog-syntax">hermano</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Z</span>), <span class="prolog-syntax">padre</span>(<span class="prolog-variable">Z</span>, <span class="prolog-variable">Y</span>).<br>
+                                <span class="prolog-syntax">tio</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>) :- <span class="prolog-syntax">hermano</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Z</span>), <span class="prolog-syntax">madre</span>(<span class="prolog-variable">Z</span>, <span class="prolog-variable">Y</span>).<br><br>
+                                
+                                <span class="prolog-comment">% Un primo es hijo de hermanos</span><br>
+                                <span class="prolog-syntax">primo</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>) :- <span class="prolog-syntax">hijo</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">A</span>), <span class="prolog-syntax">hijo</span>(<span class="prolog-variable">Y</span>, <span class="prolog-variable">B</span>), <span class="prolog-syntax">hermano</span>(<span class="prolog-variable">A</span>, <span class="prolog-variable">B</span>).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">4</div>
+                        <div class="ejercicio-dificultad dificultad-medio">Medio</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Sistema de Clasificación</h3>
+                        <p>Crea un sistema de clasificación de animales con las siguientes reglas:</p>
+                        <ul>
+                            <li>Un mamífero es un animal que tiene pelo</li>
+                            <li>Un ave es un animal que tiene plumas</li>
+                            <li>Un depredador es un animal que come carne</li>
+                            <li>Un herbívoro es un animal que come plantas</li>
+                        </ul>
+                        <p>Define hechos y reglas para clasificar diferentes animales.</p>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol4')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol4">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% Hechos básicos</span><br>
+                                <span class="prolog-syntax">tiene_pelo</span>(<span class="prolog-constant">leon</span>).<br>
+                                <span class="prolog-syntax">tiene_pelo</span>(<span class="prolog-constant">vaca</span>).<br>
+                                <span class="prolog-syntax">tiene_plumas</span>(<span class="prolog-constant">aguila</span>).<br>
+                                <span class="prolog-syntax">come_carne</span>(<span class="prolog-constant">leon</span>).<br>
+                                <span class="prolog-syntax">come_plantas</span>(<span class="prolog-constant">vaca</span>).<br><br>
+                                
+                                <span class="prolog-comment">% Reglas de clasificación</span><br>
+                                <span class="prolog-syntax">mamifero</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">tiene_pelo</span>(<span class="prolog-variable">X</span>).<br>
+                                <span class="prolog-syntax">ave</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">tiene_plumas</span>(<span class="prolog-variable">X</span>).<br>
+                                <span class="prolog-syntax">depredador</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">come_carne</span>(<span class="prolog-variable">X</span>).<br>
+                                <span class="prolog-syntax">herbivoro</span>(<span class="prolog-variable">X</span>) :- <span class="prolog-syntax">come_plantas</span>(<span class="prolog-variable">X</span>).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicios de Unificación y Backtracking -->
+            <div class="ejercicio-section">
+                <h2><i class="fas fa-puzzle-piece"></i>Ejercicios de Unificación y Backtracking</h2>
+                
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">5</div>
+                        <div class="ejercicio-dificultad dificultad-medio">Medio</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Unificación de Términos</h3>
+                        <p>Dados los siguientes pares de términos, determina si se unifican y cuáles serían las sustituciones:</p>
+                        <ul>
+                            <li>padre(juan, X) y padre(Y, maria)</li>
+                            <li>[a, b, c] y [X | Y]</li>
+                            <li>f(X, Y) y f(a, b)</li>
+                            <li>g(X, X) y g(Y, Z)</li>
+                        </ul>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol5')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol5">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% 1. padre(juan, X) y padre(Y, maria)</span><br>
+                                <span class="prolog-comment">% Sí se unifican: X = maria, Y = juan</span><br><br>
+                                
+                                <span class="prolog-comment">% 2. [a, b, c] y [X | Y]</span><br>
+                                <span class="prolog-comment">% Sí se unifican: X = a, Y = [b, c]</span><br><br>
+                                
+                                <span class="prolog-comment">% 3. f(X, Y) y f(a, b)</span><br>
+                                <span class="prolog-comment">% Sí se unifican: X = a, Y = b</span><br><br>
+                                
+                                <span class="prolog-comment">% 4. g(X, X) y g(Y, Z)</span><br>
+                                <span class="prolog-comment">% No se unifican (X no puede ser igual a Y y Z simultáneamente)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">6</div>
+                        <div class="ejercicio-dificultad dificultad-medio">Medio</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Simulación de Backtracking</h3>
+                        <p>Dada la siguiente base de hechos y reglas:</p>
+                        <div class="code-example">
+                            <span class="prolog-syntax">padre</span>(<span class="prolog-constant">juan</span>, <span class="prolog-constant">maria</span>).<br>
+                            <span class="prolog-syntax">padre</span>(<span class="prolog-constant">juan</span>, <span class="prolog-constant">pedro</span>).<br>
+                            <span class="prolog-syntax">padre</span>(<span class="prolog-constant">carlos</span>, <span class="prolog-constant">ana</span>).<br>
+                            <span class="prolog-syntax">abuelo</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>) :- <span class="prolog-syntax">padre</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Z</span>), <span class="prolog-syntax">padre</span>(<span class="prolog-variable">Z</span>, <span class="prolog-variable">Y</span>).
+                        </div>
+                        <p>¿Qué respuestas obtendrías para la consulta <code>?- abuelo(X, Y).</code>?</p>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol6')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol6">
+                            <h4>Solución:</h4>
+                            <p>La consulta <code>abuelo(X, Y)</code> no tendría respuestas porque no hay relaciones de abuelo-nieto en la base de hechos. Para que haya abuelos, necesitaríamos hechos como:</p>
+                            <div class="code-example">
+                                <span class="prolog-syntax">padre</span>(<span class="prolog-constant">maria</span>, <span class="prolog-constant">luis</span>).<br>
+                                <span class="prolog-syntax">padre</span>(<span class="prolog-constant">pedro</span>, <span class="prolog-constant">sofia</span>).
+                            </div>
+                            <p>Entonces sí tendríamos: X = juan, Y = luis y X = juan, Y = sofia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicios de Listas -->
+            <div class="ejercicio-section">
+                <h2><i class="fas fa-list"></i>Ejercicios con Listas</h2>
+                
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">7</div>
+                        <div class="ejercicio-dificultad dificultad-medio">Medio</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Predicados con Listas</h3>
+                        <p>Implementa los siguientes predicados para trabajar con listas:</p>
+                        <ul>
+                            <li><code>suma_lista(Lista, Suma)</code>: Suma todos los elementos de una lista</li>
+                            <li><code>maximo_lista(Lista, Maximo)</code>: Encuentra el elemento máximo</li>
+                            <li><code>invertir(Lista, Invertida)</code>: Invierte el orden de los elementos</li>
+                        </ul>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol7')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol7">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% Suma de lista</span><br>
+                                <span class="prolog-syntax">suma_lista</span>([], <span class="prolog-constant">0</span>).<br>
+                                <span class="prolog-syntax">suma_lista</span>([<span class="prolog-variable">X</span> | <span class="prolog-variable">T</span>], <span class="prolog-variable">S</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">suma_lista</span>(<span class="prolog-variable">T</span>, <span class="prolog-variable">S1</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">S</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">X</span> + <span class="prolog-variable">S1</span>.<br><br>
+                                
+                                <span class="prolog-comment">% Máximo de lista</span><br>
+                                <span class="prolog-syntax">maximo_lista</span>([<span class="prolog-variable">X</span>], <span class="prolog-variable">X</span>).<br>
+                                <span class="prolog-syntax">maximo_lista</span>([<span class="prolog-variable">X</span> | <span class="prolog-variable">T</span>], <span class="prolog-variable">M</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">maximo_lista</span>(<span class="prolog-variable">T</span>, <span class="prolog-variable">M1</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">X</span> > <span class="prolog-variable">M1</span>, <span class="prolog-variable">M</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">X</span>.<br>
+                                <span class="prolog-syntax">maximo_lista</span>([<span class="prolog-variable">X</span> | <span class="prolog-variable">T</span>], <span class="prolog-variable">M</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">maximo_lista</span>(<span class="prolog-variable">T</span>, <span class="prolog-variable">M</span>).<br><br>
+                                
+                                <span class="prolog-comment">% Invertir lista</span><br>
+                                <span class="prolog-syntax">invertir</span>([], []).<br>
+                                <span class="prolog-syntax">invertir</span>([<span class="prolog-variable">X</span> | <span class="prolog-variable">T</span>], <span class="prolog-variable">R</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">invertir</span>(<span class="prolog-variable">T</span>, <span class="prolog-variable">R1</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">append</span>(<span class="prolog-variable">R1</span>, [<span class="prolog-variable">X</span>], <span class="prolog-variable">R</span>).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicios de Recursión -->
+            <div class="ejercicio-section">
+                <h2><i class="fas fa-sync"></i>Ejercicios de Recursión</h2>
+                
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">8</div>
+                        <div class="ejercicio-dificultad dificultad-medio">Medio</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Recursión Matemática</h3>
+                        <p>Implementa los siguientes predicados recursivos:</p>
+                        <ul>
+                            <li><code>fibonacci(N, F)</code>: Calcula el N-ésimo número de Fibonacci</li>
+                            <li><code>potencia(Base, Expo, Resultado)</code>: Calcula Base^Expo</li>
+                            <li><code>suma_numeros(N, Suma)</code>: Suma de 1 a N</li>
+                        </ul>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol8')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol8">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% Fibonacci</span><br>
+                                <span class="prolog-syntax">fibonacci</span>(<span class="prolog-constant">0</span>, <span class="prolog-constant">0</span>).<br>
+                                <span class="prolog-syntax">fibonacci</span>(<span class="prolog-constant">1</span>, <span class="prolog-constant">1</span>).<br>
+                                <span class="prolog-syntax">fibonacci</span>(<span class="prolog-variable">N</span>, <span class="prolog-variable">F</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">N</span> > <span class="prolog-constant">1</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">N1</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">N</span> - <span class="prolog-constant">1</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">N2</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">N</span> - <span class="prolog-constant">2</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">fibonacci</span>(<span class="prolog-variable">N1</span>, <span class="prolog-variable">F1</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">fibonacci</span>(<span class="prolog-variable">N2</span>, <span class="prolog-variable">F2</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">F</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">F1</span> + <span class="prolog-variable">F2</span>.<br><br>
+                                
+                                <span class="prolog-comment">% Potencia</span><br>
+                                <span class="prolog-syntax">potencia</span>(<span class="prolog-variable">_</span>, <span class="prolog-constant">0</span>, <span class="prolog-constant">1</span>).<br>
+                                <span class="prolog-syntax">potencia</span>(<span class="prolog-variable">B</span>, <span class="prolog-variable">E</span>, <span class="prolog-variable">R</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">E</span> > <span class="prolog-constant">0</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">E1</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">E</span> - <span class="prolog-constant">1</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">potencia</span>(<span class="prolog-variable">B</span>, <span class="prolog-variable">E1</span>, <span class="prolog-variable">R1</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">R</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">B</span> * <span class="prolog-variable">R1</span>.<br><br>
+                                
+                                <span class="prolog-comment">% Suma de números</span><br>
+                                <span class="prolog-syntax">suma_numeros</span>(<span class="prolog-constant">0</span>, <span class="prolog-constant">0</span>).<br>
+                                <span class="prolog-syntax">suma_numeros</span>(<span class="prolog-variable">N</span>, <span class="prolog-variable">S</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">N</span> > <span class="prolog-constant">0</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">N1</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">N</span> - <span class="prolog-constant">1</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">suma_numeros</span>(<span class="prolog-variable">N1</span>, <span class="prolog-variable">S1</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-variable">S</span> <span class="prolog-syntax">is</span> <span class="prolog-variable">N</span> + <span class="prolog-variable">S1</span>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejercicios Avanzados -->
+            <div class="ejercicio-section">
+                <h2><i class="fas fa-rocket"></i>Ejercicios Avanzados</h2>
+                
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">9</div>
+                        <div class="ejercicio-dificultad dificultad-dificil">Difícil</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Uso del Corte</h3>
+                        <p>Implementa un predicado <code>maximo(X, Y, Z)</code> que devuelva el máximo entre X e Y en Z, usando el corte para evitar respuestas múltiples.</p>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol9')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol9">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-syntax">maximo</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>, <span class="prolog-variable">X</span>) :- <span class="prolog-variable">X</span> >= <span class="prolog-variable">Y</span>, <span class="prolog-syntax">!</span>.<br>
+                                <span class="prolog-syntax">maximo</span>(<span class="prolog-variable">X</span>, <span class="prolog-variable">Y</span>, <span class="prolog-variable">Y</span>).
+                            </div>
+                            <p><strong>Explicación:</strong> El corte (!) evita que se evalúe la segunda regla si la primera se cumple, garantizando una sola respuesta.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ejercicio-item">
+                    <div class="ejercicio-header">
+                        <div class="ejercicio-number">10</div>
+                        <div class="ejercicio-dificultad dificultad-dificil">Difícil</div>
+                    </div>
+                    <div class="ejercicio-content">
+                        <h3>Sistema de Recomendaciones</h3>
+                        <p>Crea un sistema de recomendaciones de libros basado en géneros y preferencias del usuario. Incluye reglas para:</p>
+                        <ul>
+                            <li>Recomendar libros por género</li>
+                            <li>Recomendar libros por autor</li>
+                            <li>Recomendar libros similares</li>
+                        </ul>
+                        <div class="ejercicio-actions">
+                            <button class="btn-ejercicio" onclick="toggleSolucion('sol10')">Ver Solución</button>
+                        </div>
+                        <div class="solucion" id="sol10">
+                            <h4>Solución:</h4>
+                            <div class="code-example">
+                                <span class="prolog-comment">% Base de hechos</span><br>
+                                <span class="prolog-syntax">libro</span>(<span class="prolog-constant">cien_anos_soledad</span>, <span class="prolog-constant">garcia_marquez</span>, <span class="prolog-constant">realismo_magico</span>).<br>
+                                <span class="prolog-syntax">libro</span>(<span class="prolog-constant">1984</span>, <span class="prolog-constant">orwell</span>, <span class="prolog-constant">ciencia_ficcion</span>).<br>
+                                <span class="prolog-syntax">prefiere</span>(<span class="prolog-constant">usuario1</span>, <span class="prolog-constant">realismo_magico</span>).<br><br>
+                                
+                                <span class="prolog-comment">% Reglas de recomendación</span><br>
+                                <span class="prolog-syntax">recomendar_por_genero</span>(<span class="prolog-variable">Usuario</span>, <span class="prolog-variable">Libro</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">prefiere</span>(<span class="prolog-variable">Usuario</span>, <span class="prolog-variable">Genero</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">libro</span>(<span class="prolog-variable">Libro</span>, <span class="prolog-variable">_</span>, <span class="prolog-variable">Genero</span>).<br><br>
+                                
+                                <span class="prolog-syntax">recomendar_por_autor</span>(<span class="prolog-variable">Usuario</span>, <span class="prolog-variable">Libro</span>) :-<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">ha_leido</span>(<span class="prolog-variable">Usuario</span>, <span class="prolog-variable">LibroAnterior</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">libro</span>(<span class="prolog-variable">LibroAnterior</span>, <span class="prolog-variable">Autor</span>, <span class="prolog-variable">_</span>),<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="prolog-syntax">libro</span>(<span class="prolog-variable">Libro</span>, <span class="prolog-variable">Autor</span>, <span class="prolog-variable">_</span>).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test de Evaluación -->
+            <div class="test-section">
+                <h2><i class="fas fa-clipboard-check"></i>Test de Evaluación</h2>
+                <p>Responde las siguientes preguntas para evaluar tu comprensión del tema:</p>
+                
+                <div class="test-question">
+                    <h4>1. ¿Cuáles son las dos partes fundamentales de un programa Prolog?</h4>
+                    <ul class="test-options">
+                        <li><label><input type="radio" name="q1" value="A"> A. Premisas y conclusión</label></li>
+                        <li><label><input type="radio" name="q1" value="B"> B. Base de hechos y base de reglas</label></li>
+                        <li><label><input type="radio" name="q1" value="C"> C. Predicados y constantes</label></li>
+                        <li><label><input type="radio" name="q1" value="D"> D. Variables y reglas</label></li>
+                    </ul>
+                </div>
+
+                <div class="test-question">
+                    <h4>2. ¿Cómo se representan las variables en Prolog?</h4>
+                    <ul class="test-options">
+                        <li><label><input type="radio" name="q2" value="A"> A. Con las letras mayúsculas</label></li>
+                        <li><label><input type="radio" name="q2" value="B"> B. Con un functor seguido de sus términos entre paréntesis</label></li>
+                        <li><label><input type="radio" name="q2" value="C"> C. Con letras minúsculas sin tildes ni espacios en blanco</label></li>
+                        <li><label><input type="radio" name="q2" value="D"> D. Con números</label></li>
+                    </ul>
+                </div>
+
+                <div class="test-question">
+                    <h4>3. ¿Para qué sirven las reglas en Prolog?</h4>
+                    <ul class="test-options">
+                        <li><label><input type="radio" name="q3" value="A"> A. Permiten demostrar teoremas indemostrables</label></li>
+                        <li><label><input type="radio" name="q3" value="B"> B. Permiten obtener nuevo conocimiento a partir del que ya existe en la base de hechos</label></li>
+                        <li><label><input type="radio" name="q3" value="C"> C. Permiten el uso de las constantes</label></li>
+                        <li><label><input type="radio" name="q3" value="D"> D. Permiten que Prolog se pueda ejecutar</label></li>
+                    </ul>
+                </div>
+
+                <div class="test-question">
+                    <h4>4. ¿Cuál es el propósito del corte (!) en Prolog?</h4>
+                    <ul class="test-options">
+                        <li><label><input type="radio" name="q4" value="A"> A. Terminar la ejecución del programa</label></li>
+                        <li><label><input type="radio" name="q4" value="B"> B. Evitar que se busquen más soluciones</label></li>
+                        <li><label><input type="radio" name="q4" value="C"> C. Comentar el código</label></li>
+                        <li><label><input type="radio" name="q4" value="D"> D. Definir variables</label></li>
+                    </ul>
+                </div>
+
+                <div class="ejercicio-actions">
+                    <button class="btn-ejercicio primary" onclick="evaluarTest()">Evaluar Respuestas</button>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="navigation-buttons">
+                <a href="contenido.html" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver al Contenido</span>
+                </a>
+                <a href="../../index.html" class="nav-btn">
+                    <span>Volver al Inicio</span>
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Curso de Lógica Computacional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        // Funcionalidad para mostrar/ocultar soluciones
+        function toggleSolucion(id) {
+            const solucion = document.getElementById(id);
+            if (solucion.classList.contains('show')) {
+                solucion.classList.remove('show');
+            } else {
+                solucion.classList.add('show');
+            }
+        }
+
+        // Función para evaluar el test
+        function evaluarTest() {
+            const respuestas = {
+                'q1': 'B',
+                'q2': 'A', 
+                'q3': 'B',
+                'q4': 'B'
+            };
+
+            let correctas = 0;
+            let total = Object.keys(respuestas).length;
+
+            for (let pregunta in respuestas) {
+                const seleccionada = document.querySelector(`input[name="${pregunta}"]:checked`);
+                if (seleccionada && seleccionada.value === respuestas[pregunta]) {
+                    correctas++;
+                }
+            }
+
+            const porcentaje = Math.round((correctas / total) * 100);
+            let mensaje = `Has respondido correctamente ${correctas} de ${total} preguntas (${porcentaje}%)`;
+            
+            if (porcentaje >= 80) {
+                mensaje += '\n¡Excelente trabajo!';
+            } else if (porcentaje >= 60) {
+                mensaje += '\nBuen trabajo, pero puedes mejorar.';
+            } else {
+                mensaje += '\nTe recomendamos repasar el contenido.';
+            }
+
+            alert(mensaje);
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animaciones de entrada para los ejercicios
+            const ejercicios = document.querySelectorAll('.ejercicio-item');
+            ejercicios.forEach((ejercicio, index) => {
+                ejercicio.style.opacity = '0';
+                ejercicio.style.transform = 'translateY(20px)';
+                ejercicio.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                setTimeout(() => {
+                    ejercicio.style.opacity = '1';
+                    ejercicio.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

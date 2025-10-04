@@ -1,0 +1,9 @@
+Instrucción,Descripción
+1,Abra un nuevo archivo Excel y cree 6 pestañas con los nombres: Mundiales, Países, Continentes, Sedes, Estadísticas, Instrucciones
+2,Copie los datos de cada pestaña en las hojas correspondientes
+3,Guarde el archivo como "datos_mundiales.xlsx"
+4,Use estos datos para crear sus bases de hechos en Prolog
+5,Cree reglas que relacionen la información entre las diferentes pestañas
+6,Formule consultas que demuestren las relaciones entre los datos
+7,Analice los resultados y derive nuevo conocimiento
+8,Documente su código y reflexione sobre los conceptos aprendidos

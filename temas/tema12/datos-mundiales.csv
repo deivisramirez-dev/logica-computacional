@@ -1,0 +1,30 @@
+# ========================================
+# DATOS DE MUNDIALES DE FÚTBOL - EXCEL
+# ========================================
+# Este archivo contiene los datos estructurados para que los estudiantes
+# generen sus propias bases de hechos en Prolog
+
+# PESTAÑA 1: MUNDIALES
+# Columnas: Año, País_Ganador, Sede, Continente_Sede
+1930,uruguay,uruguay,america_sur
+1934,italia,italia,europa
+1938,italia,francia,europa
+1950,uruguay,brasil,america_sur
+1954,alemania_occidental,suiza,europa
+1958,brasil,suecia,europa
+1962,brasil,chile,america_sur
+1966,inglaterra,inglaterra,europa
+1970,brasil,mexico,america_norte
+1974,alemania_occidental,alemania_occidental,europa
+1978,argentina,argentina,america_sur
+1982,italia,espana,europa
+1986,argentina,mexico,america_norte
+1990,alemania,italia,europa
+1994,brasil,estados_unidos,america_norte
+1998,francia,francia,europa
+2002,brasil,corea_japon,asia
+2006,italia,alemania,europa
+2010,espana,sudafrica,africa
+2014,alemania,brasil,america_sur
+2018,francia,rusia,europa
+2022,argentina,qatar,asia

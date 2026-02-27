@@ -370,6 +370,119 @@ body {
     line-height: 1.6;
 }
 
+/* Quiz page */
+.quiz-hero {
+    padding: 4rem 0 2rem;
+    background-color: var(--bg-secondary);
+    text-align: center;
+}
+
+.quiz-hero p {
+    max-width: 720px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+}
+
+.quiz-section {
+    padding: 3rem 0 4rem;
+}
+
+.quiz-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.quiz-tab-btn {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.quiz-tab-btn:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.quiz-tab-btn.active {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+.quiz-card {
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.quiz-question {
+    margin-bottom: 1.5rem;
+}
+
+.quiz-question-title {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.quiz-option input {
+    margin-top: 0.2rem;
+}
+
+.quiz-option:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+.quiz-feedback {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.quiz-feedback.correct {
+    color: var(--success-color);
+}
+
+.quiz-feedback.incorrect {
+    color: var(--error-color);
+}
+
+.quiz-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.quiz-summary {
+    margin-top: 1.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
 /* Contacto Section */
 .contacto {
     padding: 4rem 0;

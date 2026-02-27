@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Árboles Semánticos — Lógica Proposicional</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ee;
+  --surface: #ffffff;
+  --surface2: #f0ece3;
+  --border: #d8d0c0;
+  --accent: #3d5a99;
+  --text: #1a1a2e;
+  --text-muted: #7a7060;
+  --true-color: #27ae60;
+  --false-color: #c0392b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(61,90,153,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,90,153,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none; z-index: 0;
+}
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px 60px; position: relative; z-index: 1; }
+
+header {
+  padding: 36px 0 28px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 36px;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+h1 { font-family: 'DM Serif Display', serif; font-size: clamp(26px,4vw,40px); line-height: 1.1; }
+h1 em { font-style: italic; color: var(--accent); }
+header p { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
+.badge { background: var(--accent); color: #fff; font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px; letter-spacing: .05em; }
+
+.input-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 32px; box-shadow: 0 2px 20px rgba(61,90,153,.06); }
+.input-card h2 { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 6px; }
+.input-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; }
+.input-desc code { background: var(--surface2); border: 1px solid var(--border); padding: 1px 5px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); }
+
+.sym-bar { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; }
+.sym-btn { background: var(--surface2); border: 1.5px solid var(--border); color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; padding: 7px 15px; border-radius: 8px; cursor: pointer; transition: all .15s; }
+.sym-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.input-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.formula-input { flex: 1; min-width: 240px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 18px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 600; outline: none; transition: border-color .2s; }
+.formula-input:focus { border-color: var(--accent); }
+
+.btn { padding: 12px 26px; border-radius: 10px; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; transition: all .18s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #2d4a89; transform: translateY(-1px); }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+.error-msg { background: #fdecea; border: 1.5px solid #e74c3c; color: #c0392b; padding: 11px 16px; border-radius: 10px; font-size: 13px; margin-top: 12px; }
+
+.examples-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); align-items: center; }
+.ex-chip { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text); transition: all .15s; display: flex; align-items: center; gap: 8px; }
+.ex-chip span { font-family: 'Outfit', sans-serif; font-size: 11px; color: var(--text-muted); font-weight: 400; }
+.ex-chip:hover { border-color: var(--accent); color: var(--accent); background: #eef1f8; }
+
+/* Controls */
+.controls-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.step-indicator { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+.step-indicator strong { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 16px; }
+.progress-bar { flex: 1; min-width: 120px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width .3s ease; }
+
+/* Main layout */
+.main-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+@media(max-width:800px){ .main-layout{ grid-template-columns:1fr; } }
+
+/* Tree panel */
+.tree-panel { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 2px 20px rgba(61,90,153,.06); overflow: auto; min-height: 320px; }
+.tree-panel-title { font-family: 'DM Serif Display', serif; font-size: 17px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.formula-display { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 16px; background: var(--surface2); padding: 2px 10px; border-radius: 6px; border: 1px solid var(--border); }
+
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 18px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; }
+
+/* Side panel */
+.side-panel { display: flex; flex-direction: column; gap: 18px; }
+.card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: 0 2px 16px rgba(61,90,153,.05); }
+.card h3 { font-family: 'DM Serif Display', serif; font-size: 16px; margin-bottom: 14px; }
+
+.explanation-box { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 14px 16px; font-size: 13px; line-height: 1.75; color: var(--text-muted); }
+.explanation-box strong { color: var(--text); }
+.rule-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 5px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; background: rgba(61,90,153,.12); color: var(--accent); }
+
+/* Result */
+.result-box { border-radius: 12px; padding: 16px; text-align: center; }
+.result-box.tautologia { background: #eafaf1; border: 1.5px solid #27ae60; }
+.result-box.contradiccion { background: #fdecea; border: 1.5px solid #e74c3c; }
+.result-box.contingencia { background: #fffbec; border: 1.5px solid #f39c12; }
+.result-icon { font-size: 30px; margin-bottom: 5px; }
+.result-label { font-family: 'DM Serif Display', serif; font-size: 19px; margin-bottom: 5px; }
+.result-label.tautologia { color: var(--true-color); }
+.result-label.contradiccion { color: var(--false-color); }
+.result-label.contingencia { color: #e67e22; }
+.result-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+.branch-list { margin-top: 14px; }
+.branch-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.branch-item:last-child { border-bottom: none; }
+.branch-assign { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); flex: 1; }
+.branch-val { font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 14px; }
+.branch-val.V { color: var(--true-color); }
+.branch-val.F { color: var(--false-color); }
+
+/* Rules reference */
+.rules-ref { font-size: 12px; line-height: 1.9; color: var(--text-muted); }
+.rules-ref b { font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.anim { animation: fadeIn .3s ease; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div>
+    <h1>Árboles <em>Semánticos</em></h1>
+    <p>Construcción paso a paso — Lógica Proposicional</p>
+  </div>
+  <span class="badge">🎓 Herramienta Educativa</span>
+</header>
+
+<!-- INPUT -->
+<div class="input-card">
+  <h2>Ingresa una fórmula</h2>
+  <p class="input-desc">
+    Variables: <code>p</code> <code>q</code> <code>r</code> &nbsp;|&nbsp;
+    <code>!</code> ¬ &nbsp;<code>&amp;</code> ∧ &nbsp;<code>|</code> ∨ &nbsp;<code>-></code> → &nbsp;<code>&lt;-></code> ↔
+  </p>
+  <div class="sym-bar">
+    <button class="sym-btn" onclick="ins('p')">p</button>
+    <button class="sym-btn" onclick="ins('q')">q</button>
+    <button class="sym-btn" onclick="ins('r')">r</button>
+    <button class="sym-btn" onclick="ins('!')">¬</button>
+    <button class="sym-btn" onclick="ins('&')">∧</button>
+    <button class="sym-btn" onclick="ins('|')">∨</button>
+    <button class="sym-btn" onclick="ins('->')">→</button>
+    <button class="sym-btn" onclick="ins('<->')">↔</button>
+    <button class="sym-btn" onclick="ins('(')">( )</button>
+  </div>
+  <div class="input-row">
+    <input id="fi" class="formula-input" type="text" placeholder="p -> q" onkeydown="if(event.key==='Enter')go()"/>
+    <button class="btn btn-primary" onclick="go()">Construir árbol</button>
+    <button class="btn btn-secondary" onclick="doReset()">Limpiar</button>
+  </div>
+  <div id="err" style="display:none;" class="error-msg"></div>
+  <div class="examples-row">
+    <span style="font-size:13px;color:var(--text-muted);align-self:center;">Ejemplos:</span>
+    <div class="ex-chip" onclick="loadEx('p -> q')">p → q <span>implicación</span></div>
+    <div class="ex-chip" onclick="loadEx('p & q')">p ∧ q</div>
+    <div class="ex-chip" onclick="loadEx('p | q')">p ∨ q</div>
+    <div class="ex-chip" onclick="loadEx('!p | q')">¬p ∨ q</div>
+    <div class="ex-chip" onclick="loadEx('p -> (p | q)')">p→(p∨q) <span>taut.</span></div>
+    <div class="ex-chip" onclick="loadEx('p & !p')">p ∧ ¬p <span>cont.</span></div>
+    <div class="ex-chip" onclick="loadEx('(p -> q) & (q -> r)')">mixta</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="mainArea" style="display:none;">
+
+  <div class="controls-bar anim">
+    <button class="btn btn-secondary" id="btnPrev" onclick="stepDir(-1)">← Anterior</button>
+    <button class="btn btn-primary"   id="btnNext" onclick="stepDir(1)">Siguiente →</button>
+    <div class="step-indicator">Paso <strong id="sNum">1</strong> de <strong id="sTotal">?</strong></div>
+    <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
+    <button class="btn btn-secondary" onclick="showAll()">Ver completo</button>
+  </div>
+
+  <div class="main-layout">
+
+    <!-- TREE -->
+    <div class="tree-panel">
+      <div class="tree-panel-title">
+        Árbol semántico de
+        <span class="formula-display" id="fDisp"></span>
+      </div>
+      <div id="treeWrap"></div>
+      <div class="legend">
+        <div class="legend-item"><div class="leg-dot" style="color:var(--true-color)"></div> V = verdadero</div>
+        <div class="legend-item"><div class="leg-dot" style="color:var(--false-color)"></div> F = falso</div>
+        <div class="legend-item"><div class="leg-dot" style="color:var(--border)"></div> por evaluar</div>
+      </div>
+    </div>
+
+    <!-- SIDE -->
+    <div class="side-panel">
+
+      <div class="card">
+        <h3>📖 Paso actual</h3>
+        <div class="explanation-box" id="expBox">—</div>
+      </div>
+
+      <div class="card">
+        <h3>📐 Reglas semánticas</h3>
+        <div class="rules-ref">
+          <div><b>Rs1</b> v(¬A) = 1 ⟺ v(A) = 0</div>
+          <div><b>Rs2</b> v(A∧B) = 1 ⟺ v(A)=1 y v(B)=1</div>
+          <div><b>Rs3</b> v(A∨B) = 1 ⟺ v(A)=1 o v(B)=1</div>
+          <div><b>Rs4</b> v(A→B) = 0 ⟺ v(A)=1 y v(B)=0</div>
+          <div><b>Rs5</b> v(A↔B) = 1 ⟺ v(A) = v(B)</div>
+        </div>
+      </div>
+
+      <div class="card" id="resultCard" style="display:none;">
+        <h3>🎯 Resultado</h3>
+        <div id="resultInner"></div>
+        <div class="branch-list" id="branchList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ================================================================
+// PARSER
+// ================================================================
+function tokenize(s){
+  s=s.trim()
+    .replace(/↔|<->|<=>|≡/g,'<->')
+    .replace(/→|->/g,'->')
+    .replace(/∧|&&?/g,'&')
+    .replace(/∨/g,'|')
+    .replace(/¬|~|!/g,'!')
+    .replace(/\s+/g,'');
+  let tokens=[],i=0;
+  while(i<s.length){
+    if(s.slice(i,i+3)==='<->'){tokens.push({t:'BI'});i+=3;}
+    else if(s.slice(i,i+2)==='->'){ tokens.push({t:'IM'});i+=2;}
+    else if(s[i]==='&'){tokens.push({t:'AN'});i++;}
+    else if(s[i]==='|'){tokens.push({t:'OR'});i++;}
+    else if(s[i]==='!'){tokens.push({t:'NO'});i++;}
+    else if(s[i]==='('){tokens.push({t:'LP'});i++;}
+    else if(s[i]===')'){tokens.push({t:'RP'});i++;}
+    else if(/[A-Za-z]/.test(s[i])){
+      let v='';while(i<s.length&&/[A-Za-z0-9_]/.test(s[i])){v+=s[i];i++;}
+      tokens.push({t:'V',v});
+    } else throw new Error(`Símbolo inválido: '${s[i]}'`);
+  }
+  return tokens;
+}
+function parse(str){
+  let tk=tokenize(str),p=0;
+  const pk=()=>tk[p];
+  const eat=(tp)=>{if(!pk()||(tp&&pk().t!==tp))throw new Error('Error de sintaxis');return tk[p++];};
+  function bi(){let l=im();while(pk()&&pk().t==='BI'){eat();let r=im();l={o:'<->',l,r};}return l;}
+  function im(){let l=or();if(pk()&&pk().t==='IM'){eat();let r=im();return{o:'->',l,r};}return l;}
+  function or(){let l=an();while(pk()&&pk().t==='OR'){eat();let r=an();l={o:'|',l,r};}return l;}
+  function an(){let l=no();while(pk()&&pk().t==='AN'){eat();let r=no();l={o:'&',l,r};}return l;}
+  function no(){if(pk()&&pk().t==='NO'){eat();return{o:'!',c:no()};}return at();}
+  function at(){
+    if(!pk())throw new Error('Se esperaba expresión');
+    if(pk().t==='V'){let t=eat();return{o:'V',v:t.v};}
+    if(pk().t==='LP'){eat();let e=bi();eat('RP');return e;}
+    throw new Error('Inesperado: '+pk().t);
+  }
+  let ast=bi();
+  if(p<tk.length)throw new Error('Expresión no válida');
+  return ast;
+}
+function fStr(f){
+  if(!f)return '';
+  if(f.o==='V')return f.v;
+  if(f.o==='!'){let i=fStr(f.c);return(f.c.o==='V'||f.c.o==='!')?'¬'+i:'¬('+i+')';}
+  let l=fStr(f.l),r=fStr(f.r);
+  const sym={'&':'∧','|':'∨','->':'→','<->':'↔'}[f.o];
+  return'('+l+' '+sym+' '+r+')';
+}
+function fRoot(f){
+  if(!f)return '';
+  if(f.o==='V')return f.v;
+  if(f.o==='!'){let i=fStr(f.c);return(f.c.o==='V'||f.c.o==='!')?'¬'+i:'¬('+i+')';}
+  let l=fStr(f.l),r=fStr(f.r);
+  const sym={'&':'∧','|':'∨','->':'→','<->':'↔'}[f.o];
+  return l+' '+sym+' '+r;
+}
+function getVars(f,s=new Set()){
+  if(!f)return s;
+  if(f.o==='V'){s.add(f.v);return s;}
+  if(f.o==='!'){return getVars(f.c,s);}
+  getVars(f.l,s);getVars(f.r,s);return s;
+}
+function evaluate(f,a){
+  if(f.o==='V')return a[f.v];
+  if(f.o==='!')return 1-evaluate(f.c,a);
+  let l=evaluate(f.l,a),r=evaluate(f.r,a);
+  if(f.o==='&')return(l&&r)?1:0;
+  if(f.o==='|')return(l||r)?1:0;
+  if(f.o==='->')return(l===0||r===1)?1:0;
+  if(f.o==='<->')return(l===r)?1:0;
+  return 0;
+}
+
+// ================================================================
+// STATE
+// ================================================================
+let AST=null, VARS=[], STEPS=[], curStep=0;
+
+// Tree node structure: leaf node has {leaf,assign,value}; 
+// internal node has {var, left(v=1), right(v=0), depth}
+let ROOT=null;
+
+function buildTree(){
+  function node(depth, assign){
+    if(depth===VARS.length){
+      return{leaf:true,assign:{...assign},value:evaluate(AST,assign)};
+    }
+    let v=VARS[depth];
+    return{
+      leaf:false, var:v, depth,
+      left: node(depth+1,{...assign,[v]:1}),
+      right:node(depth+1,{...assign,[v]:0})
+    };
+  }
+  ROOT=node(0,{});
+}
+
+function buildSteps(){
+  STEPS=[];
+  // Step 0: intro
+  STEPS.push({
+    reveal:0,
+    exp:`<div class="rule-tag">Inicio</div>
+Queremos saber bajo qué valores de verdad la fórmula <strong>${fRoot(AST)}</strong> es verdadera.<br><br>
+El árbol semántico explora sistemáticamente <strong>todas las combinaciones posibles</strong> de valores de las variables: ${VARS.map(v=>`<strong>${v}</strong>`).join(', ')}.<br><br>
+Comenzamos analizando los posibles valores de <strong>${VARS[0]}</strong>.`
+  });
+
+  // One step per variable level
+  for(let d=0;d<VARS.length;d++){
+    let v=VARS[d];
+    STEPS.push({
+      reveal:d+1,
+      exp:`<div class="rule-tag">Nivel ${d+1} — variable ${v}</div>
+La variable <strong>${v}</strong> puede tomar dos valores:<br><br>
+<strong>Rama izquierda:</strong> v(${v}) = 1 (verdadero)<br>
+<strong>Rama derecha:</strong> v(${v}) = 0 (falso)<br><br>
+${d<VARS.length-1
+  ? `Cada rama se subdivide a continuación para la variable <strong>${VARS[d+1]}</strong>.`
+  : `Todas las variables han sido asignadas. Ahora evaluamos la fórmula en cada hoja.`
+}`
+    });
+  }
+
+  // Final: evaluation
+  STEPS.push({
+    reveal:VARS.length+1,
+    exp:`<div class="rule-tag">Evaluación</div>
+Con todas las variables asignadas, aplicamos las reglas semánticas para calcular el valor de <strong>${fRoot(AST)}</strong> en cada interpretación.<br><br>
+<strong style="color:var(--true-color)">V</strong> = la fórmula es verdadera en esa combinación.<br>
+<strong style="color:var(--false-color)">F</strong> = la fórmula es falsa en esa combinación.`
+  });
+}
+
+// ================================================================
+// SVG RENDERER
+// ================================================================
+function renderSVG(revealDepth){
+  let n=VARS.length;
+  let numLeaves=Math.pow(2,n);
+  let leafSpacing=Math.max(90, 360/numLeaves);
+  let W=numLeaves*leafSpacing+40;
+  let H=(n+1)*100+60;
+
+  // Compute x positions of leaves, then internal nodes
+  // Leaves at depth n, internal at depths 0..n-1
+  let pos=new Map(); // node -> {x,y}
+  let idMap=new WeakMap(); let idCnt=0;
+  function id(node){if(!idMap.has(node)){idMap.set(node,idCnt++);}return idMap.get(node);}
+
+  function lay(node,depth,xLeft,xRight){
+    let x=(xLeft+xRight)/2;
+    let y=depth*100+50;
+    pos.set(id(node),{x,y,node,depth});
+    if(!node.leaf){
+      lay(node.left, depth+1,xLeft,(xLeft+xRight)/2);
+      lay(node.right,depth+1,(xLeft+xRight)/2,xRight);
+    }
+  }
+  lay(ROOT,0,20,W-20);
+
+  let svg=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="font-family:'JetBrains Mono',monospace;overflow:visible;">`;
+
+  // Draw edges
+  pos.forEach((p,nodeId_)=>{
+    if(p.node.leaf) return;
+    if(p.depth>=revealDepth) return;
+    let lp=pos.get(id(p.node.left));
+    let rp=pos.get(id(p.node.right));
+    if(lp) svg+=`<line x1="${p.x}" y1="${p.y}" x2="${lp.x}" y2="${lp.y-8}" stroke="#b0a898" stroke-width="1.8"/>`;
+    if(rp) svg+=`<line x1="${p.x}" y1="${p.y}" x2="${rp.x}" y2="${rp.y-8}" stroke="#b0a898" stroke-width="1.8"/>`;
+    // Branch labels
+    if(lp){
+      let mx=(p.x+lp.x)/2, my=(p.y+lp.y)/2;
+      svg+=`<text x="${mx-32}" y="${my+4}" font-size="11" fill="#9a8a7a">v(${p.node.var})=1</text>`;
+    }
+    if(rp){
+      let mx=(p.x+rp.x)/2, my=(p.y+rp.y)/2;
+      svg+=`<text x="${mx+4}" y="${my+4}" font-size="11" fill="#9a8a7a">v(${p.node.var})=0</text>`;
+    }
+  });
+
+  // Draw nodes
+  pos.forEach((p,nodeId_)=>{
+    if(p.node.leaf){
+      if(revealDepth<=VARS.length) return; // not yet
+      let val=p.node.value===1?'V':'F';
+      let col=val==='V'?'#27ae60':'#c0392b';
+      svg+=`<circle cx="${p.x}" cy="${p.y}" r="14" fill="white" stroke="${col}" stroke-width="2.5"/>`;
+      svg+=`<text x="${p.x}" y="${p.y+5}" text-anchor="middle" font-size="14" font-weight="700" fill="${col}">${val}</text>`;
+    } else {
+      let isRoot=(p.depth===0);
+      if(p.depth===0){
+        // Always draw root dot
+        svg+=`<circle cx="${p.x}" cy="${p.y}" r="7" fill="white" stroke="#3d5a99" stroke-width="2.5"/>`;
+      } else if(p.depth<revealDepth){
+        svg+=`<circle cx="${p.x}" cy="${p.y}" r="6" fill="white" stroke="#b0a898" stroke-width="2"/>`;
+      }
+    }
+  });
+
+  svg+='</svg>';
+  return svg;
+}
+
+// ================================================================
+// STEP LOGIC
+// ================================================================
+function renderStep(s){
+  if(s<0)s=0;
+  if(s>=STEPS.length)s=STEPS.length-1;
+  curStep=s;
+  let step=STEPS[s];
+  let total=STEPS.length;
+
+  document.getElementById('sNum').textContent=s+1;
+  document.getElementById('sTotal').textContent=total;
+  document.getElementById('pFill').style.width=((s+1)/total*100)+'%';
+  document.getElementById('btnPrev').disabled=(s===0);
+  document.getElementById('btnNext').disabled=(s===total-1);
+  document.getElementById('expBox').innerHTML=step.exp;
+
+  document.getElementById('treeWrap').innerHTML=renderSVG(step.reveal);
+
+  let rc=document.getElementById('resultCard');
+  if(step.reveal>VARS.length){
+    rc.style.display='block';
+    showResult();
+  } else {
+    rc.style.display='none';
+  }
+}
+
+function stepDir(d){ renderStep(curStep+d); }
+function showAll(){ renderStep(STEPS.length-1); }
+
+function showResult(){
+  let leaves=[];
+  function gather(n){
+    if(n.leaf){leaves.push(n);return;}
+    gather(n.left);gather(n.right);
+  }
+  gather(ROOT);
+
+  let allV=leaves.every(l=>l.value===1);
+  let allF=leaves.every(l=>l.value===0);
+  let cls, label, icon, desc;
+  if(allV){cls='tautologia';label='Tautología';icon='✅';desc='Verdadera en <strong>todas</strong> las interpretaciones.';}
+  else if(allF){cls='contradiccion';label='Contradicción';icon='❌';desc='Falsa en <strong>todas</strong> las interpretaciones.';}
+  else{cls='contingencia';label='Contingencia';icon='🔄';desc='Verdadera en algunas interpretaciones, falsa en otras.';}
+
+  document.getElementById('resultInner').innerHTML=`
+    <div class="result-box ${cls}">
+      <div class="result-icon">${icon}</div>
+      <div class="result-label ${cls}">${label}</div>
+      <div class="result-desc">${desc}</div>
+    </div>`;
+
+  let h='<div style="margin-top:14px;font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:8px;">Interpretaciones:</div>';
+  for(let l of leaves){
+    let ass=Object.entries(l.assign).map(([k,v])=>`${k}=${v}`).join(', ');
+    let v=l.value===1?'V':'F';
+    h+=`<div class="branch-item">
+      <span class="branch-assign">${ass}</span>
+      <span class="branch-val ${v}">${v}</span>
+    </div>`;
+  }
+  document.getElementById('branchList').innerHTML=h;
+}
+
+// ================================================================
+// ENTRY
+// ================================================================
+function go(){
+  let input=document.getElementById('fi').value.trim();
+  document.getElementById('err').style.display='none';
+  try{
+    AST=parse(input);
+    VARS=[...getVars(AST)].sort();
+    if(VARS.length===0)throw new Error('Sin variables proposicionales.');
+    if(VARS.length>4)throw new Error('Máximo 4 variables para visualizar el árbol.');
+    buildTree();
+    buildSteps();
+    document.getElementById('fDisp').textContent=fRoot(AST);
+    document.getElementById('mainArea').style.display='block';
+    curStep=0;
+    renderStep(0);
+  }catch(e){
+    document.getElementById('err').style.display='block';
+    document.getElementById('err').textContent='⚠️ '+e.message;
+    document.getElementById('mainArea').style.display='none';
+  }
+}
+function doReset(){
+  document.getElementById('fi').value='';
+  document.getElementById('mainArea').style.display='none';
+  document.getElementById('err').style.display='none';
+}
+function loadEx(f){ document.getElementById('fi').value=f; go(); }
+function ins(s){
+  let el=document.getElementById('fi');
+  let pos=el.selectionStart,v=el.value;
+  el.value=v.slice(0,pos)+s+v.slice(pos);
+  el.selectionStart=el.selectionEnd=pos+s.length;
+  el.focus();
+}
+</script>
+</body>
+</html>
